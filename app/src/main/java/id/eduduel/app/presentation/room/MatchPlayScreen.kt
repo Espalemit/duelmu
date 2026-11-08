@@ -67,6 +67,11 @@ fun MatchPlayScreen(onExit: () -> Unit, onFinished: () -> Unit) {
     val snackbar = remember { SnackbarHostState() }
     var confirmLeave by rememberSaveable { mutableStateOf(false) }
     val lastResult = state?.results?.lastOrNull()
+    id.eduduel.app.presentation.components.BackgroundMusicScene(
+        if (state?.phase in setOf(RoomPhase.PREPARING, RoomPhase.QUESTION, RoomPhase.REVEAL))
+            id.eduduel.app.presentation.components.MusicTrack.COMPETITIVE
+        else id.eduduel.app.presentation.components.MusicTrack.MENU,
+    )
     id.eduduel.app.presentation.components.GameFeedbackEffects(
         sessionId = state?.matchId,
         started = state?.phase == RoomPhase.QUESTION && state.activeRound?.index == 0,

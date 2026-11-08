@@ -1,6 +1,8 @@
 package id.eduduel.app.presentation.navigation
 
 import androidx.compose.runtime.Composable
+import id.eduduel.app.presentation.components.BackgroundMusicScene
+import id.eduduel.app.presentation.components.MusicTrack
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -54,6 +56,7 @@ fun NavHostController.goHome() {
 fun AppNavHost(navController: NavHostController = rememberNavController()) {
     NavHost(navController, startDestination = HomeRoute) {
         composable<HomeRoute> {
+            BackgroundMusicScene(MusicTrack.MENU)
             HomeScreen(
                 onSolo = { navController.navigate(SoloSetupRoute) },
                 onDuel = { navController.navigate(RoomEntryRoute) },
@@ -62,6 +65,7 @@ fun AppNavHost(navController: NavHostController = rememberNavController()) {
             )
         }
         composable<SoloSetupRoute> {
+            BackgroundMusicScene(MusicTrack.MENU)
             SoloSetupScreen(
                 onBack = { navController.popBackStack() },
                 onStart = { cfg -> navController.navigate(SoloPlayRoute(cfg.toRouteJson())) },
@@ -75,6 +79,7 @@ fun AppNavHost(navController: NavHostController = rememberNavController()) {
             )
         }
         composable<RoomEntryRoute> {
+            BackgroundMusicScene(MusicTrack.MENU)
             RoomEntryScreen(
                 onBack = { navController.popBackStack() },
                 onCreate = { navController.navigate(CreateRoomRoute) },
@@ -83,18 +88,21 @@ fun AppNavHost(navController: NavHostController = rememberNavController()) {
             )
         }
         composable<CreateRoomRoute> {
+            BackgroundMusicScene(MusicTrack.MENU)
             CreateRoomScreen(
                 onBack = { navController.popBackStack() },
                 onLobby = { navController.navigate(LobbyRoute) { popUpTo(RoomEntryRoute) } },
             )
         }
         composable<JoinRoomRoute> {
+            BackgroundMusicScene(MusicTrack.MENU)
             JoinRoomScreen(
                 onBack = { navController.popBackStack() },
                 onLobby = { navController.navigate(LobbyRoute) { popUpTo(RoomEntryRoute) } },
             )
         }
         composable<LobbyRoute> {
+            BackgroundMusicScene(MusicTrack.MENU)
             LobbyScreen(
                 onExit = { navController.goHome() },
                 onMatchStarted = { navController.navigate(MatchRoute) { popUpTo(LobbyRoute) { inclusive = true } } },
@@ -107,15 +115,23 @@ fun AppNavHost(navController: NavHostController = rememberNavController()) {
             )
         }
         composable<ResultRoute> {
+            BackgroundMusicScene(MusicTrack.MENU)
             MatchResultScreen(
                 onHome = { navController.goHome() },
                 onLobby = { navController.navigate(LobbyRoute) { popUpTo(ResultRoute) { inclusive = true } } },
             )
         }
-        composable<HistoryRoute> { HistoryScreen(onBack = { navController.popBackStack() }) }
+        composable<HistoryRoute> {
+            BackgroundMusicScene(MusicTrack.MENU)
+            HistoryScreen(onBack = { navController.popBackStack() })
+        }
         composable<SettingsRoute> {
+            BackgroundMusicScene(MusicTrack.MENU)
             SettingsScreen(onBack = { navController.popBackStack() }, onPrivacy = { navController.navigate(PrivacyRoute) })
         }
-        composable<PrivacyRoute> { PrivacyScreen(onBack = { navController.popBackStack() }) }
+        composable<PrivacyRoute> {
+            BackgroundMusicScene(MusicTrack.MENU)
+            PrivacyScreen(onBack = { navController.popBackStack() })
+        }
     }
 }

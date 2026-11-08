@@ -20,6 +20,7 @@ data class AppSettings(
     /** Nama terakhir, HANYA sebagai nilai awal kolom nickname (selalu bisa diedit). */
     val lastNickname: String? = null,
     val rememberLastNickname: Boolean = true,
+    val musicEnabled: Boolean = true,
 )
 
 /** Pengaturan lokal (DataStore). Tidak ada sinkronisasi cloud. */
@@ -29,6 +30,7 @@ class SettingsRepository(private val context: Context) {
         val TEXT_SCALE = floatPreferencesKey("text_scale")
         val SOUND = booleanPreferencesKey("sound_enabled")
         val HAPTICS = booleanPreferencesKey("haptics_enabled")
+        val MUSIC = booleanPreferencesKey("music_enabled")
         val LAST_NICKNAME = stringPreferencesKey("last_nickname")
         val REMEMBER_NICKNAME = booleanPreferencesKey("remember_last_nickname")
     }
@@ -38,6 +40,7 @@ class SettingsRepository(private val context: Context) {
             textScale = (p[Keys.TEXT_SCALE] ?: 1.0f).coerceIn(TEXT_SCALES.first(), TEXT_SCALES.last()),
             soundEnabled = p[Keys.SOUND] ?: true,
             hapticsEnabled = p[Keys.HAPTICS] ?: true,
+            musicEnabled = p[Keys.MUSIC] ?: true,
             lastNickname = p[Keys.LAST_NICKNAME],
             rememberLastNickname = p[Keys.REMEMBER_NICKNAME] ?: true,
         )
@@ -46,6 +49,7 @@ class SettingsRepository(private val context: Context) {
     suspend fun setTextScale(scale: Float) = context.dataStore.edit { it[Keys.TEXT_SCALE] = scale }
     suspend fun setSound(enabled: Boolean) = context.dataStore.edit { it[Keys.SOUND] = enabled }
     suspend fun setHaptics(enabled: Boolean) = context.dataStore.edit { it[Keys.HAPTICS] = enabled }
+    suspend fun setMusic(enabled: Boolean) = context.dataStore.edit { it[Keys.MUSIC] = enabled }
 
     suspend fun setRememberNickname(enabled: Boolean) = context.dataStore.edit {
         it[Keys.REMEMBER_NICKNAME] = enabled

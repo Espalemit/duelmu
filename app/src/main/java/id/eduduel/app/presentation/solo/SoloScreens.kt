@@ -89,6 +89,10 @@ fun SoloPlayScreen(config: MatchConfig, onExit: () -> Unit) {
     val feedback = id.eduduel.app.presentation.components.LocalInteractionFeedback.current
     var confirmExit by rememberSaveable { mutableStateOf(false) }
     val playing = (ui as? SoloUiState.Playing)?.state
+    id.eduduel.app.presentation.components.BackgroundMusicScene(
+        if (playing != null && !playing.finished) id.eduduel.app.presentation.components.MusicTrack.COMPETITIVE
+        else id.eduduel.app.presentation.components.MusicTrack.MENU,
+    )
     id.eduduel.app.presentation.components.GameFeedbackEffects(
         sessionId = vm.sessionId,
         started = playing != null && !playing.finished && playing.index == 0 && playing.answers.isEmpty(),

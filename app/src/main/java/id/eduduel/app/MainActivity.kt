@@ -21,6 +21,8 @@ import id.eduduel.app.presentation.navigation.LocalAppContainer
 import id.eduduel.app.presentation.theme.EduDuelTheme
 import id.eduduel.app.presentation.components.LocalInteractionFeedback
 import id.eduduel.app.presentation.components.rememberFeedback
+import id.eduduel.app.presentation.components.LocalBackgroundMusic
+import id.eduduel.app.presentation.components.rememberBackgroundMusic
 
 /** Single-activity. Splash singkat lalu LANGSUNG Beranda: tanpa login dan tanpa form nama awal. */
 class MainActivity : ComponentActivity() {
@@ -33,13 +35,16 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         val container = (application as EduDuelApp).container
         setContent {
-            val settings by container.settings.settings.collectAsStateWithLifecycle(AppSettings())
+            val savedSettings by container.settings.settings.collectAsStateWithLifecycle<AppSettings?>(initialValue = null)
+            val settings = savedSettings ?: AppSettings()
             val base = LocalDensity.current
             val feedback = rememberFeedback(settings)
+            val music = rememberBackgroundMusic(savedSettings != null && settings.musicEnabled)
             CompositionLocalProvider(
                 LocalAppContainer provides container,
                 LocalDensity provides Density(base.density, base.fontScale * settings.textScale),
                 LocalInteractionFeedback provides feedback,
+                LocalBackgroundMusic provides music,
             ) {
                 EduDuelTheme {
                     Surface(Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {

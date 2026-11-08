@@ -330,3 +330,127 @@ Hasil build release, pemeriksaan statis, dan pengujian UI ditambahkan setelah se
   `build/outputs/duelmu-v0.3.2-artifacts.json`.
 - Tidak ada pengujian unit/domain yang diulang untuk perubahan visual ini;
   aturan permainan dan kode jaringan tidak berubah. Perangkat fisik belum diuji.
+
+## v0.04 — 8 November 2026 (Asia/Jakarta)
+
+Permintaan: musik latar tenang untuk menu, musik kompetitif ketika bermain,
+sakelar mematikan musik latar di Pengaturan, lalu build APK debug dan release.
+
+### Cadangan dan lingkup
+
+Delapan file lama dicadangkan sebelum modifikasi di `.rollback/v0.04/`, dengan
+jalur relatif yang sama. APK debug/release yang ada sebelum build disimpan di
+`.rollback/v0.04/artifacts/`. Catatan dan cadangan versi sebelumnya dipertahankan.
+Bank soal, skor, timer, protokol/koneksi room, riwayat, manifest/izin, efek suara
+jawaban/tombol, dan animasi menu tidak dimodifikasi.
+
+### Perubahan terperinci
+
+1. `tools/generate_background_music.py` (baru): komposisi musik orisinal secara
+   lokal, menggunakan pustaka standar Python dan encoder FFmpeg/Vorbis. Rendering
+   stereo 22050 Hz; not dengan envelope halus, bass/pad/pluck dan perkusi sintetis.
+   Tidak ada unduhan musik atau dependensi runtime baru pada aplikasi.
+2. `app/src/main/res/raw/music_menu.ogg` (baru): loop 24,62 detik, 78 BPM,
+   harmoni major seventh, pad hangat, melodi lembut, dan perkusi ringan.
+3. `app/src/main/res/raw/music_competitive.ogg` (baru): loop 30 detik, 128 BPM,
+   arpeggio minor, bass ritmis, kick/snare/hi-hat untuk suasana kompetitif.
+   Total kedua berkas sekitar 249 KiB; semua audio tetap offline dalam APK.
+4. `presentation/components/BackgroundMusic.kt` (baru): satu MediaPlayer looping
+   dengan prepareAsync untuk streaming aset musik lokal, volume latar lebih rendah
+   daripada efek jawaban (menu 0,30; kompetitif 0,28). Pemain lama dilepas sebelum
+   lagu berbeda dimuat, sehingga musik tidak menumpuk. Callback yang terlambat dari
+   pemain yang sudah dilepas diabaikan; kegagalan audio tidak mengubah permainan.
+5. File yang sama mengelola audio focus: pause ketika kehilangan focus sementara,
+   volume turun saat duck, resume ketika focus kembali jika aplikasi masih aktif
+   dan musik diizinkan. Focus permanen yang hilang tidak langsung direbut kembali.
+   Pemain dihentikan/dilepas ketika musik dimatikan, dan resource/focus dilepas pada
+   dispose activity. Tidak ada service yang memutar musik ketika aplikasi ditinggal.
+6. `MusicScenes` dan `BackgroundMusicScene` pada file yang sama mengatur pemilik
+   musik per destination: layar yang masuk mendapat prioritas, pembaruan/dispose
+   layar yang keluar tidak menimpa musik layar baru. Transisi antar-menu dengan
+   lagu sama mempertahankan pemain/posisi, bukan memulai lagu berulang-ulang.
+7. `MainActivity.kt`: membuat satu controller musik dan menghubungkannya dengan
+   lifecycle activity. Menunggu pembacaan pengaturan tersimpan sebelum mengaktifkan
+   musik, agar preferensi mute tidak sempat bocor ketika aplikasi dibuka ulang.
+8. `presentation/navigation/AppNavigation.kt`: musik tenang pada Home, setup,
+   masuk/buat/gabung/lobi room, hasil, riwayat, pengaturan, serta privasi.
+9. `presentation/solo/SoloScreens.kt`: musik kompetitif selama latihan berjalan,
+   kembali tenang ketika loading/error atau latihan selesai.
+10. `presentation/room/MatchPlayScreen.kt`: musik kompetitif pada PREPARING,
+    QUESTION dan REVEAL; kembali ke musik tenang ketika pertandingan selesai,
+    dibatalkan, gagal, atau sedang menyambung ulang. Keputusan hanya mempengaruhi
+    audio; state sesi dan navigasi tetap seperti sebelumnya.
+11. `data/settings/SettingsRepository.kt`: key DataStore baru `music_enabled`,
+    field musicEnabled (default true), serta setMusic. Preferensi musik terpisah
+    dari sound_enabled dan haptics_enabled; preferensi lama tidak dihapus/ditimpa.
+12. `presentation/settings/SettingsScreen.kt`, `res/values/strings.xml`: sakelar
+    “Musik latar” dan deskripsi; label sakelar suara lama menjadi “Efek suara” agar
+    pengguna bisa membedakan musik dan efek. Kontrol tetap bisa di-scroll saat teks
+    diperbesar dan menggunakan feedback tombol yang sudah ada.
+13. `app/build.gradle.kts`: versionCode 5 → 6, versionName 0.3.2 → 0.3.3;
+    konfigurasi signing, dependensi, serta ID paket tetap.
+14. `app/src/test/java/id/eduduel/app/presentation/MusicScenesTest.kt` (baru):
+    uji pergantian pemilik ketika transisi, fallback, pergantian musik setelah
+    selesai, dan pengaturan musik/efek yang terpisah.
+15. `app/src/androidTest/java/id/eduduel/app/BackgroundMusicTest.kt` (baru):
+    pemutaran native kedua track, pergantian lagu, mute, pause/resume foreground,
+    kehilangan/pemulihan audio focus, duck, dan pelepasan resource.
+16. `app/src/androidTest/java/id/eduduel/app/MusicSettingsTest.kt` (baru):
+    perubahan sakelar musik bertahan setelah activity dibuat ulang dan tidak
+    mengubah preferensi efek suara; nilai semula dipulihkan setelah tes.
+
+Semua jalur `presentation/` dan `data/` di atas berada di
+`app/src/main/java/id/eduduel/app/`; `res/` berada di `app/src/main/`.
+
+### Cara memulihkan v0.04
+
+Salin kembali delapan file asli di `.rollback/v0.04/` ke jalur relatif yang sama.
+BackgroundMusic.kt, generator, dan dua aset musik baru dapat tetap disimpan sebagai
+kode/aset tidak terpakai. Nonaktifkan tiga file tes musik baru (misalnya ekstensi
+`.kt.disabled`) sebelum build tes versi lama karena field/setMusic belum ada pada
+pengaturan lama. Menghapus file/cadangan memerlukan konfirmasi pemilik.
+Build ulang memakai keystore yang sama; jangan menghapus instalasi/data pengguna
+untuk downgrade tanpa konfirmasi.
+
+### Verifikasi v0.04
+
+- Rendering audio: stereo 22050 Hz, puncak PCM 0,78 tanpa clipping; RMS menu 0,185,
+  kompetitif 0,139. Durasi 24,62 dan 30 detik; file Ogg Vorbis berhasil dihasilkan.
+- Hasil build dan pengujian akhir ditambahkan setelah pemeriksaan selesai.
+
+### Hasil akhir verifikasi v0.04
+
+- Build `assembleDebug`, `assembleRelease`, `assembleDebugAndroidTest`,
+  `testDebugUnitTest`, dan `lintDebug`: **BUILD SUCCESSFUL**.
+- Unit test: **83 total, 82 lulus, 1 dilewati, 0 gagal/error**, termasuk lima
+  MusicScenesTest baru. Lint: **0 error, 5 warning** yang sama seperti sebelumnya.
+- Emulator Android 15/API 35: **OK (9 tests)**, 65,887 detik, tanpa kegagalan.
+  BackgroundMusicTest membuktikan kedua track dapat disiapkan/diputar native,
+  berpindah lagu, pause/resume foreground, mute/re-enable, kehilangan/pemulihan
+  audio focus, duck, dan close yang aman. MusicSettingsTest membuktikan sakelar
+  bertahan setelah activity recreation dan tidak mengubah preferensi efek suara.
+  Tujuh pengujian lama (animasi, aksesibilitas teks, room demo, solo, suara)
+  juga tetap lulus. Log: `.tmp/ui-instrumentation-v0.3.3.log`.
+- FFprobe: dua file valid Ogg Vorbis stereo 22050 Hz, durasi 24,615374 dan 30 detik.
+  `aapt2 dump resources` pada release memastikan music_menu dan music_competitive
+  tetap dipaketkan setelah R8/resource shrinking.
+- APK versi **0.3.3**, versionCode **6**:
+  - Debug: `build/outputs/releases/duelmu-v0.3.3-debug.apk`, **22.312.805 byte
+    (21,28 MiB)**; output Gradle tetap `app/build/outputs/apk/debug/app-debug.apk`.
+  - Release bertanda tangan: `build/outputs/releases/duelmu-v0.3.3-release.apk`,
+    **3.034.930 byte (2,89 MiB)**; output Gradle tetap
+    `app/build/outputs/apk/release/app-release.apk`.
+- `apksigner verify --verbose`: berhasil, Signature Scheme v2, satu penanda tangan,
+  menggunakan keystore pengguna yang sama.
+- Release berhasil dipasang dan dibuka di emulator: status `ok`, cold launch
+  TotalTime 1568 ms. Pemeriksaan Audio Focus menunjukkan USAGE_GAME /
+  CONTENT_TYPE_MUSIC untuk paket id.eduduel.app saat foreground; focus stack
+  kosong setelah aplikasi dipindah ke background. Bukti:
+  `.tmp/music-focus-foreground.txt`, `.tmp/music-focus-background.txt`.
+- Screenshot pengaturan dengan ukuran teks terbesar sudah diperiksa:
+  `build/outputs/ui-preview-v0.3.3/music-settings.png`; kedua sakelar musik/efek
+  terbaca dan terpisah. Emulator QA dihentikan setelah verifikasi.
+- Metadata versi, ukuran, SHA-256, durasi/tempo musik dan hasil tes:
+  `build/outputs/duelmu-v0.3.3-artifacts.json`.
+- Pengujian speaker/headphone dan panggilan pada HP fisik belum dilakukan;
+  pemeriksaan decoder/pemutaran/lifecycle/focus di atas memakai emulator.

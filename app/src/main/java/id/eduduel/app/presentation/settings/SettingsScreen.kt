@@ -74,6 +74,9 @@ fun SettingsScreen(onBack: () -> Unit, onPrivacy: () -> Unit) {
                 }
             }
             HorizontalDivider()
+            ToggleRow(stringResource(R.string.settings_music), stringResource(R.string.settings_music_body), settings.musicEnabled) {
+                scope.launch { repo.setMusic(it) }
+            }
             ToggleRow(stringResource(R.string.settings_sound), stringResource(R.string.settings_sound_body), settings.soundEnabled) {
                 scope.launch { repo.setSound(it) }
             }

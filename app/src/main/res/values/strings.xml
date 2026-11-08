@@ -277,7 +277,9 @@
     <string name="settings_text_normal">Normal</string>
     <string name="settings_text_large">Besar</string>
     <string name="settings_text_xlarge">Sangat besar</string>
-    <string name="settings_sound">Suara</string>
+    <string name="settings_music">Musik latar</string>
+    <string name="settings_music_body">Musik tenang di menu dan musik kompetitif saat bermain. Bisa dimatikan tanpa mematikan efek suara.</string>
+    <string name="settings_sound">Efek suara</string>
     <string name="settings_sound_body">Efek tombol, jawaban benar/salah, dan awal pertandingan. Atur kerasnya lewat volume media.</string>
     <string name="settings_haptics">Getar</string>
     <string name="settings_haptics_body">Getar halus saat memilih jawaban</string>
