@@ -241,3 +241,92 @@ pengguna untuk downgrade tanpa konfirmasi.
 - Pengujian UI lama pada v0.01 tidak diklaim sebagai pengujian ulang v0.02.
   Kualitas audio lewat speaker HP belum diuji; validasi audio pada v0.02 meliputi
   format, durasi, amplitude, pemetaan/gate efek, dan keberadaan resource dalam APK.
+
+## v0.03 — 8 November 2026 (Asia/Jakarta)
+
+Permintaan: menambah elemen dinamis/bergerak dan beberapa animasi, terutama pada
+menu utama, kemudian membangun ulang APK release.
+
+### Cadangan dan lingkup
+
+Dua file lama dicadangkan sebelum modifikasi di `.rollback/v0.03/` dengan struktur
+jalur yang sama: `app/build.gradle.kts` dan `presentation/home/HomeScreen.kt`.
+Catatan dan cadangan versi sebelumnya dipertahankan. Perubahan gerak dibatasi pada
+beranda; logika permainan, timer, koneksi, suara, bank soal, dan data tidak diubah.
+APK yang sudah ada di folder output sebelum packaging juga disalin ke
+`.rollback/v0.03/artifacts/` agar tetap tersedia setelah build ulang.
+
+### Perubahan terperinci
+
+1. `presentation/home/HomeMotion.kt` (baru): satu clock animasi bersama dengan
+   siklus 12 detik untuk elemen dekoratif beranda. Clock hanya berjalan ketika
+   lifecycle halaman RESUMED, dan tidak dibuat jika animasi sistem dinonaktifkan.
+   Preview serta mode motionEnabled=false menampilkan tampilan statis.
+2. `HomeHeroBackdrop`: glow lavender, 18 partikel/confetti dan bintang berdenyut
+   yang melayang pelan. Gerak diletakkan di tepi panel sambutan agar teks terbaca,
+   serta di-clip pada radius panel. Seluruhnya digambar Canvas lokal tanpa aset
+   unduhan/dependensi baru.
+3. `FloatingTrophy`: medali piala melayang dan berayun ringan dengan titik yang
+   mengorbit. Elemen bersifat dekoratif dan tidak menambah node interaktif.
+4. `HomeEntrance`: animasi masuk fade, geser 20 dp, dan skala 0,98 → 1 dalam
+   360 ms, dengan jeda bertahap 45 ms per bagian. Layout tetap menyimpan ukuran
+   akhir sehingga tidak menggeser susunan menu ketika animasi berjalan.
+5. `presentation/home/HomeScreen.kt`: menerapkan animasi masuk pada header,
+   panel sambutan, judul pilihan mode, kartu Main Bareng/Latihan Solo dan shortcut.
+   Logo berayun ringan; ikon kartu melayang/miring sedikit; panah bergerak ringan;
+   ikon Riwayat dan Pengaturan berayun. Teks dan area klik kartu tetap stabil.
+   Efek tekan, suara, state loading/error/retry, navigasi, dan label lama tetap.
+6. Gerak ambient membaca state hanya di tahap draw/graphicsLayer, sehingga tidak
+   memicu recomposition seluruh menu pada setiap frame. Tidak ada musik/suara
+   tambahan yang diputar oleh animasi.
+7. `app/src/androidTest/java/id/eduduel/app/HomeMotionTest.kt` (baru): memeriksa
+   perubahan pixel panel pada waktu berbeda, kestabilan area menu dan klik,
+   serta mode animasi nonaktif yang statis dan langsung dapat digunakan.
+8. `app/build.gradle.kts`: versionCode 4 → 5 dan versionName 0.3.1 → 0.3.2;
+   signing tetap menggunakan konfigurasi keystore pengguna yang sudah ada.
+
+Jalur `presentation/` berada di `app/src/main/java/id/eduduel/app/`.
+
+### Cara memulihkan v0.03
+
+Salin kedua file dari `.rollback/v0.03/` ke jalur relatif yang sama di root.
+HomeMotion.kt yang baru dapat tetap disimpan sebagai kode tidak terpakai; nonaktifkan
+HomeMotionTest.kt (misalnya ubah ekstensi menjadi `.kt.disabled`) sebelum build
+androidTest versi lama karena parameter motionEnabled belum ada di versi tersebut.
+Penghapusan file/cadangan memerlukan konfirmasi pemilik. Build ulang dengan signing
+yang sama; jangan menghapus instalasi/data untuk downgrade tanpa konfirmasi.
+
+### Verifikasi v0.03
+
+Hasil build release, pemeriksaan statis, dan pengujian UI ditambahkan setelah selesai.
+
+### Hasil akhir verifikasi v0.03
+
+- `assembleRelease`, `assembleDebug`, `assembleDebugAndroidTest`, `lintDebug`:
+  **BUILD SUCCESSFUL**. Build memakai satu worker dan compiler Kotlin in-process,
+  tanpa perubahan konfigurasi build untuk lingkungan pengujian.
+- Lint: **0 error, 5 warning**, sama seperti v0.02 (target SDK, versi Gradle,
+  tiga resource teks lama yang dipertahankan).
+- Emulator Android 15/API 35: **OK (7 tests)**, 46,744 detik, tanpa kegagalan.
+  Dua HomeMotionTest membuktikan pixel panel berubah antar-frame, area klik menu
+  tetap stabil, klik berfungsi, serta mode tanpa animasi statis/langsung dapat dipakai.
+  GuestFlowTest (room demo 4 pemain), dua VisualExperienceTest (teks terbesar dan
+  solo 10 soal), serta dua GameFeedbackEffectsTest (native audio dan pemulihan
+  state suara) semuanya lulus. Pengujian suara yang tertunda pada v0.02 kini juga
+  berhasil dijalankan. Log: `.tmp/ui-instrumentation-v0.3.2.log`.
+- APK release versi **0.3.2**, versionCode **5**, ukuran **2.778.630 byte (2,65 MiB)**.
+  Output Gradle: `app/build/outputs/apk/release/app-release.apk`.
+  Salinan dengan nama versi: `build/outputs/releases/duelmu-v0.3.2-release.apk`.
+- `apksigner verify --verbose`: berhasil, Signature Scheme v2, satu penanda tangan,
+  menggunakan konfigurasi keystore milik pengguna yang sama.
+- Release berhasil dipasang dan dibuka di emulator: cold launch status `ok`,
+  TotalTime 1578 ms. Dua tangkapan layar release sudah diperiksa secara visual;
+  piala, dekorasi tepi, kartu menu, dan teks tetap rapi.
+- Pratinjau rekaman layar menu release:
+  `build/outputs/ui-preview-v0.3.2/menu-animation.mp4`.
+  Screenshot: `menu-first.png` (saat animasi masuk), `menu-second.png` (setelah
+  animasi masuk), di direktori yang sama. Emulator QA dihentikan setelah verifikasi.
+- Metadata versi, ukuran, SHA-256 APK, dan ringkasan hasil:
+  `build/outputs/duelmu-v0.3.2-artifacts.json`.
+- Tidak ada pengujian unit/domain yang diulang untuk perubahan visual ini;
+  aturan permainan dan kode jaringan tidak berubah. Perangkat fisik belum diuji.

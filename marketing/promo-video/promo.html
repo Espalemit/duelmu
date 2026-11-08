@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<title>Duelmu Promo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@700;800;900&display=block" rel="stylesheet">
+<style>
+  :root{
+    --purple:#7150C7; --deep:#1E0F4A; --deep2:#3A1E8C; --lime:#A6E22E; --lime2:#7CC70F;
+    --orange:#FF7A1A; --yellow:#FFD23F; --cream:#FFFBF5; --ink:#302A42; --green:#1B9E4B;
+    --pink:#FF4FA3; --cyan:#3EC9F0;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{width:1080px;height:1920px;overflow:hidden;background:var(--deep)}
+  body{font-family:'Nunito','Segoe UI',sans-serif;color:#fff}
+  #stage{position:absolute;inset:0;overflow:hidden}
+  .abs{position:absolute}
+  .center{left:0;right:0;text-align:center}
+  .disp{font-family:'Baloo 2','Nunito',sans-serif;font-weight:800;line-height:.95;letter-spacing:-1px}
+  .scene{position:absolute;inset:0;display:none}
+  /* background */
+  #bg{position:absolute;inset:0;background:radial-gradient(circle at 50% 35%, #5B34C9 0%, #3A1E8C 40%, #1E0F4A 85%)}
+  #rays{position:absolute;left:50%;top:50%;width:3200px;height:3200px;margin:-1600px 0 0 -1600px;
+    background:repeating-conic-gradient(rgba(255,255,255,.06) 0 9deg, rgba(255,255,255,0) 9deg 18deg);border-radius:50%}
+  .glyph{position:absolute;font-family:'Baloo 2',sans-serif;font-weight:800;color:rgba(255,255,255,.13);white-space:nowrap}
+  /* hook */
+  .hookline{display:block;font-size:150px;text-shadow:0 10px 0 rgba(0,0,0,.25)}
+  .pill{display:inline-block;padding:22px 46px;border-radius:999px;font-weight:900;font-size:52px}
+  /* quiz card */
+  .card{position:absolute;left:70px;right:70px;background:#fff;border-radius:48px;color:var(--ink);
+    box-shadow:0 24px 0 rgba(0,0,0,.22), 0 40px 80px rgba(0,0,0,.35);padding:56px 52px}
+  .chip{display:inline-block;padding:12px 28px;border-radius:999px;font-weight:900;font-size:34px;letter-spacing:1px}
+  .qtext{font-size:62px;line-height:1.22;font-weight:800;margin-top:34px}
+  .opt{display:flex;align-items:center;gap:30px;margin-top:26px;border:5px solid #E3DCEA;border-radius:30px;padding:24px 28px;
+    font-size:52px;font-weight:800;background:#FFFDF9;position:relative}
+  .opt .let{width:84px;height:84px;border-radius:50%;background:#EDE4FF;color:#432980;display:flex;align-items:center;justify-content:center;font-size:46px;flex:none}
+  .opt.ok{background:#C8F2D2;border-color:var(--green);color:#0b3d1d}
+  .opt.ok .let{background:var(--green);color:#fff}
+  .opt .mark{position:absolute;right:30px;font-size:58px}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:34px}
+  .grid .opt{margin:0;font-size:44px;padding:34px 18px;gap:14px;white-space:nowrap}
+  .grid .opt .let{width:64px;height:64px;font-size:36px}
+  #timer{position:absolute;width:210px;height:210px;right:90px}
+  #timer svg{position:absolute;inset:0}
+  #timerNum{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:'Baloo 2';font-weight:800;font-size:120px;color:#fff}
+  .stamp{position:absolute;left:0;right:0;text-align:center}
+  .stamp span{display:inline-block;background:var(--lime);color:#1d3a00;font-family:'Baloo 2';font-weight:800;font-size:120px;padding:10px 60px 0;border-radius:36px;
+    border:8px solid #fff;box-shadow:0 16px 0 rgba(0,0,0,.25)}
+  .conf{position:absolute;width:26px;height:40px;border-radius:6px}
+  /* duel */
+  .avatar{position:absolute;width:200px;height:200px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+    font-family:'Baloo 2';font-weight:800;font-size:96px;color:#fff;border:9px solid #fff;box-shadow:0 16px 0 rgba(0,0,0,.25)}
+  .avatar .nm{position:absolute;top:206px;left:-60px;right:-60px;text-align:center;font-family:'Nunito';font-weight:900;font-size:44px;color:#fff}
+  .row{display:flex;align-items:center;gap:24px;margin-top:30px;font-weight:900;font-size:46px}
+  .row .rk{width:70px;font-family:'Baloo 2';font-size:56px;color:#8B7F9B}
+  .row .who{width:250px;white-space:nowrap}
+  .row .barw{flex:1;height:58px;background:#F1ECF7;border-radius:999px;overflow:hidden}
+  .row .bar{height:100%;border-radius:999px}
+  .row .sc{width:120px;text-align:right;font-family:'Baloo 2';font-size:56px}
+  /* features */
+  .feat{position:absolute;left:80px;right:80px;height:250px;background:#fff;border-radius:44px;color:var(--ink);display:flex;align-items:center;gap:40px;padding:0 50px;
+    box-shadow:0 18px 0 rgba(0,0,0,.22)}
+  .feat .ic{width:150px;height:150px;border-radius:40px;display:flex;align-items:center;justify-content:center;font-size:84px;flex:none}
+  .feat h3{font-family:'Baloo 2';font-weight:800;font-size:76px;line-height:1}
+  .feat p{font-size:36px;font-weight:800;color:#686174;margin-top:8px}
+  /* wipe */
+  .band{position:absolute;left:50%;top:50%;width:1800px;height:3400px;margin:-1700px 0 0 -900px}
+</style>
+</head>
+<body>
+<div id="stage">
+  <div id="bg"><div id="rays"></div></div>
+  <div id="glyphs"></div>
+
+  <!-- S1 HOOK -->
+  <div class="scene" id="s1">
+    <div class="abs center disp" style="top:560px">
+      <span class="hookline" id="h1">Masih ingat</span>
+      <span class="hookline" id="h2" style="color:var(--yellow)">pelajaran</span>
+      <span class="hookline" id="h3" style="color:var(--lime)">SMP–SMA?</span>
+    </div>
+    <div class="abs center" style="top:1170px"><span class="pill" id="h4" style="background:#fff;color:var(--deep2)">Yuk, uji otakmu dalam 3 detik! ⏱️</span></div>
+  </div>
+
+  <!-- S2 QUIZ -->
+  <div class="scene" id="s2">
+    <div class="abs disp" id="q1head" style="left:90px;top:170px;font-size:92px;line-height:1">Jawab<br><span style="color:var(--yellow)">sebelum habis!</span></div>
+    <div id="timer" style="top:160px">
+      <svg viewBox="0 0 210 210"><circle cx="105" cy="105" r="92" fill="rgba(0,0,0,.25)" stroke="rgba(255,255,255,.2)" stroke-width="16"/>
+        <circle id="timerArc" cx="105" cy="105" r="92" fill="none" stroke="#A6E22E" stroke-width="16" stroke-linecap="round" transform="rotate(-90 105 105)" stroke-dasharray="578" stroke-dashoffset="0"/></svg>
+      <div id="timerNum">3</div>
+    </div>
+    <div class="card" id="q1card" style="top:470px">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <span class="chip" style="background:#D9F5E9;color:#165743">🧬 BIOLOGI • SMP</span>
+        <span style="font-weight:900;font-size:36px;color:#8B7F9B">Soal 1/10</span>
+      </div>
+      <div class="qtext">Jantung manusia normal memiliki jumlah ruang sebanyak ...</div>
+      <div class="opt" id="o1"><span class="let">A</span>tiga</div>
+      <div class="opt" id="o2"><span class="let">B</span>dua</div>
+      <div class="opt" id="o3"><span class="let">C</span>empat<span class="mark" id="o3mark">✅</span></div>
+      <div class="opt" id="o4"><span class="let">D</span>lima</div>
+    </div>
+    <div class="stamp" id="q1stamp" style="top:1590px"><span>BENAR! +100</span></div>
+    <div id="conf1"></div>
+  </div>
+
+  <!-- S3 QUICK FIRE -->
+  <div class="scene" id="s3">
+    <div class="abs center disp" id="s3head" style="top:220px;font-size:90px;white-space:nowrap">Otak makin <span style="color:var(--orange)">panas!</span> 🔥</div>
+    <div id="qf"></div>
+  </div>
+
+  <!-- S4 DUEL -->
+  <div class="scene" id="s4">
+    <div class="abs center disp" id="s4head" style="top:150px;font-size:130px">Ajak temanmu<br><span style="color:var(--lime);font-size:190px">DUEL!</span></div>
+    <div class="abs center" id="s4sub" style="top:560px"><span class="pill" style="background:var(--yellow);color:#4a2a00">👥 2–4 pemain • 1 room</span></div>
+    <div id="avs"></div>
+    <div id="vs" class="abs disp" style="left:0;right:0;text-align:center;top:1040px;font-size:170px;color:var(--yellow);text-shadow:0 10px 0 rgba(0,0,0,.3)">⚡</div>
+    <div class="card" id="board" style="top:1090px;padding:44px 50px">
+      <div style="font-family:'Baloo 2';font-weight:800;font-size:56px;color:var(--purple)">🏆 Papan Skor</div>
+      <div id="rows"></div>
+    </div>
+  </div>
+
+  <!-- S5 FEATURES -->
+  <div class="scene" id="s5">
+    <div class="abs center disp" id="s5head" style="top:250px;font-size:130px">Kenapa<br><span style="color:var(--yellow)">Duelmu?</span></div>
+    <div class="feat" id="f1" style="top:700px"><div class="ic" style="background:#EDE4FF">📚</div><div><h3>400 soal</h3><p>Fisika • Biologi • Kimia • Matematika</p></div></div>
+    <div class="feat" id="f2" style="top:1000px"><div class="ic" style="background:#D9F5E9">📶</div><div><h3>100% offline</h3><p>Wi-Fi, hotspot, atau Bluetooth</p></div></div>
+    <div class="feat" id="f3" style="top:1300px"><div class="ic" style="background:#FFEDB5">⚡</div><div><h3>Tanpa akun</h3><p>Ketik nama, langsung main</p></div></div>
+  </div>
+
+  <!-- S6 OUTRO -->
+  <div class="scene" id="s6">
+    <img id="logo" src="logo_duelmu.png" class="abs" style="left:165px;top:300px;width:750px;height:750px">
+    <div class="abs center disp" id="tag1" style="top:1110px;font-size:118px">Refresh otakmu.</div>
+    <div class="abs center disp" id="tag2" style="top:1230px;font-size:118px;color:var(--lime)">Tantang temanmu!</div>
+    <div class="abs center" id="cta" style="top:1440px"><span class="pill" style="background:var(--orange);color:#fff;font-size:62px;padding:30px 64px;border:7px solid #fff;box-shadow:0 14px 0 rgba(0,0,0,.25)">Main Duelmu sekarang! 🚀</span></div>
+    <div class="abs center" id="sub6" style="top:1640px;font-size:44px;font-weight:900;color:rgba(255,255,255,.85)">Android • Offline • Tanpa akun</div>
+  </div>
+
+  <!-- wipes -->
+  <div class="band" id="wA" style="background:var(--orange)"></div>
+  <div class="band" id="wB" style="background:var(--lime)"></div>
+</div>
+
+<script>
+const clamp=(x,a=0,b=1)=>Math.min(b,Math.max(a,x));
+const P=(t,s,d)=>clamp((t-s)/d);
+const eOut=x=>1-Math.pow(1-x,3);
+const eIn=x=>x*x*x;
+const eInOut=x=>x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2;
+const eBack=x=>{const c1=1.9,c3=c1+1;return x<=0?0:x>=1?1:1+c3*Math.pow(x-1,3)+c1*Math.pow(x-1,2);};
+const $=id=>document.getElementById(id);
+function tf(el,{o=1,x=0,y=0,s=1,r=0}={}){el.style.opacity=o;el.style.transform=`translate(${x}px,${y}px) scale(${s}) rotate(${r}deg)`;}
+// pop-in helper: scale with overshoot
+function pop(el,t,start,dur=.45,fromY=0){const k=P(t,start,dur);tf(el,{o:clamp(k*3),s:.3+.7*eBack(k),y:fromY*(1-eOut(k))});}
+function rise(el,t,start,dur=.5,dy=80){const k=eOut(P(t,start,dur));tf(el,{o:k,y:dy*(1-k)});}
+
+// timeline (seconds)
+const CUT=[0,3.2,10.0,15.0,21.0,25.5,30.0];
+window.DURATION=30.0;
+
+// ---- background glyphs
+const G=['π','Σ','√x','H₂O','E=mc²','⚛','🧬','x²','∫','Δ','CO₂','F=ma','%','÷','🧪','∞','λ','Ω'];
+const gl=[];
+for(let i=0;i<26;i++){const d=document.createElement('div');d.className='glyph';d.textContent=G[i%G.length];
+  const sz=60+((i*37)%70);d.style.fontSize=sz+'px';$('glyphs').appendChild(d);
+  gl.push({el:d,x:(i*211)%1080,y:(i*367)%1920,sp:20+(i*13)%40,ph:i*1.3});}
+
+// ---- confetti
+const CC=['#A6E22E','#FF7A1A','#FFD23F','#FF4FA3','#3EC9F0','#fff'];
+function makeConf(host,n,seed){const arr=[];for(let i=0;i<n;i++){const d=document.createElement('div');d.className='conf';
+  d.style.background=CC[(i+seed)%CC.length];host.appendChild(d);
+  const a=((i*137.5+seed*31)%360)*Math.PI/180, v=900+((i*53+seed*7)%700);
+  arr.push({el:d,vx:Math.cos(a)*v,vy:Math.sin(a)*v-700,rot:(i*47)%360,vr:((i*91)%720)-360});}return arr;}
+function runConf(arr,t,start,ox,oy){const dt=t-start;for(const c of arr){if(dt<0||dt>2.2){c.el.style.opacity=0;continue;}
+  const x=ox+c.vx*dt*.8, y=oy+c.vy*dt*.8+1400*dt*dt; c.el.style.opacity=clamp(2.2-dt);
+  c.el.style.transform=`translate(${x}px,${y}px) rotate(${c.rot+c.vr*dt}deg)`;}}
+const conf1=makeConf($('conf1'),70,1);
+
+// ---- quick fire cards
+const QF=[
+ {chip:'➗ MATEMATIKA • SMP',bg:'#EDE4FF',fg:'#432980',q:'KPK dari 8 dan 12 adalah ...',o:['48','24','4','96'],a:1},
+ {chip:'🧪 KIMIA • SMP',bg:'#FFE3D1',fg:'#8A3A00',q:'Perubahan wujud dari cair menjadi gas disebut ...',o:['pembekuan','penguapan','pengembunan','deposisi'],a:1},
+ {chip:'⚛️ FISIKA • SMA',bg:'#D6F1FB',fg:'#00506B',q:'Persamaan keadaan gas ideal ditulis sebagai ...',o:['PT = nRV','P/V = nRT','PV = nRT','P + V = nRT'],a:2},
+];
+const QFS=[10.15,11.75,13.35]; // start of each card
+const qfEls=QF.map((c,i)=>{const d=document.createElement('div');d.className='card';d.style.top='520px';
+  d.innerHTML=`<div style="display:flex;justify-content:space-between;align-items:center"><span class="chip" style="background:${c.bg};color:${c.fg}">${c.chip}</span><span style="font-weight:900;font-size:36px;color:#8B7F9B">Soal ${i+2}/10</span></div>
+  <div class="qtext" style="font-size:66px">${c.q}</div><div class="grid">${c.o.map((o,j)=>`<div class="opt" data-j="${j}"><span class="let">${'ABCD'[j]}</span>${o}</div>`).join('')}</div>`;
+  $('qf').appendChild(d);return d;});
+
+// ---- duel avatars
+const PL=[{n:'Kamu',c:'#FF7A1A'},{n:'Raka',c:'#3EC9F0'},{n:'Sinta',c:'#FF4FA3'},{n:'Bima',c:'#7CC70F'}];
+const AVPOS=[[65,720],[315,720],[565,720],[815,720]];
+const avEls=PL.map((p,i)=>{const d=document.createElement('div');d.className='avatar';d.style.background=p.c;
+  d.style.left=AVPOS[i][0]+'px';d.style.top=AVPOS[i][1]+'px';d.innerHTML=`${p.n[0]}<div class="nm">${p.n}</div>`;$('avs').appendChild(d);return d;});
+const SC=[900,700,600,400]; const BARC=['#FF7A1A','#3EC9F0','#FF4FA3','#7CC70F'];
+const rowEls=PL.map((p,i)=>{const d=document.createElement('div');d.className='row';
+  d.innerHTML=`<span class="rk">${i+1}</span><span class="who">${p.n}${i==0?' 👑':''}</span><div class="barw"><div class="bar" style="background:${BARC[i]};width:0"></div></div><span class="sc">0</span>`;
+  $('rows').appendChild(d);return d;});
+
+function scene(id,t,a,b){const on=t>=a&&t<b;$(id).style.display=on?'block':'none';return on;}
+
+window.renderAt=function(t){
+  // background
+  $('rays').style.transform=`rotate(${t*8}deg)`;
+  for(const g of gl){const y=((g.y-g.sp*t*3)%2100+2100)%2100-120; g.el.style.transform=`translate(${g.x+Math.sin(t*.8+g.ph)*30}px,${y}px) rotate(${Math.sin(t+g.ph)*12}deg)`;}
+
+  // S1 hook
+  if(scene('s1',t,CUT[0],CUT[1])){
+    pop($('h1'),t,.1,.5,60); pop($('h2'),t,.4,.5,60); pop($('h3'),t,.7,.5,60);
+    pop($('h4'),t,1.5,.5,40);
+    const w=Math.sin(t*6)*2.5*P(t,2,0.3); $('h4').style.transform+=` rotate(${w}deg)`;
+  }
+  // S2 quiz
+  if(scene('s2',t,CUT[1],CUT[2])){
+    const s=CUT[1];
+    rise($('q1head'),t,s+.05,.5,-60);
+    pop($('timer'),t,s+.3,.5);
+    rise($('q1card'),t,s+.15,.6,300);
+    ['o1','o2','o3','o4'].forEach((id,i)=>rise($(id),t,s+.8+i*.15,.4,60));
+    // countdown 5.0 -> 8.0
+    const cd=clamp((t-5.0)/3); const left=Math.max(0,3-Math.floor(Math.max(0,t-5.0)));
+    $('timerArc').setAttribute('stroke-dashoffset',578*cd);
+    $('timerArc').setAttribute('stroke',cd>.66?'#FF5A4F':cd>.33?'#FFD23F':'#A6E22E');
+    $('timerNum').textContent=t<8.0?String(left):'✓';
+    const beat=t>=5&&t<8?1+.18*Math.max(0,1-((t-5)%1)*4):1; $('timer').style.transform+=` scale(${beat})`;
+    // reveal at 8.0
+    const rv=t>=8.0;
+    ['o1','o2','o4'].forEach(id=>{$(id).style.opacity=rv?.35:$(id).style.opacity;});
+    $('o3').classList.toggle('ok',rv); $('o3mark').style.opacity=rv?1:0;
+    if(rv){const k=P(t,8.0,.35);$('o3').style.transform=`scale(${1+.08*Math.sin(k*Math.PI)})`;}
+    const sk=P(t,8.1,.45); tf($('q1stamp'),{o:clamp(sk*4),s:2.2-1.2*eBack(sk),r:-6*eOut(sk)});
+    runConf(conf1,t,8.05,540,1500);
+  }
+  // S3 quick fire
+  if(scene('s3',t,CUT[2],CUT[3])){
+    pop($('s3head'),t,CUT[2]+.05,.5,-40);
+    qfEls.forEach((el,i)=>{const st=QFS[i], en=QFS[i+1]??CUT[3]+1; const kin=eOut(P(t,st,.35)), kout=eIn(P(t,en-.2,.3));
+      tf(el,{o:t<st?0:1-kout, x:1100*(1-kin)-1100*kout, r:4*(1-kin)-4*kout});
+      const rv=t>=st+.95;
+      el.querySelectorAll('.opt').forEach(o=>{const j=+o.dataset.j;const ok=j===QF[i].a;o.classList.toggle('ok',rv&&ok);
+        o.style.opacity=rv&&!ok?.35:1; o.style.transform=rv&&ok?`scale(${1+.1*Math.sin(P(t,st+.95,.3)*Math.PI)})`:'none';});
+    });
+  }
+  // S4 duel
+  if(scene('s4',t,CUT[3],CUT[4])){
+    const s=CUT[3];
+    pop($('s4head'),t,s+.05,.55,-40); pop($('s4sub'),t,s+.6,.45);
+    avEls.forEach((el,i)=>{const k=P(t,s+.9+i*.2,.45);
+      el.style.opacity=clamp(k*3);
+      el.style.transform=`scale(${.3+.7*eBack(k)}) translateY(${Math.sin(t*5+i*1.4)*10}px)`;});
+    $('vs').style.display='none';
+    const bk=P(t,s+2.0,.6); tf($('board'),{o:clamp(bk*2),y:500*(1-eOut(bk))});
+    rowEls.forEach((r,i)=>{const g=eOut(P(t,s+2.5,2.2)); const v=Math.round(SC[i]*g/100)*100;
+      r.querySelector('.bar').style.width=(SC[i]/1000*100*g)+'%'; r.querySelector('.sc').textContent=v;});
+  }
+  // S5 features
+  if(scene('s5',t,CUT[4],CUT[5])){
+    const s=CUT[4];
+    pop($('s5head'),t,s+.05,.5,-40);
+    ['f1','f2','f3'].forEach((id,i)=>{const k=P(t,s+.7+i*.55,.5);tf($(id),{o:clamp(k*3),x:(i%2?1:-1)*900*(1-eOut(k)),r:(i%2?3:-3)*(1-eOut(k))});
+      $(id).querySelector('.ic').style.transform=`scale(${1+.08*Math.sin((t-s)*5+i)}) rotate(${Math.sin((t-s)*3+i)*6}deg)`;});
+  }
+  // S6 outro
+  if(scene('s6',t,CUT[5],CUT[6]+1)){
+    const s=CUT[5];
+    const lk=P(t,s+.05,.7); tf($('logo'),{o:clamp(lk*3),s:.2+.8*eBack(lk)+.025*Math.sin((t-s)*3),r:-12*(1-eOut(lk))});
+    pop($('tag1'),t,s+.75,.45,40); pop($('tag2'),t,s+1.05,.45,40);
+    pop($('cta'),t,s+1.6,.5); const ck=P(t,s+2.2,.01); $('cta').style.transform+=` scale(${1+.045*Math.sin((t-s)*7)*ck})`;
+    rise($('sub6'),t,s+2.1,.5,30);
+    $('rays').style.opacity=.6+.6*P(t,s,.6);
+  } else $('rays').style.opacity=.6;
+
+  // wipes at cuts (centered on cut)
+  for(const c of CUT.slice(1,-1)){ }
+  let wa=-3000,wb=-3000;
+  for(const c of CUT.slice(1,-1)){const k=(t-(c-.28))/.56; if(k>=0&&k<=1){const e=eInOut(k); wa=-2400+4800*e; wb=-2400+4800*eInOut(clamp(k*1.12-.12));}}
+  $('wA').style.transform=`translateX(${wa}px) rotate(14deg)`;
+  $('wB').style.transform=`translateX(${wb}px) rotate(14deg)`;
+  // final fade
+  $('stage').style.opacity=1-P(t,29.6,.4);
+};
+renderAt(0);
+</script>
+</body>
+</html>
