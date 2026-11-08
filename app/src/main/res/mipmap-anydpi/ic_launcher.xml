@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Ikon adaptif dari logo kickstart/Duelmu Logo.png (latar putih di luar logo dibuat transparan,
+    logo 68% kanvas agar teks "Duelmu" & kedua bohlam tetap di zona aman masker lingkaran/squircle).
+    Monochrome (ikon bertema Android 13+) = garis tinta hitam logo yang sama.
+-->
+<adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
+    <background android:drawable="@color/ic_launcher_background" />
+    <foreground android:drawable="@mipmap/ic_launcher_foreground" />
+    <monochrome android:drawable="@mipmap/ic_launcher_monochrome" />
+</adaptive-icon>

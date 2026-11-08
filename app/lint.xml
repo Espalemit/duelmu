@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lint>
+    <!-- Bahasa Indonesia tidak memiliki bentuk jamak gramatikal ("1 soal", "10 soal"),
+         sehingga <plurals> tidak diperlukan untuk satu-satunya lokal aplikasi ini. -->
+    <issue id="PluralsCandidate" severity="ignore" />
+</lint>

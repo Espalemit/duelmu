@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Tema dasar sebelum Compose mengambil alih (Material3 diterapkan di Compose). -->
+    <style name="Theme.EduDuel" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowBackground">@color/eduduel_background</item>
+    </style>
+
+    <!-- Splash singkat (androidx.core:core-splashscreen) lalu langsung ke Beranda. -->
+    <style name="Theme.EduDuel.Starting" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/eduduel_splash</item>
+        <!-- Logo Duelmu di dalam lingkaran putih di atas warna ungu logo. -->
+        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher_foreground</item>
+        <item name="windowSplashScreenIconBackgroundColor">@color/splash_icon_background</item>
+        <item name="postSplashScreenTheme">@style/Theme.EduDuel</item>
+    </style>
+</resources>

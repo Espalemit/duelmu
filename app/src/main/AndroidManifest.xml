@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!--
+        Room lewat Wi-Fi yang sama / hotspot salah satu HP (TCP + NSD di jaringan LOKAL).
+        Android mewajibkan INTERNET untuk membuka socket apa pun, termasuk socket lokal. Duelmu
+        tidak menghubungi server internet mana pun; tidak ada library HTTP/analitik/iklan.
+    -->
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <!--
+        Bluetooth Classic RFCOMM. Lihat docs/KONEKSI_ID.md.
+        Android 11 (API 30) ke bawah: izin lama + lokasi (hanya untuk discovery/pemindaian).
+        Android 12 (API 31) ke atas: izin Nearby Devices runtime.
+    -->
+    <uses-permission
+        android:name="android.permission.BLUETOOTH"
+        android:maxSdkVersion="30" />
+    <uses-permission
+        android:name="android.permission.BLUETOOTH_ADMIN"
+        android:maxSdkVersion="30" />
+    <!-- Hanya diminta saat pengguna menekan "Pindai perangkat" pada Android 8-11. -->
+    <uses-permission
+        android:name="android.permission.ACCESS_FINE_LOCATION"
+        android:maxSdkVersion="30" />
+    <uses-permission
+        android:name="android.permission.ACCESS_COARSE_LOCATION"
+        android:maxSdkVersion="30" />
+
+    <!-- Hasil pemindaian TIDAK pernah dipakai untuk menentukan lokasi fisik -> neverForLocation sah. -->
+    <uses-permission
+        android:name="android.permission.BLUETOOTH_SCAN"
+        android:usesPermissionFlags="neverForLocation"
+        tools:targetApi="s" />
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+    <!-- Dibutuhkan untuk meminta perangkat Host dapat ditemukan (discoverable) pada Android 12+. -->
+    <uses-permission android:name="android.permission.BLUETOOTH_ADVERTISE" />
+
+    <uses-permission android:name="android.permission.VIBRATE" />
+
+    <!-- Bluetooth & Wi-Fi opsional: room bisa memakai salah satunya, latihan solo tidak butuh keduanya. -->
+    <uses-feature
+        android:name="android.hardware.bluetooth"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.wifi"
+        android:required="false" />
+
+    <!-- Izin lokasi (API <= 30) dan orientasi portrait tidak boleh memfilter perangkat di Play. -->
+    <uses-feature
+        android:name="android.hardware.location"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.location.gps"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.screen.portrait"
+        android:required="false" />
+
+    <application
+        android:name=".EduDuelApp"
+        android:allowBackup="false"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="false"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:networkSecurityConfig="@xml/network_security_config"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.EduDuel.Starting"
+        tools:targetApi="s">
+
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize"
+            tools:ignore="DiscouragedApi,LockedOrientationActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+</manifest>

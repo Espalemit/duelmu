@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kebijakan Privasi Duelmu</title>
+  <style>
+    :root { --bg:#f6fafb; --fg:#161c1e; --muted:#40484c; --accent:#0b6e8c; --card:#ffffff; --line:#dce4e8; }
+    @media (prefers-color-scheme: dark) { :root { --bg:#0e1416; --fg:#dee3e5; --muted:#bfc8cc; --accent:#7fd3ee; --card:#1a2123; --line:#40484c; } }
+    body { margin:0; background:var(--bg); color:var(--fg); font:16px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+    main { max-width: 760px; margin: 0 auto; padding: 24px 16px 48px; }
+    h1 { color: var(--accent); margin-bottom: 4px; }
+    h2 { margin-top: 32px; font-size: 1.2rem; }
+    .muted { color: var(--muted); }
+    .card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 12px 16px; }
+    table { width: 100%; border-collapse: collapse; font-size: .95rem; }
+    th, td { text-align: left; vertical-align: top; padding: 8px; border-bottom: 1px solid var(--line); }
+    .scroll { overflow-x: auto; }
+  </style>
+</head>
+<body>
+<main>
+  <h1>Kebijakan Privasi Duelmu</h1>
+  <p class="muted">Berlaku sejak 8 November 2026 · Versi aplikasi 0.2.0</p>
+
+  <div class="card">
+    <ul>
+      <li><strong>Tanpa akun.</strong> Tidak ada login, registrasi, atau profil. Semua pemain adalah Guest.</li>
+      <li><strong>Tanpa server.</strong> Aplikasi tidak mengirim data ke server mana pun dan tidak memakai kuota internet. Main bareng berjalan langsung antar-HP lewat Wi-Fi/hotspot lokal atau Bluetooth.</li>
+      <li><strong>Tanpa iklan, analitik, atau pelacakan.</strong></li>
+      <li><strong>Semua data tersimpan di perangkatmu</strong> dan dapat dihapus kapan saja.</li>
+    </ul>
+  </div>
+
+  <h2>Data yang diproses</h2>
+  <div class="scroll">
+  <table>
+    <tr><th>Data</th><th>Untuk apa</th><th>Disimpan</th><th>Dibagikan</th></tr>
+    <tr><td>Nama panggilan yang diketik sebelum bermain</td><td>Ditampilkan ke pemain lain di room (lobi, skor, hasil)</td><td>Perangkatmu</td><td>HP pemain lain di room (maks. 3), langsung lewat Wi-Fi/hotspot lokal atau Bluetooth. Nickname Host room Wi-Fi terlihat di daftar room oleh HP di jaringan yang sama</td></tr>
+    <tr><td>ID sesi acak</td><td>Membedakan pemain (nama boleh sama)</td><td>Sementara selama sesi</td><td>HP pemain lain di room</td></tr>
+    <tr><td>Jawaban, waktu jawab, skor</td><td>Menghitung dan menampilkan hasil</td><td>Riwayat lokal</td><td>HP pemain lain di room</td></tr>
+    <tr><td>Pengaturan tampilan</td><td>Kenyamanan</td><td>Perangkatmu</td><td>Tidak</td></tr>
+  </table>
+  </div>
+  <p>Duelmu tidak meminta email, nomor telepon, tanggal lahir, sekolah, lokasi, foto, atau kontak. Jangan memakai data pribadi sebagai nama panggilan.</p>
+
+  <h2>Izin perangkat</h2>
+  <p><strong>Akses jaringan (INTERNET)</strong> karena Android mewajibkannya untuk socket lokal antar-HP di Wi-Fi/hotspot yang sama; tidak ada koneksi ke server internet. <strong>Perangkat sekitar/Bluetooth</strong> (Android 12+) untuk menghubungkan HP lewat Bluetooth; hasil pemindaian tidak dipakai untuk menentukan lokasi. <strong>Lokasi</strong> hanya pada Android 8–11, karena sistem mewajibkannya untuk memindai perangkat Bluetooth; diminta hanya saat menekan “Pindai HP sekitar” dan tidak dibaca atau disimpan. <strong>Getar</strong> untuk umpan balik opsional.</p>
+
+  <h2>Penyimpanan dan penghapusan</h2>
+  <p>Riwayat disimpan di database lokal, dikecualikan dari cadangan cloud. Hapus melalui Pengaturan → Hapus riwayat / Hapus nama terakhir, atau dengan menghapus aplikasi.</p>
+
+  <h2>Keamanan</h2>
+  <p>Jalur Bluetooth terenkripsi (secure RFCOMM). Jalur Wi-Fi/hotspot tidak dienkripsi; isinya hanya nama panggilan, jawaban, dan skor. Masuk room Wi-Fi memerlukan kode 4 digit dari HP Host, dan Host dapat mengeluarkan pemain.</p>
+
+  <h2>Layanan Firebase</h2>
+  <p>Developer memakai Firebase (paket Spark) hanya untuk App Distribution (mengirim versi beta ke penguji yang diundang) dan Hosting untuk halaman ini. Tidak ada Firebase SDK di dalam aplikasi.</p>
+
+  <h2>Kontak</h2>
+  <p>[isi email pengelola rilis/sekolah sebelum publikasi]</p>
+</main>
+</body>
+</html>

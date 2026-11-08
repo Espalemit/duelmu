@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Duelmu tidak memakai HTTP sama sekali. Konfigurasi ini memastikan bila suatu saat ada kode
+    HTTP, lalu lintas teks-polos (cleartext) tetap diblokir. Socket TCP room di jaringan lokal
+    tidak terpengaruh konfigurasi ini.
+-->
+<network-security-config>
+    <base-config cleartextTrafficPermitted="false" />
+</network-security-config>

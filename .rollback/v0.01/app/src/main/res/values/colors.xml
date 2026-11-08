@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="eduduel_background">#FFF6FAFB</color>
+    <color name="eduduel_splash">#FF6B0F9E</color>
+    <color name="ic_launcher_background">#FFFFFFFF</color>
+    <color name="splash_icon_background">#FFFFFFFF</color>
+</resources>

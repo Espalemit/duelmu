@@ -1,0 +1,401 @@
+﻿id,subject,gradeBand,topic,difficulty,timeLimitSeconds,question,optionA,optionB,optionC,optionD,correctOptionId,correctAnswer,explanation
+FIS-SMP-001,Fisika,SMP,Besaran dan satuan,mudah,60,Satuan SI untuk besaran panjang adalah ...,meter,kilogram,sekon,kelvin,A,meter,
+FIS-SMP-002,Fisika,SMP,Besaran dan satuan,mudah,60,Alat yang paling tepat untuk mengukur diameter kawat tipis adalah ...,stopwatch,mikrometer sekrup,termometer,gelas ukur,B,mikrometer sekrup,
+FIS-SMP-003,Fisika,SMP,Besaran dan satuan,mudah,60,Besaran yang memiliki nilai sekaligus arah adalah ...,perpindahan,jarak,suhu,massa,A,perpindahan,
+FIS-SMP-004,Fisika,SMP,Gerak,mudah,60,"Pada gerak lurus beraturan, kecepatan benda bersifat ...",tetap,nol setiap saat,selalu meningkat,selalu menurun,A,tetap,
+FIS-SMP-005,Fisika,SMP,Gerak,sedang,90,Perbedaan utama jarak dan perpindahan adalah ...,jarak memiliki arah sedangkan perpindahan tidak,jarak selalu bernilai negatif,perpindahan selalu lebih besar dari jarak,perpindahan memperhitungkan arah dari posisi awal ke akhir,D,perpindahan memperhitungkan arah dari posisi awal ke akhir,
+FIS-SMP-006,Fisika,SMP,Gaya,mudah,60,Gaya gravitasi Bumi terhadap benda yang dilepaskan bekerja ke arah ...,arah gerak semula,atas menjauhi Bumi,selalu horizontal,pusat Bumi,D,pusat Bumi,
+FIS-SMP-007,Fisika,SMP,Gaya,sedang,90,Dua gaya sama besar bekerja pada benda dalam arah berlawanan. Resultan gayanya adalah ...,tidak dapat ditentukan,nol,setengah salah satu gaya,dua kali salah satu gaya,B,nol,
+FIS-SMP-008,Fisika,SMP,Gaya,sedang,90,"Gaya gesek umumnya bertambah jika, pada jenis permukaan sama, ...",gaya normal diperbesar,massa benda menjadi nol,gravitasi dihilangkan,luas bidang selalu diperkecil,A,gaya normal diperbesar,
+FIS-SMP-009,Fisika,SMP,Gaya,mudah,60,"Pada Hukum III Newton, gaya aksi dan reaksi bekerja pada ...",benda yang diam saja,satu benda yang sama,dua benda berbeda,benda dengan massa sama saja,C,dua benda berbeda,
+FIS-SMP-010,Fisika,SMP,Energi,mudah,60,Energi yang dimiliki benda karena gerakannya disebut ...,energi kimia,energi nuklir,energi kinetik,energi potensial elastis,C,energi kinetik,
+FIS-SMP-011,Fisika,SMP,Energi,sedang,90,"Ketika bola jatuh tanpa hambatan udara, energi potensial gravitasinya ...",bertambah tanpa batas,berubah seluruhnya menjadi massa,berubah menjadi energi kinetik,hilang tanpa perubahan bentuk,C,berubah menjadi energi kinetik,
+FIS-SMP-012,Fisika,SMP,Kalor,mudah,60,Perpindahan kalor melalui batang logam tanpa perpindahan zat secara keseluruhan disebut ...,konveksi,konduksi,sublimasi,radiasi,B,konduksi,
+FIS-SMP-013,Fisika,SMP,Kalor,mudah,60,Arus naik-turun air saat dipanaskan terutama disebabkan oleh ...,pemantulan,konveksi,konduksi saja,difraksi,B,konveksi,
+FIS-SMP-014,Fisika,SMP,Kalor,sedang,90,Energi panas Matahari dapat sampai ke Bumi melalui ruang hampa karena ...,radiasi tidak memerlukan medium,konduksi lebih cepat di ruang hampa,udara mengalir dari Matahari ke Bumi,konveksi terjadi di ruang hampa,A,radiasi tidak memerlukan medium,
+FIS-SMP-015,Fisika,SMP,Pemuaian,sedang,90,Celah pada sambungan rel kereta dibuat terutama untuk ...,mengurangi gaya gravitasi,memberi ruang saat rel memuai,menambah massa rel,mencegah rel memantulkan cahaya,B,memberi ruang saat rel memuai,
+FIS-SMP-016,Fisika,SMP,Cahaya,mudah,60,"Pada cermin datar, besar sudut datang terhadap garis normal ...",selalu 90 derajat,sama dengan sudut pantul,tidak berkaitan dengan sudut pantul,selalu dua kali sudut pantul,B,sama dengan sudut pantul,
+FIS-SMP-017,Fisika,SMP,Cahaya,sedang,90,"Ketika cahaya berpindah dari udara ke air pada sudut miring, cahaya umumnya ...",berhenti sepenuhnya,dibiaskan mendekati garis normal,berubah menjadi gelombang bunyi,dibiaskan menjauhi garis normal,B,dibiaskan mendekati garis normal,
+FIS-SMP-018,Fisika,SMP,Cahaya,mudah,60,Bayangan pada cermin datar bersifat ...,"nyata, tegak, dan diperkecil","nyata, terbalik, dan diperbesar","maya, terbalik, dan diperkecil","maya, tegak, dan sama besar",D,"maya, tegak, dan sama besar",
+FIS-SMP-019,Fisika,SMP,Bunyi,mudah,60,Tinggi-rendah nada bunyi terutama ditentukan oleh ...,frekuensi,amplitudo,jarak pendengar saja,massa medium saja,A,frekuensi,
+FIS-SMP-020,Fisika,SMP,Bunyi,sedang,90,Bunyi tidak dapat merambat di ruang hampa karena ...,selalu berupa cahaya,memiliki frekuensi nol,membutuhkan medium material,tidak memiliki energi,C,membutuhkan medium material,
+FIS-SMP-021,Fisika,SMP,Gelombang,sedang,90,"Pada gelombang transversal, arah getaran medium ...",tegak lurus arah rambat gelombang,selalu sama dengan arah gaya gravitasi,tidak memiliki hubungan dengan arah rambat,sejajar arah rambat gelombang,A,tegak lurus arah rambat gelombang,
+FIS-SMP-022,Fisika,SMP,Listrik,mudah,60,Bahan yang umumnya merupakan penghantar listrik yang baik adalah ...,karet,kayu kering,tembaga,plastik,C,tembaga,
+FIS-SMP-023,Fisika,SMP,Listrik,sedang,90,"Dalam rangkaian seri ideal, besaran yang sama pada setiap resistor adalah ...",nilai hambatan masing-masing resistor,beda potensial masing-masing resistor,daya listrik masing-masing resistor,kuat arus,D,kuat arus,
+FIS-SMP-024,Fisika,SMP,Listrik,sedang,90,"Dalam rangkaian paralel ideal, besaran yang sama pada setiap cabang adalah ...",kuat arus meskipun hambatan berbeda,beda potensial,nilai hambatan,jumlah elektron setiap saat,B,beda potensial,
+FIS-SMP-025,Fisika,SMP,Kemagnetan,mudah,60,Kutub magnet sejenis yang didekatkan akan ...,selalu kehilangan kemagnetan,menjadi bermuatan listrik positif,saling tolak-menolak,saling tarik-menarik,C,saling tolak-menolak,
+FIS-SMP-026,Fisika,SMP,Kelajuan,mudah,60,Pesepeda bergerak lurus sejauh 20 m dalam 5 s dengan kelajuan tetap. Kelajuannya adalah ...,3 m/s,20 m/s,6 m/s,4 m/s,D,4 m/s,Kelajuan = jarak/waktu = 20/5 = 4 m/s.
+FIS-SMP-027,Fisika,SMP,Kelajuan,mudah,60,Pelari bergerak lurus sejauh 30 m dalam 6 s dengan kelajuan tetap. Kelajuannya adalah ...,7 m/s,5 m/s,30 m/s,4 m/s,B,5 m/s,Kelajuan = jarak/waktu = 30/6 = 5 m/s.
+FIS-SMP-028,Fisika,SMP,Kelajuan,mudah,60,Mobil mainan bergerak lurus sejauh 42 m dalam 7 s dengan kelajuan tetap. Kelajuannya adalah ...,5 m/s,8 m/s,6 m/s,42 m/s,C,6 m/s,Kelajuan = jarak/waktu = 42/7 = 6 m/s.
+FIS-SMP-029,Fisika,SMP,Kelajuan,mudah,60,Perahu di danau tenang bergerak lurus sejauh 56 m dalam 8 s dengan kelajuan tetap. Kelajuannya adalah ...,6 m/s,7 m/s,9 m/s,56 m/s,B,7 m/s,Kelajuan = jarak/waktu = 56/8 = 7 m/s.
+FIS-SMP-030,Fisika,SMP,Kelajuan,mudah,60,Robot bergerak lurus bergerak lurus sejauh 72 m dalam 9 s dengan kelajuan tetap. Kelajuannya adalah ...,7 m/s,10 m/s,72 m/s,8 m/s,D,8 m/s,Kelajuan = jarak/waktu = 72/9 = 8 m/s.
+FIS-SMP-031,Fisika,SMP,Hukum II Newton,sedang,90,Sebuah benda bermassa 2 kg dipercepat 3 m/s² oleh satu gaya resultan. Besar gaya resultan adalah ...,6 N,12 N,5 N,9 N,A,6 N,F = ma = 2 x 3 = 6 N.
+FIS-SMP-032,Fisika,SMP,Hukum II Newton,sedang,90,Sebuah benda bermassa 3 kg dipercepat 4 m/s² oleh satu gaya resultan. Besar gaya resultan adalah ...,12 N,7 N,24 N,16 N,A,12 N,F = ma = 3 x 4 = 12 N.
+FIS-SMP-033,Fisika,SMP,Hukum II Newton,sedang,90,Sebuah benda bermassa 4 kg dipercepat 5 m/s² oleh satu gaya resultan. Besar gaya resultan adalah ...,25 N,40 N,9 N,20 N,D,20 N,F = ma = 4 x 5 = 20 N.
+FIS-SMP-034,Fisika,SMP,Hukum II Newton,sedang,90,Sebuah benda bermassa 5 kg dipercepat 6 m/s² oleh satu gaya resultan. Besar gaya resultan adalah ...,30 N,36 N,60 N,11 N,A,30 N,F = ma = 5 x 6 = 30 N.
+FIS-SMP-035,Fisika,SMP,Hukum II Newton,sedang,90,Sebuah benda bermassa 6 kg dipercepat 7 m/s² oleh satu gaya resultan. Besar gaya resultan adalah ...,42 N,49 N,84 N,13 N,A,42 N,F = ma = 6 x 7 = 42 N.
+FIS-SMP-036,Fisika,SMP,Massa jenis,sedang,90,Suatu benda bermassa 20 g memiliki volume 10 cm³. Massa jenis benda tersebut adalah ...,2 g/cm³,3 g/cm³,10 g/cm³,1 g/cm³,A,2 g/cm³,Massa jenis = massa/volume = 20/10 = 2 g/cm³.
+FIS-SMP-037,Fisika,SMP,Massa jenis,sedang,90,Suatu benda bermassa 45 g memiliki volume 15 cm³. Massa jenis benda tersebut adalah ...,4 g/cm³,2 g/cm³,3 g/cm³,15 g/cm³,C,3 g/cm³,Massa jenis = massa/volume = 45/15 = 3 g/cm³.
+FIS-SMP-038,Fisika,SMP,Massa jenis,sedang,90,Suatu benda bermassa 80 g memiliki volume 20 cm³. Massa jenis benda tersebut adalah ...,4 g/cm³,20 g/cm³,3 g/cm³,5 g/cm³,A,4 g/cm³,Massa jenis = massa/volume = 80/20 = 4 g/cm³.
+FIS-SMP-039,Fisika,SMP,Massa jenis,sedang,90,Suatu benda bermassa 125 g memiliki volume 25 cm³. Massa jenis benda tersebut adalah ...,6 g/cm³,5 g/cm³,25 g/cm³,4 g/cm³,B,5 g/cm³,Massa jenis = massa/volume = 125/25 = 5 g/cm³.
+FIS-SMP-040,Fisika,SMP,Massa jenis,sedang,90,Suatu benda bermassa 180 g memiliki volume 30 cm³. Massa jenis benda tersebut adalah ...,7 g/cm³,6 g/cm³,5 g/cm³,30 g/cm³,B,6 g/cm³,Massa jenis = massa/volume = 180/30 = 6 g/cm³.
+FIS-SMP-041,Fisika,SMP,Usaha,sedang,90,Gaya konstan 10 N searah perpindahan mendorong benda sejauh 2 m. Usaha gaya tersebut adalah ...,30 J,20 J,10 J,12 J,B,20 J,W = F s = 10 x 2 = 20 J.
+FIS-SMP-042,Fisika,SMP,Usaha,sedang,90,Gaya konstan 15 N searah perpindahan mendorong benda sejauh 3 m. Usaha gaya tersebut adalah ...,18 J,60 J,45 J,15 J,C,45 J,W = F s = 15 x 3 = 45 J.
+FIS-SMP-043,Fisika,SMP,Usaha,sedang,90,Gaya konstan 20 N searah perpindahan mendorong benda sejauh 4 m. Usaha gaya tersebut adalah ...,24 J,20 J,100 J,80 J,D,80 J,W = F s = 20 x 4 = 80 J.
+FIS-SMP-044,Fisika,SMP,Usaha,sedang,90,Gaya konstan 25 N searah perpindahan mendorong benda sejauh 5 m. Usaha gaya tersebut adalah ...,30 J,25 J,125 J,150 J,C,125 J,W = F s = 25 x 5 = 125 J.
+FIS-SMP-045,Fisika,SMP,Usaha,sedang,90,Gaya konstan 30 N searah perpindahan mendorong benda sejauh 6 m. Usaha gaya tersebut adalah ...,210 J,36 J,180 J,30 J,C,180 J,W = F s = 30 x 6 = 180 J.
+FIS-SMP-046,Fisika,SMP,Hukum Ohm,sedang,90,Arus listrik 2 A melewati resistor 3 ohm. Beda potensial pada resistor adalah ...,6 V,3 V,9 V,5 V,A,6 V,V = I R = 2 x 3 = 6 V.
+FIS-SMP-047,Fisika,SMP,Hukum Ohm,sedang,90,Arus listrik 3 A melewati resistor 4 ohm. Beda potensial pada resistor adalah ...,12 V,4 V,16 V,7 V,A,12 V,V = I R = 3 x 4 = 12 V.
+FIS-SMP-048,Fisika,SMP,Hukum Ohm,sedang,90,Arus listrik 4 A melewati resistor 5 ohm. Beda potensial pada resistor adalah ...,25 V,9 V,20 V,5 V,C,20 V,V = I R = 4 x 5 = 20 V.
+FIS-SMP-049,Fisika,SMP,Hukum Ohm,sedang,90,Arus listrik 5 A melewati resistor 6 ohm. Beda potensial pada resistor adalah ...,11 V,36 V,30 V,6 V,C,30 V,V = I R = 5 x 6 = 30 V.
+FIS-SMP-050,Fisika,SMP,Hukum Ohm,sedang,90,Arus listrik 6 A melewati resistor 7 ohm. Beda potensial pada resistor adalah ...,49 V,42 V,7 V,13 V,B,42 V,V = I R = 6 x 7 = 42 V.
+FIS-SMA-001,Fisika,SMA,Gerak dan grafik,sedang,90,Luas daerah di bawah grafik kecepatan terhadap waktu menyatakan ...,percepatan rata-rata,gaya normal,massa benda,perpindahan,D,perpindahan,
+FIS-SMA-002,Fisika,SMA,Vektor,sedang,90,Dua vektor gaya saling tegak lurus dengan besar 3 N dan 4 N. Besar resultannya adalah ...,1 N,12 N,7 N,5 N,D,5 N,
+FIS-SMA-003,Fisika,SMA,Gerak melingkar,sedang,90,Arah percepatan sentripetal pada gerak melingkar beraturan adalah ...,menjauhi pusat lingkaran,berlawanan dengan kecepatan linear,menuju pusat lingkaran,menyinggung lintasan,C,menuju pusat lingkaran,
+FIS-SMA-004,Fisika,SMA,Dinamika,sulit,120,"Ketika lift bergerak ke atas dengan percepatan tetap, gaya normal pada penumpang dibanding beratnya adalah ...",lebih kecil,sama besar,selalu nol,lebih besar,D,lebih besar,
+FIS-SMA-005,Fisika,SMA,Momentum,sedang,90,"Dalam tumbukan pada sistem terisolasi, besaran yang selalu kekal adalah ...",energi kinetik masing-masing benda,kecepatan tiap benda,momentum total,gaya tumbukan masing-masing benda,C,momentum total,
+FIS-SMA-006,Fisika,SMA,Energi,sedang,90,Usaha oleh gaya konservatif sepanjang lintasan tertutup bernilai ...,positif terus,negatif terus,bergantung pada kecepatan akhir,nol,D,nol,
+FIS-SMA-007,Fisika,SMA,Pegas,sedang,90,Hukum Hooke menyatakan gaya pegas ideal sebanding dengan ...,kuadrat pertambahan panjang,pertambahan panjang pegas,waktu getaran,massa pegas saja,B,pertambahan panjang pegas,
+FIS-SMA-008,Fisika,SMA,Fluida,sedang,90,"Menurut prinsip Archimedes, besar gaya apung sama dengan ...",berat seluruh fluida dalam wadah,berat fluida yang dipindahkan,massa benda dikalikan volumenya,tekanan udara luar,B,berat fluida yang dipindahkan,
+FIS-SMA-009,Fisika,SMA,Fluida,sedang,90,Hukum Pascal menjelaskan bahwa tambahan tekanan pada fluida tertutup diteruskan ...,hanya vertikal ke atas,sama besar ke segala arah,berkurang menjadi nol pada dinding,hanya menuju dasar wadah,B,sama besar ke segala arah,
+FIS-SMA-010,Fisika,SMA,Fluida,sulit,120,"Pada aliran fluida ideal horizontal, bagian pipa yang menyempit mempunyai kecepatan lebih tinggi dan tekanan statis ...",lebih rendah,tetap pasti,lebih tinggi,menjadi nol selalu,A,lebih rendah,
+FIS-SMA-011,Fisika,SMA,Termodinamika,sedang,90,Hukum I Termodinamika merupakan penerapan kekekalan ...,muatan listrik saja,massa jenis,momentum sudut,energi,D,energi,
+FIS-SMA-012,Fisika,SMA,Termodinamika,sedang,90,"Pada proses adiabatik ideal, kalor yang dipertukarkan dengan lingkungan adalah ...",sama dengan usaha,nol,selalu negatif,selalu positif,B,nol,
+FIS-SMA-013,Fisika,SMA,Gas ideal,sedang,90,Persamaan keadaan gas ideal ditulis sebagai ...,PT = nRV,P/V = nRT,PV = nRT,P + V = nRT,C,PV = nRT,
+FIS-SMA-014,Fisika,SMA,Gelombang,sedang,90,Resonansi terjadi ketika frekuensi gaya pemaksa ...,tidak berhubungan dengan frekuensi alami,lebih kecil dari semua frekuensi,mendekati frekuensi alami sistem,selalu nol,C,mendekati frekuensi alami sistem,
+FIS-SMA-015,Fisika,SMA,Gelombang,sulit,120,Dua gelombang koheren sefase bertemu dengan beda lintasan satu panjang gelombang. Interferensinya adalah ...,berubah menjadi polarisasi,destruktif sempurna,tidak pernah terjadi,konstruktif,D,konstruktif,
+FIS-SMA-016,Fisika,SMA,Gelombang stasioner,sedang,90,"Pada simpul gelombang stasioner, amplitudo getaran bernilai ...",setengah panjang gelombang,sama dengan cepat rambat,nol,maksimum,C,nol,
+FIS-SMA-017,Fisika,SMA,Optika,sedang,90,Difraksi gelombang paling jelas terlihat ketika ukuran celah ...,selalu lebih besar dari jarak sumber,sebanding dengan panjang gelombang,tidak memiliki ukuran,jauh lebih besar dari panjang gelombang,B,sebanding dengan panjang gelombang,
+FIS-SMA-018,Fisika,SMA,Elektromagnetisme,sedang,90,GGL induksi pada kumparan muncul akibat perubahan ...,suhu tetap pada hambatan nol,panjang gelombang cahaya saja,fluks magnet yang menembus kumparan,massa jenis kawat,C,fluks magnet yang menembus kumparan,
+FIS-SMA-019,Fisika,SMA,Elektromagnetisme,sulit,120,"Menurut hukum Lenz, arah arus induksi sedemikian rupa sehingga medan magnetnya ...",selalu searah medan Bumi,menentang perubahan fluks penyebabnya,tidak memengaruhi fluks,selalu memperkuat perubahan fluks,B,menentang perubahan fluks penyebabnya,
+FIS-SMA-020,Fisika,SMA,Listrik AC,sedang,90,Transformator ideal bekerja berdasarkan prinsip ...,induksi elektromagnetik,reaksi kimia,pemuaian termal,gaya Archimedes,A,induksi elektromagnetik,
+FIS-SMA-021,Fisika,SMA,Fisika modern,sulit,120,"Pada efek fotolistrik, menaikkan intensitas cahaya dengan frekuensi tetap di atas ambang terutama meningkatkan ...",frekuensi ambang logam,massa diam elektron,energi kinetik maksimum tiap elektron,jumlah elektron yang terlepas per satuan waktu,D,jumlah elektron yang terlepas per satuan waktu,
+FIS-SMA-022,Fisika,SMA,Fisika modern,sedang,90,Energi satu foton berbanding lurus dengan ...,kuadrat massa foton,panjang gelombang cahaya,frekuensi cahaya,kuadrat amplitudo saja,C,frekuensi cahaya,
+FIS-SMA-023,Fisika,SMA,Fisika inti,sedang,90,Waktu paruh zat radioaktif adalah waktu yang diperlukan agar ...,massa setiap inti menjadi setengah,energi kinetik inti menjadi nol,jumlah inti belum meluruh menjadi setengah,semua inti meluruh,C,jumlah inti belum meluruh menjadi setengah,
+FIS-SMA-024,Fisika,SMA,Optika,sulit,120,"Pada lensa cembung, benda berada di antara titik fokus dan lensa. Bayangan yang terbentuk adalah ...","nyata, tegak, sama besar","maya, terbalik, diperkecil","nyata, terbalik, diperkecil","maya, tegak, diperbesar",D,"maya, tegak, diperbesar",
+FIS-SMA-025,Fisika,SMA,Rangkaian listrik,sulit,120,"Jika hambatan internal sumber tegangan nyata tidak nol, tegangan terminal saat sumber mengalirkan arus ...",selalu lebih besar daripada GGL sumber,pasti sama dengan nol,lebih kecil daripada GGL sumber,tidak dipengaruhi arus,C,lebih kecil daripada GGL sumber,
+FIS-SMA-026,Fisika,SMA,Gerak dipercepat,sulit,120,Benda bergerak lurus dengan kecepatan awal 3 m/s dan percepatan tetap 2 m/s² selama 4 s. Kecepatan akhirnya adalah ...,8 m/s,13 m/s,11 m/s,9 m/s,C,11 m/s,v = v0 + at = 3 + 2 x 4 = 11 m/s.
+FIS-SMA-027,Fisika,SMA,Gerak dipercepat,sulit,120,Benda bergerak lurus dengan kecepatan awal 4 m/s dan percepatan tetap 3 m/s² selama 5 s. Kecepatan akhirnya adalah ...,15 m/s,19 m/s,12 m/s,22 m/s,B,19 m/s,v = v0 + at = 4 + 3 x 5 = 19 m/s.
+FIS-SMA-028,Fisika,SMA,Gerak dipercepat,sulit,120,Benda bergerak lurus dengan kecepatan awal 5 m/s dan percepatan tetap 4 m/s² selama 6 s. Kecepatan akhirnya adalah ...,15 m/s,33 m/s,29 m/s,24 m/s,C,29 m/s,v = v0 + at = 5 + 4 x 6 = 29 m/s.
+FIS-SMA-029,Fisika,SMA,Gerak dipercepat,sulit,120,Benda bergerak lurus dengan kecepatan awal 6 m/s dan percepatan tetap 5 m/s² selama 7 s. Kecepatan akhirnya adalah ...,18 m/s,35 m/s,46 m/s,41 m/s,D,41 m/s,v = v0 + at = 6 + 5 x 7 = 41 m/s.
+FIS-SMA-030,Fisika,SMA,Gerak dipercepat,sulit,120,Benda bergerak lurus dengan kecepatan awal 7 m/s dan percepatan tetap 6 m/s² selama 8 s. Kecepatan akhirnya adalah ...,55 m/s,21 m/s,61 m/s,48 m/s,A,55 m/s,v = v0 + at = 7 + 6 x 8 = 55 m/s.
+FIS-SMA-031,Fisika,SMA,Energi kinetik,sulit,120,Benda bermassa 2 kg bergerak dengan kelajuan 4 m/s. Energi kinetiknya adalah ...,32 J,8 J,20 J,16 J,D,16 J,Ek = 1/2 mv² = 1/2 x 2 x 42 = 16 J.
+FIS-SMA-032,Fisika,SMA,Energi kinetik,sulit,120,Benda bermassa 4 kg bergerak dengan kelajuan 5 m/s. Energi kinetiknya adalah ...,100 J,55 J,20 J,50 J,D,50 J,Ek = 1/2 mv² = 1/2 x 4 x 52 = 50 J.
+FIS-SMA-033,Fisika,SMA,Energi kinetik,sulit,120,Benda bermassa 6 kg bergerak dengan kelajuan 6 m/s. Energi kinetiknya adalah ...,36 J,108 J,114 J,216 J,B,108 J,Ek = 1/2 mv² = 1/2 x 6 x 62 = 108 J.
+FIS-SMA-034,Fisika,SMA,Energi kinetik,sulit,120,Benda bermassa 8 kg bergerak dengan kelajuan 7 m/s. Energi kinetiknya adalah ...,392 J,203 J,196 J,56 J,C,196 J,Ek = 1/2 mv² = 1/2 x 8 x 72 = 196 J.
+FIS-SMA-035,Fisika,SMA,Energi kinetik,sulit,120,Benda bermassa 10 kg bergerak dengan kelajuan 8 m/s. Energi kinetiknya adalah ...,320 J,328 J,80 J,640 J,A,320 J,Ek = 1/2 mv² = 1/2 x 10 x 82 = 320 J.
+FIS-SMA-036,Fisika,SMA,Cepat rambat gelombang,sedang,90,Gelombang memiliki frekuensi 5 Hz dan panjang gelombang 2 m. Cepat rambatnya adalah ...,15 m/s,5 m/s,7 m/s,10 m/s,D,10 m/s,v = f x lambda = 5 x 2 = 10 m/s.
+FIS-SMA-037,Fisika,SMA,Cepat rambat gelombang,sedang,90,Gelombang memiliki frekuensi 7 Hz dan panjang gelombang 3 m. Cepat rambatnya adalah ...,7 m/s,28 m/s,10 m/s,21 m/s,D,21 m/s,v = f x lambda = 7 x 3 = 21 m/s.
+FIS-SMA-038,Fisika,SMA,Cepat rambat gelombang,sedang,90,Gelombang memiliki frekuensi 9 Hz dan panjang gelombang 4 m. Cepat rambatnya adalah ...,13 m/s,36 m/s,45 m/s,9 m/s,B,36 m/s,v = f x lambda = 9 x 4 = 36 m/s.
+FIS-SMA-039,Fisika,SMA,Cepat rambat gelombang,sedang,90,Gelombang memiliki frekuensi 11 Hz dan panjang gelombang 5 m. Cepat rambatnya adalah ...,55 m/s,16 m/s,66 m/s,11 m/s,A,55 m/s,v = f x lambda = 11 x 5 = 55 m/s.
+FIS-SMA-040,Fisika,SMA,Cepat rambat gelombang,sedang,90,Gelombang memiliki frekuensi 13 Hz dan panjang gelombang 6 m. Cepat rambatnya adalah ...,19 m/s,13 m/s,91 m/s,78 m/s,D,78 m/s,v = f x lambda = 13 x 6 = 78 m/s.
+FIS-SMA-041,Fisika,SMA,Kalor jenis,sulit,120,Sebanyak 2 kg air (kalor jenis 4.200 J/kg C) dipanaskan sehingga suhunya naik 7 C tanpa perubahan fase. Kalor yang diserap adalah ...,63000 J,29400 J,8400 J,58800 J,D,58800 J,Q = mc deltaT = 2 x 4.200 x 7 = 58800 J.
+FIS-SMA-042,Fisika,SMA,Kalor jenis,sulit,120,Sebanyak 3 kg air (kalor jenis 4.200 J/kg C) dipanaskan sehingga suhunya naik 8 C tanpa perubahan fase. Kalor yang diserap adalah ...,12600 J,105000 J,33600 J,100800 J,D,100800 J,Q = mc deltaT = 3 x 4.200 x 8 = 100800 J.
+FIS-SMA-043,Fisika,SMA,Kalor jenis,sulit,120,Sebanyak 4 kg air (kalor jenis 4.200 J/kg C) dipanaskan sehingga suhunya naik 9 C tanpa perubahan fase. Kalor yang diserap adalah ...,16800 J,151200 J,37800 J,155400 J,B,151200 J,Q = mc deltaT = 4 x 4.200 x 9 = 151200 J.
+FIS-SMA-044,Fisika,SMA,Kalor jenis,sulit,120,Sebanyak 5 kg air (kalor jenis 4.200 J/kg C) dipanaskan sehingga suhunya naik 10 C tanpa perubahan fase. Kalor yang diserap adalah ...,214200 J,210000 J,21000 J,42000 J,B,210000 J,Q = mc deltaT = 5 x 4.200 x 10 = 210000 J.
+FIS-SMA-045,Fisika,SMA,Kalor jenis,sulit,120,Sebanyak 6 kg air (kalor jenis 4.200 J/kg C) dipanaskan sehingga suhunya naik 11 C tanpa perubahan fase. Kalor yang diserap adalah ...,46200 J,281400 J,25200 J,277200 J,D,277200 J,Q = mc deltaT = 6 x 4.200 x 11 = 277200 J.
+FIS-SMA-046,Fisika,SMA,Rangkaian seri,sedang,90,"Tiga resistor 2 ohm, 3 ohm, dan 5 ohm disusun seri. Hambatan penggantinya adalah ...",10 ohm,30 ohm,5 ohm,12 ohm,A,10 ohm,R seri = R1+R2+R3 = 10 ohm.
+FIS-SMA-047,Fisika,SMA,Rangkaian seri,sedang,90,"Tiga resistor 3 ohm, 4 ohm, dan 6 ohm disusun seri. Hambatan penggantinya adalah ...",13 ohm,16 ohm,72 ohm,6 ohm,A,13 ohm,R seri = R1+R2+R3 = 13 ohm.
+FIS-SMA-048,Fisika,SMA,Rangkaian seri,sedang,90,"Tiga resistor 4 ohm, 5 ohm, dan 7 ohm disusun seri. Hambatan penggantinya adalah ...",16 ohm,20 ohm,140 ohm,7 ohm,A,16 ohm,R seri = R1+R2+R3 = 16 ohm.
+FIS-SMA-049,Fisika,SMA,Rangkaian seri,sedang,90,"Tiga resistor 5 ohm, 6 ohm, dan 8 ohm disusun seri. Hambatan penggantinya adalah ...",19 ohm,24 ohm,240 ohm,8 ohm,A,19 ohm,R seri = R1+R2+R3 = 19 ohm.
+FIS-SMA-050,Fisika,SMA,Rangkaian seri,sedang,90,"Tiga resistor 6 ohm, 7 ohm, dan 9 ohm disusun seri. Hambatan penggantinya adalah ...",22 ohm,378 ohm,28 ohm,9 ohm,A,22 ohm,R seri = R1+R2+R3 = 22 ohm.
+BIO-SMP-001,Biologi,SMP,Sel,mudah,60,Unit struktural dan fungsional terkecil makhluk hidup adalah ...,sel,jaringan,organ,sistem organ,A,sel,
+BIO-SMP-002,Biologi,SMP,Sel,mudah,60,Struktur yang mengatur keluar-masuk zat dari dan ke sel adalah ...,nukleolus,membran plasma,ribosom,dinding sel saja,B,membran plasma,
+BIO-SMP-003,Biologi,SMP,Sel,mudah,60,Organel yang menyimpan sebagian besar DNA pada sel eukariotik adalah ...,vakuola,lisosom,badan Golgi,inti sel,D,inti sel,
+BIO-SMP-004,Biologi,SMP,Sel,mudah,60,Organel utama penghasil banyak ATP melalui respirasi aerob adalah ...,ribosom,sentriol,mitokondria,kloroplas,C,mitokondria,
+BIO-SMP-005,Biologi,SMP,Sel tumbuhan,mudah,60,Organel tempat berlangsungnya fotosintesis pada tumbuhan adalah ...,lisosom,mitokondria,inti sel,kloroplas,D,kloroplas,
+BIO-SMP-006,Biologi,SMP,Sel tumbuhan,sedang,90,Vakuola sentral besar pada sel tumbuhan terutama membantu ...,membentuk ribosom,menghasilkan hormon insulin,menggandakan kromosom,mempertahankan tekanan turgor,D,mempertahankan tekanan turgor,
+BIO-SMP-007,Biologi,SMP,Sel tumbuhan,mudah,60,Dinding sel tumbuhan terutama tersusun dari ...,selulosa,keratin,glikogen,kitin pada semua tumbuhan,A,selulosa,
+BIO-SMP-008,Biologi,SMP,Organisasi kehidupan,mudah,60,Sekelompok sel sejenis yang bekerja menjalankan fungsi tertentu disebut ...,organisme,populasi,sistem organ,jaringan,D,jaringan,
+BIO-SMP-009,Biologi,SMP,Jaringan tumbuhan,mudah,60,Jaringan yang mengangkut air dan mineral dari akar ke bagian lain adalah ...,xilem,kambium saja,epidermis,floem,A,xilem,
+BIO-SMP-010,Biologi,SMP,Jaringan tumbuhan,mudah,60,Jaringan yang mengangkut hasil fotosintesis pada tumbuhan adalah ...,kutikula,xilem,floem,meristem apikal saja,C,floem,
+BIO-SMP-011,Biologi,SMP,Struktur tumbuhan,sedang,90,Rambut akar meningkatkan efisiensi penyerapan air terutama karena ...,menutup semua stomata,memperluas luas permukaan akar,memperlambat osmosis sampai nol,memproduksi biji,B,memperluas luas permukaan akar,
+BIO-SMP-012,Biologi,SMP,Struktur tumbuhan,mudah,60,Stomata pada daun berperan utama dalam ...,menyimpan pati di akar,pertukaran gas dan pengaturan penguapan air,menyerap mineral dari tanah,menghasilkan biji langsung,B,pertukaran gas dan pengaturan penguapan air,
+BIO-SMP-013,Biologi,SMP,Fotosintesis,mudah,60,Produk utama fotosintesis yang dimanfaatkan sebagai sumber bahan organik tumbuhan adalah ...,glukosa,urea,etanol,asam laktat,A,glukosa,
+BIO-SMP-014,Biologi,SMP,Fotosintesis,mudah,60,Gas yang diambil tumbuhan dari udara untuk fotosintesis adalah ...,oksigen sebagai sumber karbon,karbon dioksida,nitrogen dioksida,hidrogen murni,B,karbon dioksida,
+BIO-SMP-015,Biologi,SMP,Respirasi,sedang,90,Respirasi sel aerob menggunakan oksigen terutama untuk ...,memecah air hanya dengan cahaya,mengubah glukosa menjadi klorofil,menerima elektron pada akhir rantai transpor elektron,membentuk DNA langsung,C,menerima elektron pada akhir rantai transpor elektron,
+BIO-SMP-016,Biologi,SMP,Pernapasan,mudah,60,Tempat utama pertukaran oksigen dan karbon dioksida di paru-paru manusia adalah ...,diafragma,laring,trakea,alveolus,D,alveolus,
+BIO-SMP-017,Biologi,SMP,Pernapasan,sedang,90,"Saat inspirasi normal, diafragma berkontraksi sehingga ...",paru berhenti mengembang,rongga dada membesar dan udara masuk,tekanan paru meningkat di atas tekanan udara luar,rongga dada mengecil dan udara keluar,B,rongga dada membesar dan udara masuk,
+BIO-SMP-018,Biologi,SMP,Peredaran darah,mudah,60,Jantung manusia normal memiliki jumlah ruang sebanyak ...,tiga,dua,empat,lima,C,empat,
+BIO-SMP-019,Biologi,SMP,Peredaran darah,mudah,60,Sel darah merah mengangkut banyak oksigen berkat kandungan ...,amilase,insulin,klorofil,hemoglobin,D,hemoglobin,
+BIO-SMP-020,Biologi,SMP,Peredaran darah,mudah,60,Jenis sel darah yang berperan penting dalam pertahanan tubuh adalah ...,trombosit saja,eritrosit,leukosit,sel epidermis,C,leukosit,
+BIO-SMP-021,Biologi,SMP,Peredaran darah,mudah,60,Keping darah memiliki peran utama dalam proses ...,pembekuan darah,pembentukan urin,pengangkutan oksigen utama,pencernaan protein,A,pembekuan darah,
+BIO-SMP-022,Biologi,SMP,Pencernaan,mudah,60,Sebagian besar penyerapan zat gizi hasil pencernaan berlangsung di ...,kerongkongan,usus halus,usus besar,lambung,B,usus halus,
+BIO-SMP-023,Biologi,SMP,Pencernaan,sedang,90,Enzim amilase pada saliva mulai memecah ...,amilum,protein menjadi asam amino seluruhnya,lemak menjadi gliserol seluruhnya,vitamin menjadi glukosa,A,amilum,
+BIO-SMP-024,Biologi,SMP,Ekskresi,mudah,60,Organ yang terutama menyaring darah untuk membentuk urin adalah ...,lambung,paru-paru,ginjal,pankreas,C,ginjal,
+BIO-SMP-025,Biologi,SMP,Saraf,mudah,60,Sel khusus penghantar impuls dalam sistem saraf adalah ...,osteosit,eritrosit,neuron,sel penjaga stomata,C,neuron,
+BIO-SMP-026,Biologi,SMP,Saraf,sedang,90,Gerak refleks menarik tangan dari benda panas biasanya diproses cepat melalui ...,sumsum tulang belakang,lambung,kelenjar tiroid,paru-paru,A,sumsum tulang belakang,
+BIO-SMP-027,Biologi,SMP,Indra,mudah,60,Pupil mata pada cahaya sangat terang umumnya ...,menghilang,melebar terus,mengecil,tetap mutlak,C,mengecil,
+BIO-SMP-028,Biologi,SMP,Perkembangbiakan,mudah,60,Hewan yang berkembang biak dengan bertelur disebut ...,vivipar,fragmentasi,tunas,ovipar,D,ovipar,
+BIO-SMP-029,Biologi,SMP,Perkembangbiakan,mudah,60,Hewan yang melahirkan anak setelah embrio berkembang di dalam induk termasuk ...,vivipar,ovipar murni,membelah diri,spora,A,vivipar,
+BIO-SMP-030,Biologi,SMP,Reproduksi,sedang,90,Pembuahan pada manusia merupakan peristiwa bertemunya ...,sperma dengan ovum,ovum dengan sel darah merah,dua ovum,dua sperma,A,sperma dengan ovum,
+BIO-SMP-031,Biologi,SMP,Hormon,sedang,90,Perubahan fisik pada masa pubertas banyak dikendalikan oleh ...,enzim pencernaan saja,hemoglobin saja,vitamin C saja,hormon,D,hormon,
+BIO-SMP-032,Biologi,SMP,Mikroorganisme,mudah,60,Bakteri umumnya berkembang biak secara aseksual melalui ...,pembelahan biner,penyerbukan,fertilisasi,metamorfosis sempurna,A,pembelahan biner,
+BIO-SMP-033,Biologi,SMP,Ekologi,mudah,60,Organisme yang dapat membuat bahan organik sendiri dari sumber anorganik disebut ...,parasit obligat,produsen autotrof,konsumen primer,dekomposer saja,B,produsen autotrof,
+BIO-SMP-034,Biologi,SMP,Ekologi,mudah,60,Belalang pemakan daun dalam rantai makanan merupakan contoh ...,pengurai,konsumen puncak,konsumen primer,produsen,C,konsumen primer,
+BIO-SMP-035,Biologi,SMP,Ekologi,mudah,60,Jamur dan bakteri tertentu membantu ekosistem dengan bertindak sebagai ...,predator teratas,produsen fotosintetik utama,konsumen sekunder selalu,pengurai,D,pengurai,
+BIO-SMP-036,Biologi,SMP,Ekologi,sedang,90,Piramida energi ekosistem umumnya menyempit ke atas karena ...,produsen selalu paling sedikit,energi tidak pernah hilang sebagai panas,energi tersedia berkurang pada tiap perpindahan tingkat trofik,energi baru diciptakan tiap konsumen,C,energi tersedia berkurang pada tiap perpindahan tingkat trofik,
+BIO-SMP-037,Biologi,SMP,Simbiosis,mudah,60,Interaksi lebah memperoleh nektar dan bunga terbantu penyerbukan merupakan ...,mutualisme,kompetisi,parasitisme,amensalisme,A,mutualisme,
+BIO-SMP-038,Biologi,SMP,Simbiosis,sedang,90,Anggrek epifit yang menempel pada pohon tanpa merugikannya biasanya dicontohkan sebagai ...,parasitisme,mutualisme obligat,komensalisme,predasi,C,komensalisme,
+BIO-SMP-039,Biologi,SMP,Simbiosis,mudah,60,Cacing pita yang mengambil nutrisi dari tubuh inangnya menunjukkan ...,mutualisme,parasitisme,protokooperasi,komensalisme,B,parasitisme,
+BIO-SMP-040,Biologi,SMP,Rantai makanan,sedang,90,"Pada rantai rumput -> belalang -> katak -> ular, katak adalah ...",konsumen sekunder,pengurai,konsumen primer,produsen,A,konsumen sekunder,
+BIO-SMP-041,Biologi,SMP,Ekosistem,mudah,60,Contoh komponen biotik pada ekosistem kolam adalah ...,ikan,suhu air,batu,cahaya matahari,A,ikan,
+BIO-SMP-042,Biologi,SMP,Ekosistem,mudah,60,Contoh komponen abiotik pada ekosistem hutan adalah ...,jamur,rumput,kelembapan udara,semut,C,kelembapan udara,
+BIO-SMP-043,Biologi,SMP,Pencemaran,sedang,90,Masuknya terlalu banyak nutrien ke danau dapat menyebabkan ledakan alga yang disebut ...,transpirasi,fotosintesis gelap,eutrofikasi,nitrifikasi tunggal,C,eutrofikasi,
+BIO-SMP-044,Biologi,SMP,Lingkungan,sedang,90,Peningkatan kadar karbon dioksida atmosfer berkontribusi pada pemanasan global karena ...,menghentikan radiasi matahari,mengurangi semua penyerapan inframerah,meningkatkan efek rumah kaca,menghilangkan seluruh atmosfer,C,meningkatkan efek rumah kaca,
+BIO-SMP-045,Biologi,SMP,Ekologi,sedang,90,Sumber energi utama bagi sebagian besar ekosistem di permukaan Bumi adalah ...,energi nuklir buatan,panas mesin,listrik rumah,cahaya Matahari,D,cahaya Matahari,
+BIO-SMP-046,Biologi,SMP,Klasifikasi,sedang,90,Urutan tingkat takson dari lebih umum ke lebih khusus adalah ...,"spesies, genus, famili, ordo, kelas, filum, kingdom","kingdom, filum, kelas, ordo, famili, genus, spesies","kingdom, genus, filum, spesies, famili, kelas, ordo","filum, kingdom, ordo, kelas, genus, spesies, famili",B,"kingdom, filum, kelas, ordo, famili, genus, spesies",
+BIO-SMP-047,Biologi,SMP,Klasifikasi,sedang,90,"Dalam nama ilmiah Homo sapiens, kata Homo menunjukkan ...",genus,ordo,famili,spesies saja,A,genus,
+BIO-SMP-048,Biologi,SMP,Mikrobiologi,mudah,60,Bakteri disebut prokariot karena ...,tidak memiliki ribosom,selalu bersel banyak,tidak memiliki inti bermembran,tidak memiliki DNA,C,tidak memiliki inti bermembran,
+BIO-SMP-049,Biologi,SMP,Jamur,mudah,60,Jamur memperoleh nutrisi dengan cara ...,menggunakan klorofil sebagai pigmen utama,menyerap bahan organik dari lingkungan,mengubah batu menjadi glukosa tanpa energi,selalu berfotosintesis,B,menyerap bahan organik dari lingkungan,
+BIO-SMP-050,Biologi,SMP,Virus,sedang,90,Virus hanya dapat memperbanyak diri secara aktif ketika ...,berada di dalam sel inang yang sesuai,dipanaskan hingga mendidih,berada dalam air murni saja,tidak memiliki materi genetik,A,berada di dalam sel inang yang sesuai,
+BIO-SMA-001,Biologi,SMA,DNA dan RNA,sedang,90,"Pada DNA, basa nitrogen adenin berpasangan dengan ...",sitosin,timin,urasil,guanin,B,timin,
+BIO-SMA-002,Biologi,SMA,DNA dan RNA,sedang,90,Rangka gula-fosfat pada DNA berada pada bagian ...,luar heliks ganda,hanya di ujung kromosom,pusat heliks menggantikan basa,di dalam ribosom,A,luar heliks ganda,
+BIO-SMA-003,Biologi,SMA,Ekspresi gen,sedang,90,Proses pembentukan RNA menggunakan cetakan DNA disebut ...,replikasi,translasi,transkripsi,fermentasi,C,transkripsi,
+BIO-SMA-004,Biologi,SMA,Ekspresi gen,sedang,90,Sintesis polipeptida berdasarkan informasi mRNA disebut ...,osmosis,replikasi,translasi,transkripsi,C,translasi,
+BIO-SMA-005,Biologi,SMA,Kode genetik,sedang,90,Satu kodon mRNA terdiri atas ...,tiga nukleotida,enam nukleotida,dua nukleotida,empat nukleotida,A,tiga nukleotida,
+BIO-SMA-006,Biologi,SMA,Replikasi DNA,sulit,120,Replikasi DNA bersifat semikonservatif artinya tiap DNA hasil replikasi memiliki ...,satu untai lama dan satu untai baru,dua untai yang seluruhnya lama,dua untai selalu identik dengan RNA,satu untai protein dan satu untai DNA,A,satu untai lama dan satu untai baru,
+BIO-SMA-007,Biologi,SMA,Meiosis,sulit,120,Pindah silang antarkromatid non-saudara kromosom homolog umumnya terjadi pada ...,anafase II meiosis,fase G1 interfase,profase I meiosis,telofase mitosis,C,profase I meiosis,
+BIO-SMA-008,Biologi,SMA,Pembelahan sel,sedang,90,"Dari satu sel diploid, mitosis normal menghasilkan ...",empat sel dengan kromosom ganda,empat sel haploid,dua sel dengan setengah kromosom,dua sel anak dengan jumlah kromosom sama,D,dua sel anak dengan jumlah kromosom sama,
+BIO-SMA-009,Biologi,SMA,Pembelahan sel,sedang,90,Meiosis pada organisme diploid berfungsi menghasilkan ...,sel haploid,sel somatik identik diploid,sel dengan empat set kromosom,sel tanpa DNA,A,sel haploid,
+BIO-SMA-010,Biologi,SMA,Genetika Mendel,sedang,90,"Pada persilangan Aa x Aa dengan dominansi penuh, rasio fenotipe dominan : resesif adalah ...",1 : 1,3 : 1,9 : 7,1 : 2,B,3 : 1,
+BIO-SMA-011,Biologi,SMA,Genetika Mendel,sedang,90,"Pada persilangan Aa x aa, peluang keturunan bergenotipe aa adalah ...",3/4,1/4,1/2,0,C,1/2,
+BIO-SMA-012,Biologi,SMA,Genetika Mendel,sulit,120,"Untuk dua sifat bebas dengan dominansi penuh, persilangan AaBb x AaBb memberi rasio fenotipe klasik ...",3 : 1,1 : 2 : 1,1 : 1 : 1 : 1,9 : 3 : 3 : 1,D,9 : 3 : 3 : 1,
+BIO-SMA-013,Biologi,SMA,Genetika manusia,sulit,120,Sifat resesif terpaut kromosom X lebih sering tampak pada laki-laki karena ...,alel pada kromosom X selalu dominan,laki-laki umumnya hanya memiliki satu kromosom X,kromosom Y membawa semua alel resesif,laki-laki memiliki dua kromosom X,B,laki-laki umumnya hanya memiliki satu kromosom X,
+BIO-SMA-014,Biologi,SMA,Mutasi,sedang,90,Mutasi substitusi basa merupakan perubahan ...,jumlah kromosom pasti menjadi dua kali,seluruh genom selalu hilang,seluruh sel langsung mati,satu pasangan basa diganti pasangan basa lain,D,satu pasangan basa diganti pasangan basa lain,
+BIO-SMA-015,Biologi,SMA,Enzim DNA RNA,sedang,90,Enzim yang menyintesis RNA dari cetakan DNA adalah ...,DNA ligase,ATP sintase,amilase,RNA polimerase,D,RNA polimerase,
+BIO-SMA-016,Biologi,SMA,Kode genetik,sedang,90,Kodon awal translasi yang umum pada mRNA adalah ...,UAG,AUG,UAA,UGA,B,AUG,
+BIO-SMA-017,Biologi,SMA,Respirasi sel,sedang,90,Sebagian besar ATP respirasi aerob pada sel eukariot dihasilkan melalui ...,siklus Calvin,fotosintesis,fermentasi alkohol,fosforilasi oksidatif,D,fosforilasi oksidatif,
+BIO-SMA-018,Biologi,SMA,Respirasi sel,sedang,90,Glikolisis berlangsung terutama di ...,membran luar sel,sitosol,matriks inti,nukleolus,B,sitosol,
+BIO-SMA-019,Biologi,SMA,Fotosintesis,sedang,90,Reaksi terang fotosintesis tumbuhan terjadi pada ...,membran tilakoid,stroma saja,membran inti,sitoplasma tanpa kloroplas,A,membran tilakoid,
+BIO-SMA-020,Biologi,SMA,Fotosintesis,sedang,90,Siklus Calvin pada kloroplas berlangsung di ...,sitoplasma semua sel,lumen tilakoid,ruang antarmembran mitokondria,stroma,D,stroma,
+BIO-SMA-021,Biologi,SMA,Fotosintesis,sulit,120,Enzim RuBisCO berperan utama dalam ...,transkripsi DNA,fiksasi CO2 pada siklus Calvin,pengangkutan oksigen oleh hemoglobin,pemecahan glukosa di sitosol,B,fiksasi CO2 pada siklus Calvin,
+BIO-SMA-022,Biologi,SMA,Enzim,sedang,90,Enzim mempercepat reaksi biokimia dengan ...,mengubah nilai perubahan energi bebas reaksi menjadi nol,menggeser kesetimbangan menjadi satu arah permanen,dihabiskan sebagai reaktan,menurunkan energi aktivasi,D,menurunkan energi aktivasi,
+BIO-SMA-023,Biologi,SMA,Enzim,sedang,90,Suhu terlalu tinggi dapat menurunkan aktivitas banyak enzim karena ...,enzim berubah menjadi DNA,energi aktivasi selalu nol,struktur tiga dimensinya berubah atau terdenaturasi,substrat berubah menjadi atom tunggal,C,struktur tiga dimensinya berubah atau terdenaturasi,
+BIO-SMA-024,Biologi,SMA,Enzim,sulit,120,Inhibitor kompetitif umumnya menghambat enzim dengan cara ...,mengubah DNA inti,bersaing menempati sisi aktif,menghancurkan mitokondria,membentuk ATP di sisi alosterik,B,bersaing menempati sisi aktif,
+BIO-SMA-025,Biologi,SMA,Homeostasis,sedang,90,"Setelah kadar glukosa darah meningkat, hormon yang membantu menurunkannya adalah ...",glukagon,insulin,adrenalin sebagai regulator utama,melatonin,B,insulin,
+BIO-SMA-026,Biologi,SMA,Homeostasis,sedang,90,"Saat kadar glukosa darah turun, hormon yang membantu meningkatkannya adalah ...",insulin,oksitosin,glukagon,prolaktin,C,glukagon,
+BIO-SMA-027,Biologi,SMA,Imunologi,sedang,90,Sel B yang teraktivasi dapat berdiferensiasi menjadi sel plasma yang menghasilkan ...,hemoglobin,insulin,antibodi,klorofil,C,antibodi,
+BIO-SMA-028,Biologi,SMA,Imunologi,sedang,90,Sel T helper berperan penting dalam ...,menghasilkan empedu,mengangkut oksigen dalam plasma,membentuk trombosit,mengoordinasikan respons imun adaptif,D,mengoordinasikan respons imun adaptif,
+BIO-SMA-029,Biologi,SMA,Imunologi,sedang,90,Respons imun sekunder umumnya lebih cepat karena adanya ...,lebih banyak eritrosit,sel memori imun,hilangnya seluruh antigen,sel otot tambahan,B,sel memori imun,
+BIO-SMA-030,Biologi,SMA,Vaksinasi,sedang,90,Tujuan utama vaksinasi adalah ...,membunuh semua bakteri usus,langsung mengganti seluruh sel darah,menyembuhkan semua penyakit genetik,memicu memori imun protektif terhadap patogen tertentu,D,memicu memori imun protektif terhadap patogen tertentu,
+BIO-SMA-031,Biologi,SMA,Mikrobiologi,sedang,90,Antibiotik yang menargetkan struktur bakteri umumnya tidak efektif terhadap virus karena ...,virus tidak memiliki target seluler bakteri yang sama,virus selalu tidak memiliki asam nukleat,antibiotik hanya bekerja pada jamur,virus adalah bakteri berukuran besar,A,virus tidak memiliki target seluler bakteri yang sama,
+BIO-SMA-032,Biologi,SMA,Transport membran,sedang,90,Osmosis adalah perpindahan netto air melintasi membran semipermeabel menuju sisi dengan ...,tekanan osmotik lebih rendah secara mutlak,potensial air lebih tinggi,konsentrasi semua zat selalu nol,potensial air lebih rendah,D,potensial air lebih rendah,
+BIO-SMA-033,Biologi,SMA,Transport membran,sedang,90,Transport aktif primer pada membran sel secara langsung memanfaatkan energi dari ...,hidrolisis ATP,difusi sederhana saja,cahaya tampak secara universal,gerak Brown tanpa energi,A,hidrolisis ATP,
+BIO-SMA-034,Biologi,SMA,Transport membran,sulit,120,"Dalam satu siklus normal, pompa Na+/K+-ATPase memindahkan ...",2 Na+ masuk dan 2 K+ keluar,2 Na+ keluar dan 3 K+ masuk,3 Na+ masuk dan 2 K+ keluar,3 Na+ keluar dan 2 K+ masuk,D,3 Na+ keluar dan 2 K+ masuk,
+BIO-SMA-035,Biologi,SMA,Hormon tumbuhan,sulit,120,Pembengkokan batang muda ke arah cahaya berkaitan dengan distribusi hormon ...,insulin,testosteron,tiroksin,auksin,D,auksin,
+BIO-SMA-036,Biologi,SMA,Transport tumbuhan,sulit,120,Naiknya air dalam xilem pohon tinggi terutama ditunjang oleh ...,pompa jantung tumbuhan,tarikan transpirasi dan kohesi antarmolekul air,difusi glukosa ke akar,gerak aktif eritrosit,B,tarikan transpirasi dan kohesi antarmolekul air,
+BIO-SMA-037,Biologi,SMA,Respons tumbuhan,sedang,90,"Saat kekurangan air, tumbuhan sering menutup stomata untuk ...",meningkatkan penyerapan nitrogen atmosfer langsung,mengurangi kehilangan air melalui transpirasi,mempercepat penguapan,menghentikan seluruh respirasi,B,mengurangi kehilangan air melalui transpirasi,
+BIO-SMA-038,Biologi,SMA,Hormon tumbuhan,sedang,90,Hormon tumbuhan yang berperan penting dalam pematangan buah adalah ...,adrenalin,insulin,etilen,aldosteron,C,etilen,
+BIO-SMA-039,Biologi,SMA,Ekologi populasi,sedang,90,Daya dukung lingkungan adalah ...,jumlah hewan yang selalu mati tiap hari,kecepatan maksimum tiap individu,jumlah kromosom semua spesies,jumlah populasi maksimum yang dapat didukung sumber daya jangka panjang,D,jumlah populasi maksimum yang dapat didukung sumber daya jangka panjang,
+BIO-SMA-040,Biologi,SMA,Ekologi populasi,sulit,120,Pertumbuhan populasi logistik ideal biasanya digambarkan dengan kurva berbentuk ...,garis lurus vertikal,S,J tanpa batas,lingkaran tertutup,B,S,
+BIO-SMA-041,Biologi,SMA,Evolusi,sedang,90,Seleksi alam dapat menyebabkan evolusi karena ...,sifat yang diperoleh saat latihan pasti diwariskan,variasi yang diwariskan memengaruhi keberhasilan reproduksi,semua individu selalu bermutasi karena kebutuhan,populasi tidak memiliki variasi,B,variasi yang diwariskan memengaruhi keberhasilan reproduksi,
+BIO-SMA-042,Biologi,SMA,Evolusi,sulit,120,Efek hanyutan genetik cenderung paling kuat pada populasi ...,tanpa alel,selalu berjumlah tak hingga,sangat besar,berukuran kecil,D,berukuran kecil,
+BIO-SMA-043,Biologi,SMA,Evolusi,sulit,120,Spesiasi dapat terjadi ketika dua populasi mengalami ...,percampuran gen sempurna terus-menerus,kesamaan seluruh gen tanpa variasi,isolasi reproduktif dalam jangka panjang,penurunan jumlah individu sesaat saja,C,isolasi reproduktif dalam jangka panjang,
+BIO-SMA-044,Biologi,SMA,Evolusi,sedang,90,Struktur homolog pada spesies berbeda menjadi bukti yang mendukung ...,bahwa seleksi alam selalu tidak terjadi,nenek moyang bersama,tidak adanya perubahan evolusioner,bahwa semua fungsi organ identik,B,nenek moyang bersama,
+BIO-SMA-045,Biologi,SMA,Genetika populasi,sulit,120,"Pada populasi setimbang Hardy-Weinberg untuk dua alel, jumlah p2 + 2pq + q2 adalah ...",0,2,p + q + 2,1,D,1,
+BIO-SMA-046,Biologi,SMA,Genetika populasi,sulit,120,"Jika frekuensi fenotipe resesif aa adalah 16 persen dan populasi memenuhi Hardy-Weinberg, frekuensi heterozigot Aa adalah ...",36 persen,48 persen,64 persen,16 persen,B,48 persen,
+BIO-SMA-047,Biologi,SMA,Genetika populasi,sulit,120,Salah satu asumsi model keseimbangan Hardy-Weinberg adalah ...,perkawinan berlangsung acak untuk lokus yang ditinjau,seleksi alam sangat kuat,migrasi terus mengubah frekuensi alel,mutasi berlangsung sangat cepat,A,perkawinan berlangsung acak untuk lokus yang ditinjau,
+BIO-SMA-048,Biologi,SMA,Bioteknologi,sedang,90,Tiga tahap berulang utama pada PCR adalah ...,"transkripsi, translasi, replikasi","difusi, osmosis, respirasi","denaturasi, penempelan primer, pemanjangan","mitosis, meiosis, fertilisasi",C,"denaturasi, penempelan primer, pemanjangan",
+BIO-SMA-049,Biologi,SMA,Bioteknologi,sulit,120,"Dalam elektroforesis gel, DNA umumnya bergerak menuju elektroda ...",positif,negatif,netral,tanpa medan listrik,A,positif,
+BIO-SMA-050,Biologi,SMA,Bioteknologi,sulit,120,"Pada sistem CRISPR-Cas9, spesifisitas pemotongan DNA terutama diarahkan oleh ...",RNA pemandu,hormon insulin,hemoglobin,tRNA pembawa asam amino,A,RNA pemandu,
+KIM-SMP-001,Kimia,SMP,Materi,mudah,60,Perubahan wujud dari cair menjadi gas disebut ...,pembekuan,penguapan,pengembunan,deposisi,B,penguapan,
+KIM-SMP-002,Kimia,SMP,Materi,mudah,60,Perubahan wujud gas menjadi cair disebut ...,pengembunan,penguapan,penyubliman,pencairan,A,pengembunan,
+KIM-SMP-003,Kimia,SMP,Zat,mudah,60,Zat yang tersusun dari satu jenis atom disebut ...,senyawa,campuran,larutan,unsur,D,unsur,
+KIM-SMP-004,Kimia,SMP,Zat,mudah,60,Air murni (H2O) digolongkan sebagai ...,campuran heterogen,unsur,senyawa,larutan garam,C,senyawa,
+KIM-SMP-005,Kimia,SMP,Campuran,mudah,60,Udara bersih merupakan contoh ...,campuran homogen gas,unsur tunggal,senyawa tunggal,campuran heterogen padat,A,campuran homogen gas,
+KIM-SMP-006,Kimia,SMP,Pemisahan campuran,mudah,60,Memisahkan pasir tidak larut dari air paling tepat menggunakan ...,kromatografi,elektrolisis,filtrasi,sublimasi,C,filtrasi,
+KIM-SMP-007,Kimia,SMP,Pemisahan campuran,sedang,90,Memisahkan air murni dari larutan garam dengan menguapkan dan mengembunkan uap disebut ...,pengayakan,filtrasi biasa,pemagnetan,distilasi,D,distilasi,
+KIM-SMP-008,Kimia,SMP,Perubahan zat,mudah,60,Es yang mencair merupakan contoh perubahan ...,inti,kimia,biologis,fisika,D,fisika,
+KIM-SMP-009,Kimia,SMP,Perubahan zat,mudah,60,Besi yang berkarat merupakan contoh perubahan ...,ukuran saja,kimia,fisika saja,wujud saja,B,kimia,
+KIM-SMP-010,Kimia,SMP,Reaksi kimia,mudah,60,Zat awal yang mengalami perubahan dalam reaksi disebut ...,produk,reaktan,pelarut saja,katalis saja,B,reaktan,
+KIM-SMP-011,Kimia,SMP,Reaksi kimia,sedang,90,"Dalam sistem tertutup, hukum kekekalan massa menyatakan massa total sebelum dan sesudah reaksi ...",selalu bertambah,sama,menjadi nol,selalu berkurang,B,sama,
+KIM-SMP-012,Kimia,SMP,Asam basa,mudah,60,Larutan dengan pH 3 pada suhu sekitar 25 C bersifat ...,basa,netral,asam,tidak dapat ditentukan sama sekali,C,asam,
+KIM-SMP-013,Kimia,SMP,Asam basa,mudah,60,Kertas lakmus biru akan berubah merah jika dicelupkan ke larutan ...,basa kuat,air murni,garam netral,asam,D,asam,
+KIM-SMP-014,Kimia,SMP,Larutan,mudah,60,"Pada air gula, zat yang berperan sebagai pelarut adalah ...",oksigen terlarut,air,udara,gula,B,air,
+KIM-SMP-015,Kimia,SMP,Larutan,sedang,90,Larutan jenuh pada suhu tetap adalah larutan yang ...,tidak dapat melarutkan lagi zat terlarut dalam keadaan setimbang,tidak mengandung zat terlarut,selalu bening tanpa warna,memiliki pH tepat tujuh,A,tidak dapat melarutkan lagi zat terlarut dalam keadaan setimbang,
+KIM-SMP-016,Kimia,SMP,Atom,mudah,60,Partikel subatom dengan muatan listrik positif adalah ...,neutron,proton,foton,elektron,B,proton,
+KIM-SMP-017,Kimia,SMP,Atom,mudah,60,Partikel yang tidak bermuatan listrik dalam inti atom adalah ...,elektron,proton,neutron,ion positif,C,neutron,
+KIM-SMP-018,Kimia,SMP,Atom,sedang,90,Atom-atom isotop dari unsur yang sama mempunyai jumlah ...,nomor atom berbeda,"neutron sama, proton berbeda",elektron selalu berbeda pada atom netral,"proton sama, neutron berbeda",D,"proton sama, neutron berbeda",
+KIM-SMP-019,Kimia,SMP,Ikatan,sedang,90,Ikatan ion umumnya terjadi karena ...,pemisahan neutron antarnukleus,pemakaian proton bersama,pemakaian elektron bersama tanpa pembentukan ion,perpindahan elektron dan tarik-menarik ion,D,perpindahan elektron dan tarik-menarik ion,
+KIM-SMP-020,Kimia,SMP,Ikatan,sedang,90,Ikatan kovalen terbentuk melalui ...,pemakaian bersama pasangan elektron,perpindahan inti atom,perpindahan neutron,pembentukan proton baru,A,pemakaian bersama pasangan elektron,
+KIM-SMP-021,Kimia,SMP,Sifat bahan,mudah,60,Logam banyak digunakan sebagai kabel karena umumnya ...,selalu bersifat isolator,tidak mengandung elektron,menghantarkan listrik dengan baik,selalu berwujud gas,C,menghantarkan listrik dengan baik,
+KIM-SMP-022,Kimia,SMP,Oksidasi,sedang,90,Korosi besi berlangsung lebih cepat ketika besi sering terpapar ...,air dan oksigen,ruang hampa,gas helium,nitrogen murni kering,A,air dan oksigen,
+KIM-SMP-023,Kimia,SMP,Pembakaran,mudah,60,Gas dari udara yang lazim diperlukan untuk pembakaran sempurna adalah ...,argon,helium,nitrogen,oksigen,D,oksigen,
+KIM-SMP-024,Kimia,SMP,Identifikasi zat,sedang,90,Air kapur jernih menjadi keruh ketika dialiri cukup gas ...,nitrogen,karbon dioksida,hidrogen,oksigen,B,karbon dioksida,
+KIM-SMP-025,Kimia,SMP,Kimia sehari-hari,sedang,90,Larutan sabun biasanya terasa licin karena bersifat ...,netral mutlak,gas mulia,asam kuat,basa,D,basa,
+KIM-SMP-026,Kimia,SMP,Kekekalan massa,mudah,60,"Dalam wadah tertutup, 5 g zat A bereaksi sempurna dengan 12 g zat B tanpa hasil samping yang keluar. Massa total produk adalah ...",7 g,12 g,17 g,5 g,C,17 g,Massa produk = massa total pereaksi = 5+12 = 17 g.
+KIM-SMP-027,Kimia,SMP,Kekekalan massa,mudah,60,"Dalam wadah tertutup, 6 g zat A bereaksi sempurna dengan 14 g zat B tanpa hasil samping yang keluar. Massa total produk adalah ...",14 g,8 g,6 g,20 g,D,20 g,Massa produk = massa total pereaksi = 6+14 = 20 g.
+KIM-SMP-028,Kimia,SMP,Kekekalan massa,mudah,60,"Dalam wadah tertutup, 7 g zat A bereaksi sempurna dengan 16 g zat B tanpa hasil samping yang keluar. Massa total produk adalah ...",23 g,16 g,7 g,9 g,A,23 g,Massa produk = massa total pereaksi = 7+16 = 23 g.
+KIM-SMP-029,Kimia,SMP,Kekekalan massa,mudah,60,"Dalam wadah tertutup, 8 g zat A bereaksi sempurna dengan 18 g zat B tanpa hasil samping yang keluar. Massa total produk adalah ...",8 g,26 g,18 g,10 g,B,26 g,Massa produk = massa total pereaksi = 8+18 = 26 g.
+KIM-SMP-030,Kimia,SMP,Kekekalan massa,mudah,60,"Dalam wadah tertutup, 9 g zat A bereaksi sempurna dengan 20 g zat B tanpa hasil samping yang keluar. Massa total produk adalah ...",11 g,20 g,29 g,9 g,C,29 g,Massa produk = massa total pereaksi = 9+20 = 29 g.
+KIM-SMP-031,Kimia,SMP,Persen massa,sedang,90,Sampel padatan 100 g mengandung 10 g komponen X. Persentase massa komponen X adalah ...,5 persen,10 persen,30 persen,15 persen,B,10 persen,Persen massa = 10/100 x 100% = 10%.
+KIM-SMP-032,Kimia,SMP,Persen massa,sedang,90,Sampel padatan 100 g mengandung 20 g komponen X. Persentase massa komponen X adalah ...,15 persen,40 persen,25 persen,20 persen,D,20 persen,Persen massa = 20/100 x 100% = 20%.
+KIM-SMP-033,Kimia,SMP,Persen massa,sedang,90,Sampel padatan 100 g mengandung 25 g komponen X. Persentase massa komponen X adalah ...,25 persen,45 persen,20 persen,30 persen,A,25 persen,Persen massa = 25/100 x 100% = 25%.
+KIM-SMP-034,Kimia,SMP,Persen massa,sedang,90,Sampel padatan 100 g mengandung 40 g komponen X. Persentase massa komponen X adalah ...,60 persen,35 persen,40 persen,45 persen,C,40 persen,Persen massa = 40/100 x 100% = 40%.
+KIM-SMP-035,Kimia,SMP,Persen massa,sedang,90,Sampel padatan 100 g mengandung 50 g komponen X. Persentase massa komponen X adalah ...,45 persen,50 persen,55 persen,70 persen,B,50 persen,Persen massa = 50/100 x 100% = 50%.
+KIM-SMP-036,Kimia,SMP,Massa jenis zat,sedang,90,Suatu zat cair bermassa 20 g menempati volume 10 cm³. Massa jenisnya adalah ...,1 g/cm³,4 g/cm³,2 g/cm³,3 g/cm³,C,2 g/cm³,rho = m/V = 20/10 = 2 g/cm³.
+KIM-SMP-037,Kimia,SMP,Massa jenis zat,sedang,90,Suatu zat cair bermassa 45 g menempati volume 15 cm³. Massa jenisnya adalah ...,2 g/cm³,5 g/cm³,4 g/cm³,3 g/cm³,D,3 g/cm³,rho = m/V = 45/15 = 3 g/cm³.
+KIM-SMP-038,Kimia,SMP,Massa jenis zat,sedang,90,Suatu zat cair bermassa 80 g menempati volume 20 cm³. Massa jenisnya adalah ...,5 g/cm³,6 g/cm³,3 g/cm³,4 g/cm³,D,4 g/cm³,rho = m/V = 80/20 = 4 g/cm³.
+KIM-SMP-039,Kimia,SMP,Massa jenis zat,sedang,90,Suatu zat cair bermassa 125 g menempati volume 25 cm³. Massa jenisnya adalah ...,7 g/cm³,6 g/cm³,4 g/cm³,5 g/cm³,D,5 g/cm³,rho = m/V = 125/25 = 5 g/cm³.
+KIM-SMP-040,Kimia,SMP,Massa jenis zat,sedang,90,Suatu zat cair bermassa 180 g menempati volume 30 cm³. Massa jenisnya adalah ...,7 g/cm³,5 g/cm³,6 g/cm³,8 g/cm³,C,6 g/cm³,rho = m/V = 180/30 = 6 g/cm³.
+KIM-SMP-041,Kimia,SMP,Konsentrasi larutan,sedang,90,Larutan terdiri dari 5 g zat terlarut dan total massa larutan 100 g. Kadar zat terlarut (% massa) adalah ...,4 persen,6 persen,5 persen,9 persen,C,5 persen,Kadar = 5/100 x 100% = 5%.
+KIM-SMP-042,Kimia,SMP,Konsentrasi larutan,sedang,90,Larutan terdiri dari 20 g zat terlarut dan total massa larutan 200 g. Kadar zat terlarut (% massa) adalah ...,11 persen,14 persen,9 persen,10 persen,D,10 persen,Kadar = 20/200 x 100% = 10%.
+KIM-SMP-043,Kimia,SMP,Konsentrasi larutan,sedang,90,Larutan terdiri dari 45 g zat terlarut dan total massa larutan 300 g. Kadar zat terlarut (% massa) adalah ...,15 persen,14 persen,19 persen,16 persen,A,15 persen,Kadar = 45/300 x 100% = 15%.
+KIM-SMP-044,Kimia,SMP,Konsentrasi larutan,sedang,90,Larutan terdiri dari 80 g zat terlarut dan total massa larutan 400 g. Kadar zat terlarut (% massa) adalah ...,20 persen,24 persen,19 persen,21 persen,A,20 persen,Kadar = 80/400 x 100% = 20%.
+KIM-SMP-045,Kimia,SMP,Konsentrasi larutan,sedang,90,Larutan terdiri dari 125 g zat terlarut dan total massa larutan 500 g. Kadar zat terlarut (% massa) adalah ...,26 persen,25 persen,24 persen,29 persen,B,25 persen,Kadar = 125/500 x 100% = 25%.
+KIM-SMP-046,Kimia,SMP,pH larutan,sulit,120,"Pada 25 C, suatu larutan memiliki konsentrasi ion H+ sebesar 10^(-2) mol/L. Nilai pH larutan itu adalah ...",12,2,3,1,B,2,pH = -log[H+] = 2.
+KIM-SMP-047,Kimia,SMP,pH larutan,sulit,120,"Pada 25 C, suatu larutan memiliki konsentrasi ion H+ sebesar 10^(-3) mol/L. Nilai pH larutan itu adalah ...",4,2,3,11,C,3,pH = -log[H+] = 3.
+KIM-SMP-048,Kimia,SMP,pH larutan,sulit,120,"Pada 25 C, suatu larutan memiliki konsentrasi ion H+ sebesar 10^(-4) mol/L. Nilai pH larutan itu adalah ...",4,10,5,3,A,4,pH = -log[H+] = 4.
+KIM-SMP-049,Kimia,SMP,pH larutan,sulit,120,"Pada 25 C, suatu larutan memiliki konsentrasi ion H+ sebesar 10^(-5) mol/L. Nilai pH larutan itu adalah ...",5,4,6,9,A,5,pH = -log[H+] = 5.
+KIM-SMP-050,Kimia,SMP,pH larutan,sulit,120,"Pada 25 C, suatu larutan memiliki konsentrasi ion H+ sebesar 10^(-6) mol/L. Nilai pH larutan itu adalah ...",7,6,8,5,B,6,pH = -log[H+] = 6.
+KIM-SMA-001,Kimia,SMA,Struktur atom,sedang,90,Nomor atom suatu unsur sama dengan jumlah ...,proton dalam inti,elektron valensi saja,proton ditambah neutron,neutron dalam inti,A,proton dalam inti,
+KIM-SMA-002,Kimia,SMA,Konfigurasi elektron,sedang,90,Konfigurasi elektron atom natrium netral (Z=11) adalah ...,"2, 9","2, 8, 2","2, 8, 1","2, 7, 2",C,"2, 8, 1",
+KIM-SMA-003,Kimia,SMA,Sistem periodik,sedang,90,"Dalam satu periode dari kiri ke kanan, jari-jari atom umumnya ...",mengecil,tidak dapat dibandingkan,selalu tetap,membesar terus,A,mengecil,
+KIM-SMA-004,Kimia,SMA,Sistem periodik,sedang,90,Unsur golongan alkali umumnya memiliki jumlah elektron valensi ...,satu,tujuh,delapan,dua,A,satu,
+KIM-SMA-005,Kimia,SMA,Ikatan kimia,sedang,90,"Pada molekul H2, ikatan kovalen terjadi akibat ...",pemakaian satu pasangan elektron bersama,transfer dua neutron,pembentukan ion H2+,transfer dua proton,A,pemakaian satu pasangan elektron bersama,
+KIM-SMA-006,Kimia,SMA,Bentuk molekul,sulit,120,Bentuk geometri molekul CH4 ideal menurut VSEPR adalah ...,bengkok,segitiga datar,tetrahedral,linear,C,tetrahedral,
+KIM-SMA-007,Kimia,SMA,Konsep mol,sedang,90,Satu mol zat mengandung sekitar ...,"6,02 x 10^20 entitas","1,00 x 10^6 entitas","3,01 x 10^12 entitas","6,02 x 10^23 entitas",D,"6,02 x 10^23 entitas",
+KIM-SMA-008,Kimia,SMA,Stoikiometri,sulit,120,Pereaksi pembatas adalah pereaksi yang ...,memiliki massa terbesar,tidak ikut bereaksi,habis lebih dahulu dan membatasi jumlah produk,selalu berwujud gas,C,habis lebih dahulu dan membatasi jumlah produk,
+KIM-SMA-009,Kimia,SMA,Rendemen,sedang,90,Persen rendemen reaksi dinyatakan dengan ...,hasil nyata dibagi hasil teoritis dikali 100 persen,jumlah atom dibagi volume larutan,massa pereaksi dibagi massa katalis,hasil teoritis dibagi hasil nyata dikali 100 persen,A,hasil nyata dibagi hasil teoritis dikali 100 persen,
+KIM-SMA-010,Kimia,SMA,Termokimia,sedang,90,Reaksi eksoterm pada tekanan tetap memiliki perubahan entalpi ...,positif,tidak terdefinisi,selalu nol,negatif,D,negatif,
+KIM-SMA-011,Kimia,SMA,Termokimia,sedang,90,"Menurut hukum Hess, perubahan entalpi reaksi ditentukan oleh ...",massa katalis,kecepatan reaksi,"keadaan awal dan akhir, bukan lintasan reaksi",jumlah tahapan percobaan saja,C,"keadaan awal dan akhir, bukan lintasan reaksi",
+KIM-SMA-012,Kimia,SMA,Laju reaksi,sedang,90,Kenaikan suhu umumnya mempercepat reaksi karena ...,jumlah molekul selalu berkurang,energi aktivasi pasti menjadi nol,lebih banyak tumbukan memiliki energi cukup untuk bereaksi,semua tumbukan menjadi elastis sempurna,C,lebih banyak tumbukan memiliki energi cukup untuk bereaksi,
+KIM-SMA-013,Kimia,SMA,Laju reaksi,sedang,90,Katalis mempercepat reaksi terutama dengan ...,mengubah unsur menjadi unsur lain,menyediakan lintasan reaksi dengan energi aktivasi lebih rendah,memperbesar massa produk teoritis,mengubah tetapan kesetimbangan secara permanen,B,menyediakan lintasan reaksi dengan energi aktivasi lebih rendah,
+KIM-SMA-014,Kimia,SMA,Kesetimbangan,sedang,90,Kesetimbangan kimia dinamis terjadi ketika laju reaksi maju ...,nol sedangkan reaksi balik berlangsung,selalu dua kali reaksi balik,lebih besar tanpa batas,sama dengan laju reaksi balik,D,sama dengan laju reaksi balik,
+KIM-SMA-015,Kimia,SMA,Kesetimbangan,sulit,120,"Untuk reaksi gas N2 + 3H2 <=> 2NH3, kenaikan tekanan pada suhu tetap menggeser kesetimbangan ke ...",arah pembentukan NH3,tidak pernah bergeser,arah pembentukan N2 dan H2,arah penguraian NH3 karena jumlah mol lebih kecil,A,arah pembentukan NH3,
+KIM-SMA-016,Kimia,SMA,Asam basa,sedang,90,"Pada suhu 25 C, pH larutan netral ideal adalah ...",1,7,0,14,B,7,
+KIM-SMA-017,Kimia,SMA,Larutan penyangga,sulit,120,Campuran CH3COOH dan CH3COONa dapat bertindak sebagai ...,indikator universal,larutan penyangga basa kuat,larutan penyangga asam,larutan asam kuat murni,C,larutan penyangga asam,
+KIM-SMA-018,Kimia,SMA,Redoks,sedang,90,Oksidasi menurut perubahan bilangan oksidasi ditandai oleh ...,bilangan oksidasi selalu nol,tidak ada perpindahan elektron apa pun,kenaikan bilangan oksidasi,penurunan bilangan oksidasi,C,kenaikan bilangan oksidasi,
+KIM-SMA-019,Kimia,SMA,Elektrokimia,sedang,90,"Pada sel galvanik, oksidasi berlangsung di ...",anode,jembatan garam,katode,voltmeter,A,anode,
+KIM-SMA-020,Kimia,SMA,Elektrolisis,sedang,90,"Pada elektrolisis, reaksi reduksi berlangsung di ...",elektrolit tanpa elektroda,anode,rangkaian luar saja,katode,D,katode,
+KIM-SMA-021,Kimia,SMA,Hidrokarbon,sedang,90,Rumus umum alkana rantai terbuka jenuh adalah ...,CnH(2n+2),CnH(2n),CnH(2n-2),CnH(n),A,CnH(2n+2),
+KIM-SMA-022,Kimia,SMA,Isomer,sedang,90,Isomer struktur memiliki ...,"rumus molekul sama, susunan ikatan atom berbeda",nomor atom unsur berbeda,rumus molekul selalu berbeda,jumlah atom karbon selalu berbeda,A,"rumus molekul sama, susunan ikatan atom berbeda",
+KIM-SMA-023,Kimia,SMA,Polimer,sedang,90,Polietilena terbentuk dari polimerisasi monomer ...,asam etanoat,etanol,metana,etena,D,etena,
+KIM-SMA-024,Kimia,SMA,Sifat koligatif,sulit,120,Penambahan zat terlarut nonvolatil ke pelarut murni umumnya menyebabkan titik didih larutan ...,menjadi nol,naik,selalu tetap,turun,B,naik,
+KIM-SMA-025,Kimia,SMA,Gas,sedang,90,"Pada suhu tetap dan jumlah gas tetap, hukum Boyle menyatakan tekanan berbanding terbalik dengan ...",kalor jenis,massa jenis pelarut,jumlah proton,volume,D,volume,
+KIM-SMA-026,Kimia,SMA,Jumlah mol,sedang,90,Diberikan massa 18 g H2O dengan Mr=18. Jumlah mol H2O adalah ...,3 mol,2 mol,1 mol,4 mol,C,1 mol,n = m/Mr = 18/18 = 1 mol.
+KIM-SMA-027,Kimia,SMA,Jumlah mol,sedang,90,Diberikan massa 88 g CO2 dengan Mr=44. Jumlah mol CO2 adalah ...,2 mol,3 mol,4 mol,5 mol,A,2 mol,n = m/Mr = 88/44 = 2 mol.
+KIM-SMA-028,Kimia,SMA,Jumlah mol,sedang,90,Diberikan massa 48 g CH4 dengan Mr=16. Jumlah mol CH4 adalah ...,5 mol,3 mol,4 mol,6 mol,B,3 mol,n = m/Mr = 48/16 = 3 mol.
+KIM-SMA-029,Kimia,SMA,Jumlah mol,sedang,90,Diberikan massa 68 g NH3 dengan Mr=17. Jumlah mol NH3 adalah ...,4 mol,7 mol,6 mol,5 mol,A,4 mol,n = m/Mr = 68/17 = 4 mol.
+KIM-SMA-030,Kimia,SMA,Jumlah mol,sedang,90,Diberikan massa 200 g NaOH dengan Mr=40. Jumlah mol NaOH adalah ...,8 mol,5 mol,7 mol,6 mol,B,5 mol,n = m/Mr = 200/40 = 5 mol.
+KIM-SMA-031,Kimia,SMA,Molaritas,sulit,120,Sebanyak 0.2 mol zat terlarut dilarutkan hingga volume larutan menjadi 0.1 L. Molaritasnya adalah ...,3 M,2 M,4 M,1 M,B,2 M,M = n/V = 0.2/0.1 = 2 M.
+KIM-SMA-032,Kimia,SMA,Molaritas,sulit,120,Sebanyak 0.6 mol zat terlarut dilarutkan hingga volume larutan menjadi 0.2 L. Molaritasnya adalah ...,2 M,5 M,4 M,3 M,D,3 M,M = n/V = 0.6/0.2 = 3 M.
+KIM-SMA-033,Kimia,SMA,Molaritas,sulit,120,Sebanyak 1.2 mol zat terlarut dilarutkan hingga volume larutan menjadi 0.3 L. Molaritasnya adalah ...,3 M,4 M,5 M,6 M,B,4 M,M = n/V = 1.2/0.3 = 4 M.
+KIM-SMA-034,Kimia,SMA,Molaritas,sulit,120,Sebanyak 2 mol zat terlarut dilarutkan hingga volume larutan menjadi 0.4 L. Molaritasnya adalah ...,6 M,5 M,7 M,4 M,B,5 M,M = n/V = 2/0.4 = 5 M.
+KIM-SMA-035,Kimia,SMA,Molaritas,sulit,120,Sebanyak 3 mol zat terlarut dilarutkan hingga volume larutan menjadi 0.5 L. Molaritasnya adalah ...,5 M,8 M,7 M,6 M,D,6 M,M = n/V = 3/0.5 = 6 M.
+KIM-SMA-036,Kimia,SMA,Pengenceran,sulit,120,Sebanyak 50 mL larutan berkonsentrasi 4 M diencerkan sampai volume akhir 100 mL. Konsentrasi akhirnya adalah ...,2 M,4 M,3 M,1 M,A,2 M,"M1V1=M2V2, M2=4 x 50/100=2 M."
+KIM-SMA-037,Kimia,SMA,Pengenceran,sulit,120,Sebanyak 50 mL larutan berkonsentrasi 6 M diencerkan sampai volume akhir 100 mL. Konsentrasi akhirnya adalah ...,2 M,4 M,3 M,6 M,C,3 M,"M1V1=M2V2, M2=6 x 50/100=3 M."
+KIM-SMA-038,Kimia,SMA,Pengenceran,sulit,120,Sebanyak 50 mL larutan berkonsentrasi 8 M diencerkan sampai volume akhir 100 mL. Konsentrasi akhirnya adalah ...,5 M,4 M,3 M,8 M,B,4 M,"M1V1=M2V2, M2=8 x 50/100=4 M."
+KIM-SMA-039,Kimia,SMA,Pengenceran,sulit,120,Sebanyak 50 mL larutan berkonsentrasi 10 M diencerkan sampai volume akhir 100 mL. Konsentrasi akhirnya adalah ...,6 M,4 M,10 M,5 M,D,5 M,"M1V1=M2V2, M2=10 x 50/100=5 M."
+KIM-SMA-040,Kimia,SMA,Pengenceran,sulit,120,Sebanyak 50 mL larutan berkonsentrasi 12 M diencerkan sampai volume akhir 100 mL. Konsentrasi akhirnya adalah ...,6 M,12 M,7 M,5 M,A,6 M,"M1V1=M2V2, M2=12 x 50/100=6 M."
+KIM-SMA-041,Kimia,SMA,Volume gas STP,sulit,120,"Gas ideal sebanyak 0.5 mol berada pada STP (0 C, 1 atm). Jika volume molar ideal 22,4 L/mol, volumenya adalah ...",11.2 L,28 L,22.4 L,33.6 L,A,11.2 L,"V = n x 22,4 = 0.5 x 22,4 = 11.2 L."
+KIM-SMA-042,Kimia,SMA,Volume gas STP,sulit,120,"Gas ideal sebanyak 1 mol berada pada STP (0 C, 1 atm). Jika volume molar ideal 22,4 L/mol, volumenya adalah ...",33.6 L,22.4 L,56 L,44.8 L,B,22.4 L,"V = n x 22,4 = 1 x 22,4 = 22.4 L."
+KIM-SMA-043,Kimia,SMA,Volume gas STP,sulit,120,"Gas ideal sebanyak 1.5 mol berada pada STP (0 C, 1 atm). Jika volume molar ideal 22,4 L/mol, volumenya adalah ...",84 L,56 L,33.6 L,44.8 L,C,33.6 L,"V = n x 22,4 = 1.5 x 22,4 = 33.6 L."
+KIM-SMA-044,Kimia,SMA,Volume gas STP,sulit,120,"Gas ideal sebanyak 2 mol berada pada STP (0 C, 1 atm). Jika volume molar ideal 22,4 L/mol, volumenya adalah ...",56 L,44.8 L,67.2 L,112 L,B,44.8 L,"V = n x 22,4 = 2 x 22,4 = 44.8 L."
+KIM-SMA-045,Kimia,SMA,Volume gas STP,sulit,120,"Gas ideal sebanyak 2.5 mol berada pada STP (0 C, 1 atm). Jika volume molar ideal 22,4 L/mol, volumenya adalah ...",67.2 L,78.4 L,56 L,140 L,C,56 L,"V = n x 22,4 = 2.5 x 22,4 = 56 L."
+KIM-SMA-046,Kimia,SMA,Stoikiometri reaksi,sulit,120,"Dalam reaksi 2H2 + O2 -> 2H2O, tersedia 1 mol O2 dan H2 berlebih. Jumlah H2O maksimum yang terbentuk adalah ...",3 mol,2 mol,4 mol,1 mol,B,2 mol,"Perbandingan O2 : H2O = 1 : 2, maka dihasilkan 2 mol H2O."
+KIM-SMA-047,Kimia,SMA,Stoikiometri reaksi,sulit,120,"Dalam reaksi 2H2 + O2 -> 2H2O, tersedia 2 mol O2 dan H2 berlebih. Jumlah H2O maksimum yang terbentuk adalah ...",8 mol,2 mol,4 mol,6 mol,C,4 mol,"Perbandingan O2 : H2O = 1 : 2, maka dihasilkan 4 mol H2O."
+KIM-SMA-048,Kimia,SMA,Stoikiometri reaksi,sulit,120,"Dalam reaksi 2H2 + O2 -> 2H2O, tersedia 3 mol O2 dan H2 berlebih. Jumlah H2O maksimum yang terbentuk adalah ...",12 mol,9 mol,3 mol,6 mol,D,6 mol,"Perbandingan O2 : H2O = 1 : 2, maka dihasilkan 6 mol H2O."
+KIM-SMA-049,Kimia,SMA,Stoikiometri reaksi,sulit,120,"Dalam reaksi 2H2 + O2 -> 2H2O, tersedia 4 mol O2 dan H2 berlebih. Jumlah H2O maksimum yang terbentuk adalah ...",16 mol,12 mol,4 mol,8 mol,D,8 mol,"Perbandingan O2 : H2O = 1 : 2, maka dihasilkan 8 mol H2O."
+KIM-SMA-050,Kimia,SMA,Stoikiometri reaksi,sulit,120,"Dalam reaksi 2H2 + O2 -> 2H2O, tersedia 5 mol O2 dan H2 berlebih. Jumlah H2O maksimum yang terbentuk adalah ...",5 mol,15 mol,10 mol,20 mol,C,10 mol,"Perbandingan O2 : H2O = 1 : 2, maka dihasilkan 10 mol H2O."
+MAT-SMP-001,Matematika,SMP,Bilangan,mudah,60,Hasil dari 3/4 + 1/8 adalah ...,4/12,7/8,1/2,5/8,B,7/8,
+MAT-SMP-002,Matematika,SMP,Bilangan,mudah,60,Hasil dari 5 - 2 x 3 adalah ...,3,-1,-3,9,B,-1,
+MAT-SMP-003,Matematika,SMP,Bilangan,mudah,60,Bilangan prima di antara 20 dan 25 adalah ...,24,23,21,22,B,23,
+MAT-SMP-004,Matematika,SMP,Bilangan,mudah,60,FPB dari 18 dan 24 adalah ...,6,3,72,12,A,6,
+MAT-SMP-005,Matematika,SMP,Bilangan,sedang,90,KPK dari 8 dan 12 adalah ...,48,24,4,96,B,24,
+MAT-SMP-006,Matematika,SMP,Pecahan,sedang,90,Bentuk paling sederhana dari 18/24 adalah ...,2/3,9/12,3/4,6/8,C,3/4,
+MAT-SMP-007,Matematika,SMP,Aljabar,mudah,60,Nilai x yang memenuhi x + 9 = 16 adalah ...,9,6,7,25,C,7,
+MAT-SMP-008,Matematika,SMP,Aljabar,sedang,90,Bentuk sederhana dari 2(3x - 4) + x adalah ...,7x - 8,5x - 8,7x + 8,6x - 4,A,7x - 8,
+MAT-SMP-009,Matematika,SMP,Persentase,mudah,60,25 persen dari 200 adalah ...,100,50,75,25,B,50,
+MAT-SMP-010,Matematika,SMP,Perbandingan,sedang,90,"Jika perbandingan A : B = 2 : 3 dan A = 10, nilai B adalah ...",12,30,6,15,D,15,
+MAT-SMP-011,Matematika,SMP,Statistika,mudah,60,"Rata-rata dari 4, 6, dan 8 adalah ...",18,7,6,5,C,6,
+MAT-SMP-012,Matematika,SMP,Statistika,mudah,60,"Median dari data 2, 9, 5, 7, 3 adalah ...",5,9,3,7,A,5,
+MAT-SMP-013,Matematika,SMP,Statistika,mudah,60,"Modus dari 4, 2, 4, 5, 2, 4 adalah ...",2,4,5,3,B,4,
+MAT-SMP-014,Matematika,SMP,Geometri,mudah,60,Luas persegi dengan sisi 7 cm adalah ...,14 cm²,28 cm²,21 cm²,49 cm²,D,49 cm²,
+MAT-SMP-015,Matematika,SMP,Geometri,mudah,60,Keliling persegi panjang dengan panjang 8 cm dan lebar 3 cm adalah ...,22 cm,11 cm,24 cm,48 cm,A,22 cm,
+MAT-SMP-016,Matematika,SMP,Geometri,sedang,90,Luas segitiga dengan alas 10 cm dan tinggi 6 cm adalah ...,30 cm²,60 cm²,20 cm²,16 cm²,A,30 cm²,
+MAT-SMP-017,Matematika,SMP,Geometri,sedang,90,"Dengan pi = 22/7, keliling lingkaran berjari-jari 7 cm adalah ...",154 cm,44 cm,49 cm,22 cm,B,44 cm,
+MAT-SMP-018,Matematika,SMP,Pythagoras,sedang,90,Segitiga siku-siku memiliki kaki 6 cm dan 8 cm. Panjang hipotenusanya ...,7 cm,14 cm,12 cm,10 cm,D,10 cm,
+MAT-SMP-019,Matematika,SMP,Bangun ruang,sedang,90,Volume balok 3 cm x 4 cm x 5 cm adalah ...,20 cm³,47 cm³,60 cm³,12 cm³,C,60 cm³,
+MAT-SMP-020,Matematika,SMP,Bangun ruang,sedang,90,Volume kubus dengan rusuk 4 cm adalah ...,16 cm³,64 cm³,12 cm³,48 cm³,B,64 cm³,
+MAT-SMP-021,Matematika,SMP,Sudut,mudah,60,"Dua sudut saling berpenyiku. Jika satu sudut 35 derajat, sudut lainnya ...",65 derajat,35 derajat,145 derajat,55 derajat,D,55 derajat,
+MAT-SMP-022,Matematika,SMP,Sudut,sedang,90,Jumlah besar sudut dalam segitiga adalah ...,270 derajat,90 derajat,360 derajat,180 derajat,D,180 derajat,
+MAT-SMP-023,Matematika,SMP,Pangkat akar,mudah,60,Akar kuadrat utama dari 144 adalah ...,12,-12,24,72,A,12,
+MAT-SMP-024,Matematika,SMP,Koordinat,sedang,90,"Gradien garis yang melalui (0,1) dan (2,5) adalah ...",4,1,2,3,C,2,
+MAT-SMP-025,Matematika,SMP,Peluang,mudah,60,Peluang mendapat sisi angka pada satu koin adil adalah ...,1/2,1,1/3,1/4,A,1/2,
+MAT-SMP-026,Matematika,SMP,Diskon,sedang,90,Toko memberikan diskon 10 persen untuk barang berharga Rp80.000. Harga barang setelah diskon adalah ...,80000 rupiah,88000 rupiah,72000 rupiah,8000 rupiah,C,72000 rupiah,Harga akhir = 80000 x (100-10)/100 = 72000 rupiah.
+MAT-SMP-027,Matematika,SMP,Diskon,sedang,90,Toko memberikan diskon 20 persen untuk barang berharga Rp120.000. Harga barang setelah diskon adalah ...,120000 rupiah,144000 rupiah,96000 rupiah,24000 rupiah,C,96000 rupiah,Harga akhir = 120000 x (100-20)/100 = 96000 rupiah.
+MAT-SMP-028,Matematika,SMP,Diskon,sedang,90,Toko memberikan diskon 25 persen untuk barang berharga Rp160.000. Harga barang setelah diskon adalah ...,200000 rupiah,120000 rupiah,40000 rupiah,160000 rupiah,B,120000 rupiah,Harga akhir = 160000 x (100-25)/100 = 120000 rupiah.
+MAT-SMP-029,Matematika,SMP,Diskon,sedang,90,Toko memberikan diskon 30 persen untuk barang berharga Rp200.000. Harga barang setelah diskon adalah ...,60000 rupiah,200000 rupiah,140000 rupiah,260000 rupiah,C,140000 rupiah,Harga akhir = 200000 x (100-30)/100 = 140000 rupiah.
+MAT-SMP-030,Matematika,SMP,Diskon,sedang,90,Toko memberikan diskon 40 persen untuk barang berharga Rp250.000. Harga barang setelah diskon adalah ...,150000 rupiah,250000 rupiah,100000 rupiah,350000 rupiah,A,150000 rupiah,Harga akhir = 250000 x (100-40)/100 = 150000 rupiah.
+MAT-SMP-031,Matematika,SMP,Persamaan linear,sedang,90,Nilai x yang memenuhi 2x + 3 = 11 adalah ...,7,5,4,3,C,4,"2x = 11-3, jadi x=4."
+MAT-SMP-032,Matematika,SMP,Persamaan linear,sedang,90,Nilai x yang memenuhi 3x + 4 = 19 adalah ...,6,8,5,4,C,5,"3x = 19-4, jadi x=5."
+MAT-SMP-033,Matematika,SMP,Persamaan linear,sedang,90,Nilai x yang memenuhi 4x + 5 = 29 adalah ...,5,7,9,6,D,6,"4x = 29-5, jadi x=6."
+MAT-SMP-034,Matematika,SMP,Persamaan linear,sedang,90,Nilai x yang memenuhi 5x + 6 = 41 adalah ...,10,6,8,7,D,7,"5x = 41-6, jadi x=7."
+MAT-SMP-035,Matematika,SMP,Persamaan linear,sedang,90,Nilai x yang memenuhi 6x + 7 = 55 adalah ...,7,11,8,9,C,8,"6x = 55-7, jadi x=8."
+MAT-SMP-036,Matematika,SMP,Pythagoras,sedang,90,Segitiga siku-siku memiliki kaki 3 cm dan 4 cm. Panjang hipotenusanya adalah ...,6 cm,4 cm,5 cm,7 cm,C,5 cm,c = akar(32 + 42) = 5 cm.
+MAT-SMP-037,Matematika,SMP,Pythagoras,sedang,90,Segitiga siku-siku memiliki kaki 5 cm dan 12 cm. Panjang hipotenusanya adalah ...,13 cm,14 cm,17 cm,12 cm,A,13 cm,c = akar(52 + 122) = 13 cm.
+MAT-SMP-038,Matematika,SMP,Pythagoras,sedang,90,Segitiga siku-siku memiliki kaki 8 cm dan 15 cm. Panjang hipotenusanya adalah ...,23 cm,18 cm,16 cm,17 cm,D,17 cm,c = akar(82 + 152) = 17 cm.
+MAT-SMP-039,Matematika,SMP,Pythagoras,sedang,90,Segitiga siku-siku memiliki kaki 7 cm dan 24 cm. Panjang hipotenusanya adalah ...,26 cm,25 cm,24 cm,31 cm,B,25 cm,c = akar(72 + 242) = 25 cm.
+MAT-SMP-040,Matematika,SMP,Pythagoras,sedang,90,Segitiga siku-siku memiliki kaki 20 cm dan 21 cm. Panjang hipotenusanya adalah ...,28 cm,29 cm,30 cm,41 cm,B,29 cm,c = akar(202 + 212) = 29 cm.
+MAT-SMP-041,Matematika,SMP,Rasio,sedang,90,"Perbandingan jumlah buku P dan Q adalah 2 : 4. Jika buku P ada 6, maka banyak buku Q adalah ...",15 buku,4 buku,12 buku,6 buku,C,12 buku,Q = 6 x 4/2 = 12 buku.
+MAT-SMP-042,Matematika,SMP,Rasio,sedang,90,"Perbandingan jumlah buku P dan Q adalah 3 : 5. Jika buku P ada 12, maka banyak buku Q adalah ...",24 buku,12 buku,20 buku,5 buku,C,20 buku,Q = 12 x 5/3 = 20 buku.
+MAT-SMP-043,Matematika,SMP,Rasio,sedang,90,"Perbandingan jumlah buku P dan Q adalah 4 : 6. Jika buku P ada 20, maka banyak buku Q adalah ...",35 buku,6 buku,20 buku,30 buku,D,30 buku,Q = 20 x 6/4 = 30 buku.
+MAT-SMP-044,Matematika,SMP,Rasio,sedang,90,"Perbandingan jumlah buku P dan Q adalah 5 : 7. Jika buku P ada 30, maka banyak buku Q adalah ...",30 buku,7 buku,48 buku,42 buku,D,42 buku,Q = 30 x 7/5 = 42 buku.
+MAT-SMP-045,Matematika,SMP,Rasio,sedang,90,"Perbandingan jumlah buku P dan Q adalah 6 : 8. Jika buku P ada 42, maka banyak buku Q adalah ...",63 buku,56 buku,8 buku,42 buku,B,56 buku,Q = 42 x 8/6 = 56 buku.
+MAT-SMP-046,Matematika,SMP,Luas trapesium,sulit,120,Trapesium memiliki sisi sejajar 4 cm dan 8 cm serta tinggi 4 cm. Luasnya adalah ...,48 cm²,24 cm²,32 cm²,28 cm²,B,24 cm²,L = (a+b) x t / 2 = (4+8) x 4 / 2 = 24 cm².
+MAT-SMP-047,Matematika,SMP,Luas trapesium,sulit,120,Trapesium memiliki sisi sejajar 5 cm dan 9 cm serta tinggi 6 cm. Luasnya adalah ...,42 cm²,45 cm²,48 cm²,84 cm²,A,42 cm²,L = (a+b) x t / 2 = (5+9) x 6 / 2 = 42 cm².
+MAT-SMP-048,Matematika,SMP,Luas trapesium,sulit,120,Trapesium memiliki sisi sejajar 6 cm dan 10 cm serta tinggi 8 cm. Luasnya adalah ...,72 cm²,128 cm²,60 cm²,64 cm²,D,64 cm²,L = (a+b) x t / 2 = (6+10) x 8 / 2 = 64 cm².
+MAT-SMP-049,Matematika,SMP,Luas trapesium,sulit,120,Trapesium memiliki sisi sejajar 7 cm dan 11 cm serta tinggi 10 cm. Luasnya adalah ...,90 cm²,100 cm²,77 cm²,180 cm²,A,90 cm²,L = (a+b) x t / 2 = (7+11) x 10 / 2 = 90 cm².
+MAT-SMP-050,Matematika,SMP,Luas trapesium,sulit,120,Trapesium memiliki sisi sejajar 8 cm dan 12 cm serta tinggi 12 cm. Luasnya adalah ...,132 cm²,240 cm²,96 cm²,120 cm²,D,120 cm²,L = (a+b) x t / 2 = (8+12) x 12 / 2 = 120 cm².
+MAT-SMA-001,Matematika,SMA,Persamaan kuadrat,sedang,90,Akar-akar persamaan x² - 5x + 6 = 0 adalah ...,-1 dan -6,-2 dan -3,1 dan 6,2 dan 3,D,2 dan 3,
+MAT-SMA-002,Matematika,SMA,Persamaan kuadrat,sedang,90,Diskriminan persamaan ax² + bx + c = 0 adalah ...,2b - ac,b² - 4ac,a² - 4bc,b² + 4ac,B,b² - 4ac,
+MAT-SMA-003,Matematika,SMA,Fungsi,sedang,90,"Jika f(x)=2x+1 dan g(x)=x², nilai (f o g)(3) adalah ...",36,49,13,19,D,19,
+MAT-SMA-004,Matematika,SMA,Fungsi invers,sedang,90,Invers dari fungsi f(x)=3x-6 adalah ...,(x-6)/3,(x+6)/3,3x+6,1/(3x-6),B,(x+6)/3,
+MAT-SMA-005,Matematika,SMA,Logaritma,sedang,90,Nilai log basis 2 dari 32 adalah ...,6,4,16,5,D,5,
+MAT-SMA-006,Matematika,SMA,Eksponen,sedang,90,Solusi 3^(x+1) = 81 adalah ...,5,4,2,3,D,3,
+MAT-SMA-007,Matematika,SMA,Trigonometri,sedang,90,Identitas sin²(x) + cos²(x) bernilai ...,1,2,0,tan(x),A,1,
+MAT-SMA-008,Matematika,SMA,Trigonometri,sedang,90,Nilai sin 30 derajat adalah ...,1,sqrt(3)/2,1/2,0,C,1/2,
+MAT-SMA-009,Matematika,SMA,Trigonometri,sedang,90,Nilai cos 60 derajat adalah ...,1/2,sqrt(3)/2,1,0,A,1/2,
+MAT-SMA-010,Matematika,SMA,Barisan,sedang,90,"Beda barisan aritmetika 4, 9, 14, 19, ... adalah ...",14,5,9,4,B,5,
+MAT-SMA-011,Matematika,SMA,Barisan,sedang,90,"Rasio barisan geometri 3, 6, 12, 24, ... adalah ...",2,3,6,4,A,2,
+MAT-SMA-012,Matematika,SMA,Limit,sulit,120,Nilai limit (x²-4)/(x-2) saat x mendekati 2 adalah ...,tak hingga,0,4,2,C,4,
+MAT-SMA-013,Matematika,SMA,Turunan,sedang,90,Turunan pertama f(x)=5x³ adalah ...,x⁴,15x²,15x³,5x²,B,15x²,
+MAT-SMA-014,Matematika,SMA,Turunan,sulit,120,Gradien garis singgung kurva y=x² pada x=3 adalah ...,6,12,3,9,A,6,
+MAT-SMA-015,Matematika,SMA,Integral,sedang,90,Integral tak tentu dari 4x³ terhadap x adalah ...,12x² + C,x⁴ + C,4x⁴ + C,x³ + C,B,x⁴ + C,
+MAT-SMA-016,Matematika,SMA,Kombinatorika,sedang,90,Banyak cara menyusun 3 buku berbeda pada satu rak adalah ...,6,9,27,3,A,6,
+MAT-SMA-017,Matematika,SMA,Kombinatorika,sulit,120,Banyak cara memilih 2 siswa dari 5 siswa tanpa memperhatikan urutan adalah ...,5,10,20,25,B,10,
+MAT-SMA-018,Matematika,SMA,Peluang,sulit,120,"Dari dua dadu adil, peluang jumlah mata dadu sama dengan 7 adalah ...",1/12,1/3,1/9,1/6,D,1/6,
+MAT-SMA-019,Matematika,SMA,Peluang bersyarat,sulit,120,"Dalam kantong terdapat 3 merah dan 2 biru. Jika satu merah diambil tanpa dikembalikan, peluang bola kedua merah adalah ...",3/5,2/5,3/4,1/2,D,1/2,
+MAT-SMA-020,Matematika,SMA,Matriks,sedang,90,"Determinan matriks [[2,1],[3,4]] adalah ...",5,-5,8,11,A,5,
+MAT-SMA-021,Matematika,SMA,Matriks,sulit,120,Matriks persegi berordo 2 memiliki invers jika dan hanya jika ...,jumlah elemen diagonal nol,semua elemennya sama,determinan tidak sama dengan nol,semua elemennya positif,C,determinan tidak sama dengan nol,
+MAT-SMA-022,Matematika,SMA,Vektor,sedang,90,"Hasil dot product vektor (1,2) dan (3,4) adalah ...",11,7,14,10,A,11,
+MAT-SMA-023,Matematika,SMA,Optimasi,sulit,120,Nilai maksimum f(x)= -x² + 4x + 1 untuk semua x real adalah ...,5,4,1,9,A,5,
+MAT-SMA-024,Matematika,SMA,Bilangan kompleks,sedang,90,Nilai i² pada bilangan kompleks adalah ...,-1,0,i,1,A,-1,
+MAT-SMA-025,Matematika,SMA,Statistika,sulit,120,"Varians populasi dari data 1, 3, 5 adalah ...",8,8/3,2,4,B,8/3,
+MAT-SMA-026,Matematika,SMA,Barisan aritmetika,sulit,120,Barisan aritmetika memiliki suku pertama 3 dan beda 2. Nilai suku ke-6 adalah ...,15,13,5,11,B,13,Un = a1 + (n-1)d = 3 + (6-1)x² = 13.
+MAT-SMA-027,Matematika,SMA,Barisan aritmetika,sulit,120,Barisan aritmetika memiliki suku pertama 4 dan beda 3. Nilai suku ke-7 adalah ...,22,25,19,7,A,22,Un = a1 + (n-1)d = 4 + (7-1)x³ = 22.
+MAT-SMA-028,Matematika,SMA,Barisan aritmetika,sulit,120,Barisan aritmetika memiliki suku pertama 5 dan beda 4. Nilai suku ke-8 adalah ...,29,37,9,33,D,33,Un = a1 + (n-1)d = 5 + (8-1)x⁴ = 33.
+MAT-SMA-029,Matematika,SMA,Barisan aritmetika,sulit,120,Barisan aritmetika memiliki suku pertama 6 dan beda 5. Nilai suku ke-9 adalah ...,51,41,11,46,D,46,Un = a1 + (n-1)d = 6 + (9-1)x5 = 46.
+MAT-SMA-030,Matematika,SMA,Barisan aritmetika,sulit,120,Barisan aritmetika memiliki suku pertama 7 dan beda 6. Nilai suku ke-10 adalah ...,13,55,67,61,D,61,Un = a1 + (n-1)d = 7 + (10-1)x6 = 61.
+MAT-SMA-031,Matematika,SMA,Barisan geometri,sulit,120,Barisan geometri memiliki suku pertama 2 dan rasio 2. Nilai suku ke-3 adalah ...,8,16,4,6,A,8,Un = a1 r^(n-1) = 2 x 2^(3-1) = 8.
+MAT-SMA-032,Matematika,SMA,Barisan geometri,sulit,120,Barisan geometri memiliki suku pertama 3 dan rasio 3. Nilai suku ke-4 adalah ...,12,81,27,243,B,81,Un = a1 r^(n-1) = 3 x 3^(4-1) = 81.
+MAT-SMA-033,Matematika,SMA,Barisan geometri,sulit,120,Barisan geometri memiliki suku pertama 4 dan rasio 2. Nilai suku ke-3 adalah ...,8,32,16,12,C,16,Un = a1 r^(n-1) = 4 x 2^(3-1) = 16.
+MAT-SMA-034,Matematika,SMA,Barisan geometri,sulit,120,Barisan geometri memiliki suku pertama 5 dan rasio 3. Nilai suku ke-4 adalah ...,135,405,20,45,A,135,Un = a1 r^(n-1) = 5 x 3^(4-1) = 135.
+MAT-SMA-035,Matematika,SMA,Barisan geometri,sulit,120,Barisan geometri memiliki suku pertama 6 dan rasio 2. Nilai suku ke-3 adalah ...,18,24,48,12,B,24,Un = a1 r^(n-1) = 6 x 2^(3-1) = 24.
+MAT-SMA-036,Matematika,SMA,Turunan fungsi,sulit,120,"Jika f(x) = 2x² + 3x + 1, nilai f'(x) saat x=3 adalah ...",18,9,15,13,C,15,"f'(x) = 4x+3, sehingga f'(3)=15."
+MAT-SMA-037,Matematika,SMA,Turunan fungsi,sulit,120,"Jika f(x) = 3x² + 4x + 2, nilai f'(x) saat x=4 adalah ...",16,26,28,31,C,28,"f'(x) = 6x+4, sehingga f'(4)=28."
+MAT-SMA-038,Matematika,SMA,Turunan fungsi,sulit,120,"Jika f(x) = 4x² + 5x + 3, nilai f'(x) saat x=5 adalah ...",48,25,45,43,C,45,"f'(x) = 8x+5, sehingga f'(5)=45."
+MAT-SMA-039,Matematika,SMA,Turunan fungsi,sulit,120,"Jika f(x) = 5x² + 6x + 4, nilai f'(x) saat x=6 adalah ...",36,69,64,66,D,66,"f'(x) = 10x+6, sehingga f'(6)=66."
+MAT-SMA-040,Matematika,SMA,Turunan fungsi,sulit,120,"Jika f(x) = 6x² + 7x + 5, nilai f'(x) saat x=7 adalah ...",49,91,89,94,B,91,"f'(x) = 12x+7, sehingga f'(7)=91."
+MAT-SMA-041,Matematika,SMA,Akar persamaan kuadrat,sulit,120,Jumlah dua akar persamaan x² - 4x + 3 = 0 adalah ...,3,2,4,5,C,4,Jumlah akar = -b/a = 4.
+MAT-SMA-042,Matematika,SMA,Akar persamaan kuadrat,sulit,120,Jumlah dua akar persamaan x² - 6x + 8 = 0 adalah ...,6,7,2,8,A,6,Jumlah akar = -b/a = 6.
+MAT-SMA-043,Matematika,SMA,Akar persamaan kuadrat,sulit,120,Jumlah dua akar persamaan x² - 8x + 15 = 0 adalah ...,9,2,8,15,C,8,Jumlah akar = -b/a = 8.
+MAT-SMA-044,Matematika,SMA,Akar persamaan kuadrat,sulit,120,Jumlah dua akar persamaan x² - 10x + 24 = 0 adalah ...,2,24,11,10,D,10,Jumlah akar = -b/a = 10.
+MAT-SMA-045,Matematika,SMA,Akar persamaan kuadrat,sulit,120,Jumlah dua akar persamaan x² - 12x + 35 = 0 adalah ...,35,13,12,2,C,12,Jumlah akar = -b/a = 12.
+MAT-SMA-046,Matematika,SMA,Integral tentu,sulit,120,Nilai integral tentu dari 0 sampai 4 untuk f(x)=2x dx adalah ...,8,18,16,32,C,16,Integral ax dx = ax²/2. Nilai 0..4 = 2 x 42 /2 = 16.
+MAT-SMA-047,Matematika,SMA,Integral tentu,sulit,120,Nilai integral tentu dari 0 sampai 6 untuk f(x)=3x dx adalah ...,54,57,18,108,A,54,Integral ax dx = ax²/2. Nilai 0..6 = 3 x 62 /2 = 54.
+MAT-SMA-048,Matematika,SMA,Integral tentu,sulit,120,Nilai integral tentu dari 0 sampai 8 untuk f(x)=4x dx adalah ...,32,128,256,132,B,128,Integral ax dx = ax²/2. Nilai 0..8 = 4 x 82 /2 = 128.
+MAT-SMA-049,Matematika,SMA,Integral tentu,sulit,120,Nilai integral tentu dari 0 sampai 10 untuk f(x)=5x dx adalah ...,255,50,500,250,D,250,Integral ax dx = ax²/2. Nilai 0..10 = 5 x 102 /2 = 250.
+MAT-SMA-050,Matematika,SMA,Integral tentu,sulit,120,Nilai integral tentu dari 0 sampai 12 untuk f(x)=6x dx adalah ...,864,72,438,432,D,432,Integral ax dx = ax²/2. Nilai 0..12 = 6 x 122 /2 = 432.

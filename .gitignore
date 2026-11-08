@@ -1,0 +1,28 @@
+# Gradle / Android Studio
+.gradle/
+build/
+/local.properties
+/.idea/
+*.iml
+.kotlin/
+captures/
+.externalNativeBuild/
+.cxx/
+
+# Signing & rahasia - JANGAN di-commit
+keystore.properties
+*.jks
+*.keystore
+google-services.json
+
+# Firebase CLI
+.firebase/
+firebase-debug.log
+
+# Python
+__pycache__/
+*.pyc
+
+# Gradle home & temp lokal (dipakai bila drive sistem penuh)
+.gradle-user-home/
+.tmp/
