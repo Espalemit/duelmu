@@ -92,6 +92,7 @@ fun MatchPlayScreen(onExit: () -> Unit, onFinished: () -> Unit) {
         resultIndex = lastResult?.index,
         correct = state?.me?.sessionId?.let { lastResult?.of(it)?.takeIf { result -> !result.absent }?.correct },
         feedback = feedback,
+        isMiniGame = lastResult?.round?.question?.isGame == true,
     )
 
     LaunchedEffect(room) { if (room == null) onExit() }

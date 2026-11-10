@@ -2,8 +2,12 @@ package id.eduduel.app.presentation.game
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
-import androidx.compose.foundation.gestures.detectTapGestures
-import androidx.compose.foundation.gestures.detectTransformGestures
+import androidx.compose.foundation.gestures.awaitEachGesture
+import androidx.compose.foundation.gestures.awaitFirstDown
+import androidx.compose.foundation.gestures.calculateCentroid
+import androidx.compose.foundation.gestures.calculateCentroidSize
+import androidx.compose.foundation.gestures.calculatePan
+import androidx.compose.foundation.gestures.calculateZoom
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -11,6 +15,7 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
@@ -22,6 +27,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Switch
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -46,8 +52,12 @@ import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.withTransform
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.input.pointer.PointerInputScope
+import androidx.compose.ui.input.pointer.positionChanged
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.LiveRegionMode
+import androidx.compose.ui.semantics.liveRegion
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.text.TextStyle
@@ -140,6 +150,44 @@ private class MicroPlay(spec: MicroscopeSpec) {
     var assist by mutableStateOf(false)
 }
 
+/** One recognizer owns a gesture: a stationary release answers; a pan/pinch only moves the view. */
+private suspend fun PointerInputScope.detectMicroscopeGestures(
+    onTap: (Offset) -> Unit,
+    onTransform: (centroid: Offset, pan: Offset, zoom: Float) -> Unit,
+) = awaitEachGesture {
+    val down = awaitFirstDown(requireUnconsumed = false)
+    var pan = Offset.Zero
+    var zoom = 1f
+    var transformed = false
+    var multiplePointers = false
+    do {
+        val event = awaitPointerEvent()
+        if (event.changes.any { it.isConsumed }) break
+        multiplePointers = multiplePointers || event.changes.count { it.pressed } > 1
+        val panChange = event.calculatePan()
+        val zoomChange = event.calculateZoom()
+        if (!transformed) {
+            pan += panChange
+            zoom *= zoomChange
+            val zoomMotion = abs(1 - zoom) * event.calculateCentroidSize(useCurrent = false)
+            transformed = pan.getDistance() > viewConfiguration.touchSlop || zoomMotion > viewConfiguration.touchSlop
+        }
+        if (transformed) {
+            onTransform(event.calculateCentroid(useCurrent = false), panChange, zoomChange)
+            event.changes.forEach { if (it.positionChanged()) it.consume() }
+        }
+        if (event.changes.none { it.pressed }) {
+            if (!transformed && !multiplePointers) {
+                event.changes.firstOrNull { it.id == down.id }?.let {
+                    onTap(it.position)
+                    it.consume()
+                }
+            }
+            break
+        }
+    } while (true)
+}
+
 @Composable
 fun MicroscopeGame(spec: MicroscopeSpec, env: GameEnv, cb: GameCallbacks) {
     val key = env.round.question.id to env.startedAtMs
@@ -222,7 +270,7 @@ fun MicroscopeGame(spec: MicroscopeSpec, env: GameEnv, cb: GameCallbacks) {
             Modifier.fillMaxWidth(0.72f).aspectRatio(1f).align(Alignment.Center).clip(CircleShape).background(Color(0xFF1B1B1B))
                 .onSizeChanged { viewSize = Size(it.width.toFloat(), it.height.toFloat()) }
                 .pointerInput(key, active) {
-                    detectTransformGestures { centroid, pan, zoomChange, _ ->
+                    if (active) detectMicroscopeGestures(onTap = { tap(it) }) { centroid, pan, zoomChange ->
                         val s = scale()
                         play.cx -= pan.x / s; play.cy -= pan.y / s
                         play.zoom = (play.zoom * zoomChange).coerceIn(spec.minZoom.toFloat(), spec.maxZoom.toFloat())
@@ -230,7 +278,6 @@ fun MicroscopeGame(spec: MicroscopeSpec, env: GameEnv, cb: GameCallbacks) {
                         val w = toWorld(centroid); play.cursorX = w.x / W; play.cursorY = w.y / H
                     }
                 }
-                .pointerInput(key, active) { detectTapGestures { tap(it) } }
                 .semantics { contentDescription = "Lensa mikroskop. Cari ${spec.targetName}. ${if (sharp) "Fokus tajam" else "Gambar kabur"}." },
         ) {
             Canvas(Modifier.fillMaxWidth().aspectRatio(1f)) {
@@ -275,15 +322,21 @@ fun MicroscopeGame(spec: MicroscopeSpec, env: GameEnv, cb: GameCallbacks) {
                 drawLine(Color(0x55FFFFFF), Offset(size.width / 2 - 10.dp.toPx(), size.height / 2), Offset(size.width / 2 + 10.dp.toPx(), size.height / 2), 1.5f)
                 drawLine(Color(0x55FFFFFF), Offset(size.width / 2, size.height / 2 - 10.dp.toPx()), Offset(size.width / 2, size.height / 2 + 10.dp.toPx()), 1.5f)
             }
-            play.message?.let { (msg, ok) ->
-                if (now - play.messageAt < 2_200) {
-                    Text(msg, color = if (ok) Color(0xFF69F0AE) else Color(0xFFFFD180), style = MaterialTheme.typography.titleSmall,
-                        modifier = Modifier.align(Alignment.BottomCenter).padding(bottom = 28.dp).background(Color(0xAA000000)).padding(6.dp))
-                }
-            }
         }
         Canvas(Modifier.matchParentSize()) {
             drawArtwork(rimArtwork, Rect(Offset.Zero, size), fillBounds = true)
+        }
+    }
+    play.message?.let { (msg, ok) ->
+        if (now - play.messageAt < 2_200) {
+            Surface(
+                modifier = Modifier.fillMaxWidth().semantics { liveRegion = LiveRegionMode.Polite },
+                shape = RoundedCornerShape(12.dp),
+                color = if (ok) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.errorContainer,
+                contentColor = if (ok) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onErrorContainer,
+            ) {
+                Text(msg, style = MaterialTheme.typography.titleSmall, modifier = Modifier.padding(12.dp))
+            }
         }
     }
     Text(if (sharp) "Fokus: TAJAM" else "Fokus: kabur — geser fokus", style = MaterialTheme.typography.titleSmall,

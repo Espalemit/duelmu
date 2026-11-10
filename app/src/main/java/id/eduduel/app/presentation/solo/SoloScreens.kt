@@ -106,6 +106,7 @@ fun SoloPlayScreen(config: MatchConfig, onExit: () -> Unit) {
         resultIndex = playing?.answers?.lastIndex?.takeIf { it >= 0 },
         correct = playing?.answers?.lastOrNull()?.correct,
         feedback = feedback,
+        isMiniGame = playing?.answers?.lastIndex?.let { playing.rounds.getOrNull(it)?.question?.isGame } == true,
     )
     BackHandler(enabled = playing != null && !playing.finished) { confirmExit = true }
 

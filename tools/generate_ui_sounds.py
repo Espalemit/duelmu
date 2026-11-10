@@ -38,4 +38,9 @@ if __name__ == "__main__":
     cue("sound_match_start", [(0, .25, 523.25, .7), (.12, .26, 659.25, .7),
                               (.24, .28, 783.99, .7), (.37, .42, 1046.50, .75),
                               (.40, .39, 659.25, .25), (.40, .39, 783.99, .25)], .84)
-    print("Generated 4 original game sound effects (22050 Hz, 16-bit mono).")
+    # A longer ascending fanfare with a final major chord for completing any mini-game.
+    cue("sound_celebration", [(0, .20, 523.25, .65), (.12, .20, 659.25, .65),
+                              (.24, .20, 783.99, .65), (.36, .24, 1046.50, .7),
+                              (.53, .22, 1318.51, .65), (.70, .60, 1567.98, .7),
+                              (.70, .60, 1046.50, .40), (.70, .60, 1318.51, .35)], 1.35)
+    print("Generated 5 original game sound effects (22050 Hz, 16-bit mono).")

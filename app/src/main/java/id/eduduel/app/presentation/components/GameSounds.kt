@@ -19,7 +19,7 @@ import androidx.compose.ui.platform.LocalHapticFeedback
 import id.eduduel.app.R
 import id.eduduel.app.data.settings.AppSettings
 
-enum class GameSound { TAP, CORRECT, WRONG, MATCH_START }
+enum class GameSound { TAP, CORRECT, WRONG, MATCH_START, CELEBRATION }
 
 /** Short clips mixed locally; button taps do not cut off an answer or the starting fanfare. */
 internal class GameSoundPlayer(context: Context) : AutoCloseable {
@@ -48,6 +48,7 @@ internal class GameSoundPlayer(context: Context) : AutoCloseable {
             GameSound.CORRECT to pool.load(context, R.raw.sound_correct, 1),
             GameSound.WRONG to pool.load(context, R.raw.sound_wrong, 1),
             GameSound.MATCH_START to pool.load(context, R.raw.sound_match_start, 1),
+            GameSound.CELEBRATION to pool.load(context, R.raw.sound_celebration, 1),
         )
     }
 
@@ -86,9 +87,13 @@ class Feedback(
         sound(GameSound.TAP)
     }
 
-    fun result(correct: Boolean) {
+    fun result(correct: Boolean, isMiniGame: Boolean = false) {
         if (settings.hapticsEnabled) haptic(if (correct) HapticFeedbackType.Confirm else HapticFeedbackType.Reject)
-        sound(if (correct) GameSound.CORRECT else GameSound.WRONG)
+        sound(when {
+            !correct -> GameSound.WRONG
+            isMiniGame -> GameSound.CELEBRATION
+            else -> GameSound.CORRECT
+        })
     }
 
     fun matchStart() = sound(GameSound.MATCH_START)
@@ -115,11 +120,12 @@ fun GameFeedbackEffects(
     resultIndex: Int?,
     correct: Boolean?,
     feedback: Feedback?,
+    isMiniGame: Boolean = false,
 ) {
     var soundSession by rememberSaveable { mutableStateOf<String?>(null) }
     var startPlayed by rememberSaveable { mutableStateOf(false) }
     var lastResult by rememberSaveable { mutableIntStateOf(-1) }
-    LaunchedEffect(sessionId, started, resultIndex, correct) {
+    LaunchedEffect(sessionId, started, resultIndex, correct, isMiniGame) {
         if (sessionId == null) return@LaunchedEffect
         if (soundSession != sessionId) {
             soundSession = sessionId
@@ -132,7 +138,7 @@ fun GameFeedbackEffects(
         }
         if (resultIndex != null && correct != null && resultIndex > lastResult) {
             lastResult = resultIndex
-            feedback?.result(correct)
+            feedback?.result(correct, isMiniGame)
         }
     }
 }

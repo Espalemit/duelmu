@@ -40,7 +40,7 @@ Main sungguhan: satu HP **Buat Room** (Wi-Fi/Hotspot atau Bluetooth), HP lain **
 
 | Tujuan | Perintah |
 |---|---|
-| Unit test (118) | `./gradlew :app:testDebugUnitTest` |
+| Unit test | `./gradlew :app:testDebugUnitTest` |
 | UI test di emulator/HP | `./gradlew :app:connectedDebugAndroidTest` |
 | Lint | `./gradlew :app:lintDebug` |
 | APK/AAB release | `./gradlew :app:assembleRelease :app:bundleRelease` (signing: `keystore.properties`, lihat contoh) |
@@ -100,8 +100,11 @@ nama kelas internal tetap `EduDuel…`; ID paket sengaja tidak diubah agar updat
 
 AGP 9.5.1, Gradle 9.8.2, Kotlin 2.4.21, KSP 2.3.13, Compose BOM 2026.09.00, Room 2.8.5, Navigation 2.10.2,
 DataStore 1.3.0 (stabil terbaru per 7 November 2026). `minSdk 26` (Android 8.0), `targetSdk 36` (syarat
-Google Play sejak 31 Agustus 2026), `compileSdk 37`. Aplikasi versi **0.4.0** (protokol room v3, bank 560 soal; tidak bisa
+Google Play sejak 31 Agustus 2026), `compileSdk 37`. Aplikasi versi **0.4.2** (protokol room v3, bank 560 soal; tidak bisa
 bermain dengan 0.3.x atau lebih lama: protokol berbeda ditolak dengan pesan versi).
+
+Versi 0.4.2 memperbaiki tap dan gestur lensa Micro Hunter, menempatkan pesan di luar lensa,
+serta menambahkan suara perayaan saat mini-game berhasil di Solo maupun Main Bareng.
 
 ## Batasan yang perlu diketahui
 

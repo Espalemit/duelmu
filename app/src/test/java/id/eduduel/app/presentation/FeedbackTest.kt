@@ -30,9 +30,18 @@ class FeedbackTest {
         feedback.matchStart()
         feedback.result(true)
         feedback.result(false)
+        feedback.result(true, isMiniGame = true)
         feedback.tap()
         assertTrue(sounds.isEmpty())
-        assertEquals(listOf(HapticFeedbackType.Confirm, HapticFeedbackType.Reject, HapticFeedbackType.TextHandleMove), haptics)
+        assertEquals(listOf(HapticFeedbackType.Confirm, HapticFeedbackType.Reject, HapticFeedbackType.Confirm, HapticFeedbackType.TextHandleMove), haptics)
+    }
+
+    @Test fun miniGameSuccessCelebratesAndFailureUsesWrongCue() {
+        val sounds = mutableListOf<GameSound>()
+        val feedback = Feedback({}, { sounds += it }, AppSettings(hapticsEnabled = false))
+        feedback.result(true, isMiniGame = true)
+        feedback.result(false, isMiniGame = true)
+        assertEquals(listOf(GameSound.CELEBRATION, GameSound.WRONG), sounds)
     }
 
     @Test fun disablingHapticsDoesNotMuteSounds() {

@@ -32,14 +32,14 @@ class GameFeedbackEffectsTest {
                 .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION).build(),
         ).build()
         try {
-            val ready = CountDownLatch(4)
+            val ready = CountDownLatch(5)
             val failures = ConcurrentLinkedQueue<Int>()
             pool.setOnLoadCompleteListener { _, _, status ->
                 if (status != 0) failures.add(status)
                 ready.countDown()
             }
             val context = InstrumentationRegistry.getInstrumentation().targetContext
-            val clips = listOf(R.raw.sound_tap, R.raw.sound_correct, R.raw.sound_wrong, R.raw.sound_match_start)
+            val clips = listOf(R.raw.sound_tap, R.raw.sound_correct, R.raw.sound_wrong, R.raw.sound_match_start, R.raw.sound_celebration)
                 .map { pool.load(context, it, 1) }
             assertTrue("All sound effects must load within ten seconds", ready.await(10, TimeUnit.SECONDS))
             assertTrue("Native audio decoder rejected a clip: $failures", failures.isEmpty())
