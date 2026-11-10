@@ -3,10 +3,14 @@ package id.eduduel.app.net.room
 import id.eduduel.app.core.Ids
 import id.eduduel.app.core.MonotonicClock
 import id.eduduel.app.core.NicknameValidator
+import id.eduduel.app.domain.ChoiceAnswer
+import id.eduduel.app.domain.GameAnswer
+import id.eduduel.app.domain.Grader
 import id.eduduel.app.domain.OptionId
 import id.eduduel.app.domain.QuestionBank
+import id.eduduel.app.domain.RoundAnswer
 import id.eduduel.app.domain.RoundQuestion
-import id.eduduel.app.domain.ScoringEngine
+import id.eduduel.app.domain.game.GameSubmission
 import id.eduduel.app.net.protocol.Answer
 import id.eduduel.app.net.protocol.AnswerLocked
 import id.eduduel.app.net.protocol.BackToRoom
@@ -16,6 +20,9 @@ import id.eduduel.app.net.protocol.DisconnectReason
 import id.eduduel.app.net.protocol.EndReason
 import id.eduduel.app.net.protocol.Envelope
 import id.eduduel.app.net.protocol.ErrorCode
+import id.eduduel.app.net.protocol.GameActionEvent
+import id.eduduel.app.net.protocol.GameStateUpdate
+import id.eduduel.app.net.protocol.GameSubmit
 import id.eduduel.app.net.protocol.Hello
 import id.eduduel.app.net.protocol.HelloAck
 import id.eduduel.app.net.protocol.MatchEnd
@@ -71,12 +78,18 @@ class RoomGuestSession(
     private var currentIndex = -1
     private var reconnectJob: Job? = null
     private var matchClosedNotified = false
+    /** QUESTION_READY yang ditahan sampai tutorial game selesai/dilewati. */
+    private var pendingReady: Pair<Int, String>? = null
 
     // ============================================================ API publik
 
     fun changeNickname(name: String) = user(Action.ChangeName(name))
     fun setReady(ready: Boolean) = user(Action.SetReady(ready))
     fun answer(option: OptionId) = user(Action.SubmitAnswer(option))
+    /** Kunci jawaban soal game (masukan pemain). null = gagal/menyerah sebelum waktu habis. */
+    fun submitGame(submission: GameSubmission?) = user(Action.SubmitGame(submission))
+    /** Tutorial game selesai/dilewati: kirim QUESTION_READY. */
+    fun confirmReady() = user(Action.ConfirmReady)
     fun requestNext() = user(Action.Next)
     fun leave() = user(Action.Leave)
 
@@ -89,11 +102,13 @@ class RoomGuestSession(
         data class ChangeName(val name: String) : Action
         data class SetReady(val ready: Boolean) : Action
         data class SubmitAnswer(val option: OptionId) : Action
+        data class SubmitGame(val submission: GameSubmission?) : Action
+        data object ConfirmReady : Action
         data object Next : Action
         data object Leave : Action
     }
 
-    private enum class T { HANDSHAKE, LOCAL_TIMEOUT, RECONNECT_DEADLINE }
+    private enum class T { HANDSHAKE, TUTORIAL, LOCAL_TIMEOUT, RECONNECT_DEADLINE }
 
     // ============================================================ Koneksi
 
@@ -141,8 +156,11 @@ class RoomGuestSession(
 
     private fun enterReconnecting() {
         cancelTimer(T.LOCAL_TIMEOUT)
+        cancelTimer(T.TUTORIAL)
+        pendingReady = null
+        endGhostRound()
         _state.update {
-            it.copy(phase = RoomPhase.RECONNECTING, reconnectDeadlineMs = clock.nowMs() + timing.reconnectWindowMs, activeRound = null)
+            it.copy(phase = RoomPhase.RECONNECTING, reconnectDeadlineMs = clock.nowMs() + timing.reconnectWindowMs, activeRound = null, prepare = null)
         }
         schedule(T.RECONNECT_DEADLINE, timing.reconnectWindowMs)
         startReconnectAttempts()
@@ -175,7 +193,7 @@ class RoomGuestSession(
                 _state.update {
                     it.copy(
                         phase = RoomPhase.LOBBY, matchId = null, participants = emptyList(), totalRounds = 0, activeRound = null,
-                        results = emptyList(), endReason = null, failure = null, revealUntilMs = null, meNextReady = false,
+                        results = emptyList(), endReason = null, failure = null, revealUntilMs = null, meNextReady = false, prepare = null,
                     )
                 }
             }
@@ -186,8 +204,18 @@ class RoomGuestSession(
                     idx in rounds.indices && rounds[idx].question.id == p.questionId && s.results.none { it.index >= idx }
                 ) {
                     currentIndex = idx
-                    _state.update { it.copy(phase = RoomPhase.PREPARING, activeRound = null, meNextReady = false, revealUntilMs = null) }
-                    link.send(QuestionReady(p.questionId), s.matchId, idx)
+                    val rq = rounds[idx]
+                    // Tutorial hanya untuk soal game; dibatasi agar Host yang aneh tidak bisa menahan Tamu.
+                    val tutorialMs = if (rq.question.isGame) p.tutorialMs.coerceIn(0, MAX_TUTORIAL_MS) else 0L
+                    val firstOfType = rq.question.isGame && rounds.take(idx).none { it.question.game?.gameType == rq.question.game?.gameType }
+                    val prepare = if (tutorialMs > 0) PrepareInfo(idx, rq, clock.nowMs() + tutorialMs, meReady = false, firstOfType = firstOfType) else null
+                    _state.update { it.copy(phase = RoomPhase.PREPARING, activeRound = null, prepare = prepare, meNextReady = false, revealUntilMs = null) }
+                    if (tutorialMs > 0) {
+                        pendingReady = idx to p.questionId
+                        schedule(T.TUTORIAL, tutorialMs)
+                    } else {
+                        link.send(QuestionReady(p.questionId), s.matchId, idx)
+                    }
                 } else ignoredLateMessages++
             }
             is QuestionStart -> {
@@ -195,9 +223,12 @@ class RoomGuestSession(
                 val rq = rounds.getOrNull(idx)
                 if (s.phase == RoomPhase.PREPARING && env.matchId == s.matchId && idx == currentIndex && rq != null &&
                     rq.question.id == p.questionId && p.optionOrder == rq.optionOrder.map { it.name } &&
-                    p.durationMs == rq.question.timeLimitMs
+                    p.durationMs == rq.question.timeLimitMs && p.seed == rq.seed
                 ) {
-                    _state.update { it.copy(phase = RoomPhase.QUESTION, activeRound = ActiveRound(idx, rq, clock.nowMs(), p.durationMs)) }
+                    cancelTimer(T.TUTORIAL)
+                    pendingReady = null
+                    _state.update { it.copy(phase = RoomPhase.QUESTION, prepare = null, activeRound = ActiveRound(idx, rq, clock.nowMs(), p.durationMs)) }
+                    if (rq.question.isGame) beginGhostRound(idx)
                     schedule(T.LOCAL_TIMEOUT, p.durationMs)
                 } else if (s.phase == RoomPhase.PREPARING && env.matchId == s.matchId && idx == currentIndex) {
                     rejectSetup("QUESTION_START tidak cocok dengan MATCH_SETUP")
@@ -212,6 +243,25 @@ class RoomGuestSession(
                 } else ignoredLateMessages++
             }
             is RoundResultMessage -> onRoundResult(env, p)
+            is GameStateUpdate -> {
+                val ar = s.activeRound
+                if (s.phase == RoomPhase.QUESTION && ar != null && env.matchId == s.matchId && env.roundIndex == ar.index &&
+                    ar.round.question.game?.gameType == p.gameType && s.participants.any { it.sessionId == p.playerSessionId } &&
+                    GhostValidator.valid(p.gameType, p.ghost)
+                ) {
+                    // Pertahanan berlapis: sensor FAIR juga diterapkan di sisi penerima.
+                    ghostHub.accept(ar.index, p.copy(ghost = GhostPrivacy.redact(p.ghost, s.config.ghostMode)), clock.nowMs())
+                } else ignoredLateMessages++
+            }
+            is GameActionEvent -> {
+                val ar = s.activeRound
+                if (s.phase == RoomPhase.QUESTION && ar != null && env.matchId == s.matchId && env.roundIndex == ar.index &&
+                    ar.round.question.game?.gameType == p.gameType && s.participants.any { it.sessionId == p.playerSessionId } &&
+                    GhostValidator.valid(p.gameType, p.action)
+                ) {
+                    ghostHub.acceptAction(ar.index, p.copy(action = GhostPrivacy.redact(p.action, s.config.ghostMode)), clock.nowMs())
+                } else ignoredLateMessages++
+            }
             is MatchEnd -> if (env.matchId == s.matchId && s.inMatch) {
                 val local = s.participants.associate { it.sessionId to s.totalOf(it.sessionId) }
                 if (p.reason == EndReason.COMPLETED && p.totals != local) {
@@ -336,8 +386,12 @@ class RoomGuestSession(
             p.questionIds.size != p.config.questionCount -> "jumlah soal bukan ${p.config.questionCount}"
             p.questionIds.toSet().size != p.questionIds.size -> "soal duplikat"
             p.optionOrders.size != p.questionIds.size -> "urutan opsi tidak lengkap"
-            p.optionOrders.any { o -> o.size != 4 || o.mapNotNull(OptionId::parse).toSet() != OptionId.entries.toSet() } ->
-                "urutan opsi bukan permutasi A-D"
+            p.seeds.size != p.questionIds.size -> "seed ronde tidak lengkap"
+            p.questionIds.indices.any { i ->
+                val q = bank.byId(p.questionIds[i])!!
+                val o = p.optionOrders[i]
+                if (q.isGame) o.isNotEmpty() else (o.size != 4 || o.mapNotNull(OptionId::parse).toSet() != OptionId.entries.toSet())
+            } -> "urutan opsi bukan permutasi A-D (atau soal game memuat opsi)"
             p.questionIds.any { id -> !p.config.matches(bank.byId(id)!!) } -> "soal tidak sesuai mapel"
             p.participants.none { it.sessionId == s.me.sessionId } -> "pemain ini bukan peserta"
             p.participants.size !in 2..id.eduduel.app.net.protocol.MAX_ROOM_PLAYERS -> "jumlah peserta tidak valid"
@@ -361,7 +415,7 @@ class RoomGuestSession(
     }
 
     private fun applySetup(p: MatchSetup) {
-        rounds = p.questionIds.mapIndexed { i, id -> RoundQuestion(bank.byId(id)!!, p.optionOrders[i].map { OptionId.valueOf(it) }) }
+        rounds = p.questionIds.mapIndexed { i, id -> RoundQuestion(bank.byId(id)!!, p.optionOrders[i].map { OptionId.valueOf(it) }, p.seeds[i]) }
         currentIndex = -1
         val participants = p.participants.map { w ->
             w.toDomain().copy(nickname = NicknameValidator.sanitizeRemote(w.nickname) ?: FALLBACK_NAME, ready = false)
@@ -382,20 +436,30 @@ class RoomGuestSession(
         }
         val rq = rounds.getOrNull(r.roundIndex) ?: run { ignoredLateMessages++; return }
         val q = rq.question
-        // Validasi konsistensi: kunci & poin harus sama dengan perhitungan lokal dari bank yang identik.
-        fun expected(pr: PlayerRound): Int =
-            if (pr.timedOut || pr.absent || pr.optionId == null) 0 else ScoringEngine.score(q, OptionId.parse(pr.optionId), pr.elapsedMs).total
+        // Validasi konsistensi: kunci, keberhasilan game, & poin harus sama dengan perhitungan lokal
+        // dari bank identik (mesin game deterministik -> semua HP menghitung hasil yang sama).
+        fun answerOf(pr: PlayerRound): RoundAnswer? = when {
+            pr.timedOut || pr.absent -> null
+            q.isGame -> pr.submission?.let(::GameAnswer)
+            else -> OptionId.parse(pr.optionId)?.let(::ChoiceAnswer)
+        }
+        fun matches(pr: PlayerRound): Boolean {
+            if (q.isGame && pr.optionId != null) return false
+            if (!q.isGame && pr.submission != null) return false
+            val g = Grader.grade(q, answerOf(pr), pr.elapsedMs)
+            return g.score.total == pr.points && g.correct == pr.correct
+        }
         val ids = s.participants.map { it.sessionId }.toSet()
-        val consistent = r.questionId == q.id && r.correctOptionId == q.correctOptionId.name && r.players.keys == ids &&
-            r.players.values.all { pr -> expected(pr) == pr.points && pr.correct == (!pr.timedOut && !pr.absent && pr.optionId == q.correctOptionId.name) }
+        val consistent = r.questionId == q.id && r.correctOptionId == q.correctOptionId?.name && r.players.keys == ids &&
+            r.players.values.all(::matches)
         val results = s.results + r.toSummary(rq)
         val localTotals = ids.associateWith { id -> results.sumOf { it.of(id)?.points ?: 0 } }
         // Jawaban saya sendiri harus tercatat sama. Host boleh mencatat timeout bila jawaban tiba setelah
         // batas toleransi latensi (bukan kecurangan), tetapi tidak boleh mencatat pilihan yang berbeda.
         val mine = r.players[s.me.sessionId]
         val ar = s.activeRound
-        val myConsistent = ar == null || ar.index != r.roundIndex || mine == null || mine.absent || mine.optionId == null ||
-            mine.optionId == ar.myAnswer?.name
+        val myConsistent = ar == null || ar.index != r.roundIndex || mine == null || mine.absent ||
+            (if (q.isGame) mine.submission == null || mine.submission == ar.myGame else mine.optionId == null || mine.optionId == ar.myAnswer?.name)
         if (!consistent || !myConsistent || p.totals != localTotals) {
             link?.send(ProtocolError(ErrorCode.INCONSISTENT_RESULT, "Hasil ronde ${r.roundIndex + 1} tidak konsisten", fatal = true), s.matchId)
             closeMatch(EndReason.CANCELLED_ERROR, RoomFailure.INCONSISTENT_RESULT)
@@ -403,6 +467,7 @@ class RoomGuestSession(
             return
         }
         val active = r.roundIndex == currentIndex && s.phase in setOf(RoomPhase.QUESTION, RoomPhase.PREPARING) && ar?.index == r.roundIndex
+        endGhostRound()
         if (active) {
             cancelTimer(T.LOCAL_TIMEOUT)
             _state.update {
@@ -436,9 +501,22 @@ class RoomGuestSession(
                 _state.update { st -> st.copy(me = st.me.copy(ready = a.ready), players = st.players.map { if (it.sessionId == st.me.sessionId) it.copy(ready = a.ready) else it }) }
                 link?.send(Ready(a.ready))
             }
+            is Action.SubmitGame -> {
+                val ar = s.activeRound ?: return
+                if (s.phase != RoomPhase.QUESTION || ar.isLocked || !ar.round.question.isGame) return
+                val elapsed = (clock.nowMs() - ar.startedAtMs).coerceAtLeast(0)
+                if (elapsed >= ar.durationMs) return
+                _state.update {
+                    it.copy(activeRound = ar.copy(myGame = a.submission, myGaveUp = a.submission == null, myElapsedMs = elapsed,
+                        lockedPlayers = ar.lockedPlayers + it.me.sessionId))
+                }
+                cancelTimer(T.LOCAL_TIMEOUT)
+                link?.send(GameSubmit(ar.round.question.id, elapsed, a.submission), s.matchId, ar.index)
+            }
+            Action.ConfirmReady -> sendPendingReady()
             is Action.SubmitAnswer -> {
                 val ar = s.activeRound ?: return
-                if (s.phase != RoomPhase.QUESTION || ar.isLocked) return // terkunci: tidak boleh submit ganda
+                if (s.phase != RoomPhase.QUESTION || ar.isLocked || ar.round.question.isGame) return // terkunci: tidak boleh submit ganda
                 val elapsed = (clock.nowMs() - ar.startedAtMs).coerceAtLeast(0)
                 if (elapsed >= ar.durationMs) return
                 _state.update { it.copy(activeRound = ar.copy(myAnswer = a.option, myElapsedMs = elapsed, lockedPlayers = ar.lockedPlayers + it.me.sessionId)) }
@@ -467,13 +545,16 @@ class RoomGuestSession(
         when (key) {
             is PingKey -> handlePing(key)
             T.HANDSHAKE -> if (s.phase == RoomPhase.HANDSHAKE) abort(RoomFailure.HANDSHAKE_TIMEOUT, null)
+            T.TUTORIAL -> sendPendingReady()
             T.LOCAL_TIMEOUT -> {
                 val ar = s.activeRound
                 if (s.phase == RoomPhase.QUESTION && ar != null && !ar.isLocked) {
                     _state.update { it.copy(activeRound = ar.copy(myTimedOut = true, lockedPlayers = ar.lockedPlayers + it.me.sessionId)) }
-                    link?.send(Answer(ar.round.question.id, null, ar.durationMs), s.matchId, ar.index)
+                    if (ar.round.question.isGame) link?.send(GameSubmit(ar.round.question.id, ar.durationMs, null), s.matchId, ar.index)
+                    else link?.send(Answer(ar.round.question.id, null, ar.durationMs), s.matchId, ar.index)
                 }
             }
+            GhostTick -> handleGhostTick()
             T.RECONNECT_DEADLINE -> if (s.phase == RoomPhase.RECONNECTING) {
                 reconnectJob?.cancel()
                 closeMatch(EndReason.CANCELLED_DISCONNECT, RoomFailure.RECONNECT_FAILED)
@@ -492,10 +573,30 @@ class RoomGuestSession(
         if (s.inMatch) closeMatch(EndReason.CANCELLED_ERROR, RoomFailure.PROTOCOL_ERROR) else fail(RoomFailure.PROTOCOL_ERROR, t.message)
     }
 
+    private fun sendPendingReady() {
+        val (idx, qid) = pendingReady ?: return
+        if (s.phase != RoomPhase.PREPARING || idx != currentIndex) return
+        pendingReady = null
+        cancelTimer(T.TUTORIAL)
+        _state.update { it.copy(prepare = it.prepare?.copy(meReady = true)) }
+        link?.send(QuestionReady(qid), s.matchId, idx)
+    }
+
+    override fun transmitGhost(update: GameStateUpdate, roundIndex: Int) {
+        link?.send(update, s.matchId, roundIndex)
+    }
+
+    override fun transmitAction(event: GameActionEvent, roundIndex: Int) {
+        link?.send(event, s.matchId, roundIndex)
+    }
+
     // ============================================================ Penutupan
 
     private fun closeMatch(reason: EndReason, failure: RoomFailure?) {
         T.entries.forEach(::cancelTimer)
+        endGhostRound()
+        ghostHub.clear()
+        pendingReady = null
         reconnectJob?.cancel()
         val summary = s.matchId?.let { MatchSummary(it, s.config, s.participants, s.results, s.totalRounds, reason, failure) }
         _state.update {
@@ -509,6 +610,11 @@ class RoomGuestSession(
             matchClosedNotified = true
             runCatching { onMatchClosed(s) }
         }
+    }
+
+    companion object {
+        /** Batas atas tutorial yang diminta Host (pertahanan terhadap Host yang menahan pemain). */
+        const val MAX_TUTORIAL_MS = 15_000L
     }
 
     private fun fail(failure: RoomFailure, detail: String?) {

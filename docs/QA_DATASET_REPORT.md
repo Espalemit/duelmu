@@ -44,7 +44,7 @@ jalankan ulang validator setelah mengubah dataset.
 - Lampiran kunci PDF diperiksa untuk 400/400 soal.
 - Evaluasi rantai aritmetika pembahasan: 255 ruas numerik diperiksa.
 - Rekomputasi otomatis pola parametrik: 20 soal (sisanya diverifikasi via pembahasan/kunci PDF).
-- Asset `app/src/main/assets/questions.json` bankSha256 = `32cf858e77fd4565eb5d8a79401418a8c75f74d4b3dbfe85eccf98e39f405d8a`, bankVersionName = `2026.11.07-r1`.
+- Asset `app/src/main/assets/questions.json` bankSha256 = `67217b6d58d047f702b82aa4f22bfad80ff81294f7c2380b8a22ff8d4b9861da`, bankVersionName = `2026.11.10-r560`.
 
 ## ERROR
 

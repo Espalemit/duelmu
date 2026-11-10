@@ -113,7 +113,7 @@ class RoomSessionTest {
         runCurrent()
     }
 
-    private fun correctOf(ar: ActiveRound) = ar.round.question.correctOptionId
+    private fun correctOf(ar: ActiveRound) = ar.round.question.correctOptionId!!
     private fun wrongOf(ar: ActiveRound) = OptionId.entries.first { it != ar.round.question.correctOptionId }
 
     /** Mainkan satu ronde. [pick] null = tidak menjawab (timeout). Lalu semua menekan Lanjut. */

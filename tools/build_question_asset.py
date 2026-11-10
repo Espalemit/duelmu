@@ -1,6 +1,13 @@
 #!/usr/bin/env python3
 """
-Build step reproduksibel: kickstart/bank_soal_duel_400.json -> app/src/main/assets/questions.json
+Build step reproduksibel bank 560 soal -> app/src/main/assets/questions.json (+ assets/images/*.png)
+
+Sumber (terpisah, tidak disunting oleh build):
+  - kickstart/bank_soal_duel_400.json         : 400 soal klasik (pipeline koreksi lama, di bawah)
+  - content/visual/questions_extra_80.json     : 80 soal bergambar (+ content/visual/images/*.png)
+  - content/game/game_questions_80.json        : 80 soal mini-game (tools/game_content/generate_game_questions.py)
+
+Langkah 400 soal klasik:
 
 Langkah:
   1. Validasi struktur sumber (memakai validate_question_bank.validate_structure).
@@ -10,6 +17,11 @@ Langkah:
      derajat Celsius, subskrip rumus kimia, panah reaksi). Tidak mengubah makna/kunci.
   4. Validasi ulang hasil (400 soal, opsi unik, kunci == teks opsi, dst).
   5. Tulis asset JSON kompak dan deterministik + log transformasi.
+
+Paket bergambar: hanya normalisasi tipografi eksplisit (dicatat per field), kunci/ID/gambar tidak diubah.
+Paket game: disalin apa adanya (sudah dibuktikan generator). Gambar disalin ke assets/images dan
+SHA-256 setiap PNG dicatat di `assetManifest` di dalam questions.json, sehingga hash bank juga mengunci
+isi gambar: dua APK dengan gambar berbeda TIDAK dianggap bank yang sama.
 
 bankVersion = SHA-256 file asset yang dihasilkan. Gradle menghitung ulang hash yang sama saat build
 (BuildConfig.BANK_SHA256) sehingga dua perangkat dengan APK berbeda isi bank akan menolak duel.
@@ -36,8 +48,15 @@ SRC = ROOT / "kickstart" / "bank_soal_duel_400.json"
 OUT = ROOT / "app" / "src" / "main" / "assets" / "questions.json"
 LOG = ROOT / "docs" / "DATA_TRANSFORM_LOG.md"
 
-BANK_VERSION_NAME = "2026.11.07-r1"
-SCHEMA_VERSION = 1
+VISUAL_SRC = ROOT / "content" / "visual" / "questions_extra_80.json"
+VISUAL_IMG = ROOT / "content" / "visual" / "images"
+GAME_SRC = ROOT / "content" / "game" / "game_questions_80.json"
+IMG_OUT = ROOT / "app" / "src" / "main" / "assets" / "images"
+
+BANK_VERSION_NAME = "2026.11.10-r560"
+SCHEMA_VERSION = 2
+# Sidik jari 400 soal klasik pada asset v1 (2026.11.07-r1). Build gagal bila 400 soal lama berubah diam-diam.
+CLASSIC_400_FINGERPRINT = "9f822de2195709f8aa44cba9d2261fa337a772421d58826afb6b57342db3b54a"
 
 SUP = str.maketrans("0123456789+-()nxi=", "⁰¹²³⁴⁵⁶⁷⁸⁹⁺⁻⁽⁾ⁿˣⁱ⁼")
 SUB = str.maketrans("0123456789+-()n", "₀₁₂₃₄₅₆₇₈₉₊₋₍₎ₙ")
@@ -179,7 +198,7 @@ def set_field(q: dict, field: str, value: str) -> None:
         q[field] = value
 
 
-def build() -> tuple[bytes, list[str], list[str]]:
+def build_classic() -> tuple[list[dict], list[str], list[str]]:
     data = json.loads(SRC.read_text(encoding="utf-8"))
     rep = Report()
     validate_structure(data, rep)
@@ -236,32 +255,181 @@ def build() -> tuple[bytes, list[str], list[str]]:
     if rep2.errors:
         raise SystemExit("Hasil build tidak valid:\n" + "\n".join(rep2.errors))
 
+    canon = json.dumps(out_questions, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
+    if hashlib.sha256(canon.encode("utf-8")).hexdigest() != CLASSIC_400_FINGERPRINT:
+        raise SystemExit("400 soal klasik berbeda dari asset v1 (sidik jari berubah). Periksa koreksi/normalisasi.")
+    return out_questions, corr_log, norm_log
+
+
+# ---------------------------------------------------------------------------
+# 3. PAKET BERGAMBAR: normalisasi tipografi eksplisit (tidak mengubah makna/kunci)
+# ---------------------------------------------------------------------------
+SUB_DIGITS = str.maketrans("0123456789", "₀₁₂₃₄₅₆₇₈₉")  # hanya angka: 'Zn' tidak boleh menjadi 'Zₙ'
+FORMULA = re.compile(r"(?<![A-Za-z])(\d*)(ZnCl2|H2O|NH3|CO2|CH3|CH2|H2|O2|N2)(?![a-z0-9])")
+VISUAL_RULES: list[tuple[re.Pattern, str]] = [
+    (re.compile(r"(\d+(?:,\d+)?) derajat C\b"), r"\1 °C"),
+    (re.compile(r"(\d+) derajat\b"), r"\1°"),
+    (re.compile(r"\bm/s2\b"), "m/s²"),
+    (re.compile(r"\bcm2\b"), "cm²"),
+    (re.compile(r"\bkg/m3\b"), "kg/m³"),
+    (re.compile(r"akar\((\d+)\)"), r"√\1"),
+    (re.compile(r"akar\("), "√("),
+    (re.compile(r"\bmikroC\b"), "μC"),
+    (re.compile(r"\bDelta ?(?=[H\[t])"), "Δ"),
+    (re.compile(r"\b2p4\b"), "2p⁴"),
+    (re.compile(r"\b(Zn|Cu)2\+"), lambda m: m.group(1) + "²⁺"),
+    (re.compile(r"ion H\+"), "ion H⁺"),
+    (re.compile(r"->"), "→"),
+]
+
+
+def normalize_visual(text: str, field: str, subject: str) -> str:
+    s = caret_to_superscript(text)
+    for pat, rep in VISUAL_RULES:
+        s = pat.sub(rep, s)
+    if subject in ("Kimia", "Biologi"):
+        s = FORMULA.sub(lambda m: m.group(1) + m.group(2).translate(SUB_DIGITS), s)
+    s = multiplication_sign(s, "explanation" if field == "explanation" else field, subject)
+    return re.sub(r"\s+", " ", s).strip()
+
+
+def build_visual() -> tuple[list[dict], list[dict], list[str]]:
+    data = json.loads(VISUAL_SRC.read_text(encoding="utf-8"))
+    out, manifest, log = [], [], []
+    for q in data["questions"]:
+        q = copy.deepcopy(q)
+        subj = q["subject"]
+        q["question"] = q.pop("stem")
+        fields = ["question", "explanation"] + [f"option:{o['id']}" for o in q["options"]]
+        for f in fields:
+            before = get_field(q, f)
+            after = normalize_visual(before, f, subj)
+            if after != before:
+                set_field(q, f, after)
+                log.append(f"| {q['id']} | {f} | `{before}` | `{after}` |")
+        texts = [o["text"] for o in q["options"]]
+        if len({t.lower() for t in texts}) != 4:
+            raise SystemExit(f"{q['id']}: normalisasi membuat opsi tidak unik")
+        img = VISUAL_IMG / Path(q["imageAsset"]).name
+        raw = img.read_bytes()
+        if raw[:8] != b"\x89PNG\r\n\x1a\n":
+            raise SystemExit(f"{q['id']}: {img} bukan PNG")
+        manifest.append({"path": q["imageAsset"], "sha256": hashlib.sha256(raw).hexdigest(), "bytes": len(raw)})
+        out.append({
+            "id": q["id"], "questionType": "visual_mcq", "subject": subj, "gradeBand": q["gradeBand"], "topic": q["topic"],
+            "difficulty": q["difficulty"], "timeLimitSeconds": q["timeLimitSeconds"], "stem": q["question"],
+            "options": [{"id": o["id"], "text": o["text"]} for o in q["options"]],
+            "correctOptionId": q["correctOptionId"], "correctAnswer": get_field(q, f"option:{q['correctOptionId']}"),
+            "explanation": q["explanation"], "imageAsset": q["imageAsset"],
+        })
+    return out, manifest, log
+
+
+def build_game() -> list[dict]:
+    data = json.loads(GAME_SRC.read_text(encoding="utf-8"))
+    return [copy.deepcopy(q) for q in data["questions"]]
+
+
+GAME_KIND = {"Matematika": "asteroid", "Fisika": "trajectory", "Biologi": "microscope", "Kimia": "lab"}
+TYPE_RANGE = {"classic_mcq": range(1, 51), "visual_mcq": range(51, 61), "mini_game": range(61, 71)}
+
+
+def validate_merged(qs: list[dict]) -> None:
+    errors = []
+    ids = [q["id"] for q in qs]
+    if len(qs) != 560:
+        errors.append(f"jumlah soal {len(qs)} != 560")
+    if len(set(ids)) != len(ids):
+        errors.append("ID duplikat di bank gabungan")
+    from collections import Counter
+    by_type = Counter(q["questionType"] for q in qs)
+    if (by_type["classic_mcq"], by_type["visual_mcq"], by_type["mini_game"]) != (400, 80, 80):
+        errors.append(f"distribusi tipe {dict(by_type)} != 400/80/80")
+    for s in GAME_KIND:
+        if sum(q["subject"] == s for q in qs) != 140:
+            errors.append(f"{s}: bukan 140 soal")
+        for g in ("SMP", "SMA"):
+            n = sum(q["subject"] == s and q["gradeBand"] == g for q in qs)
+            if n != 70:
+                errors.append(f"{s} {g}: {n} soal (harus 70)")
+            for t, cnt in (("visual_mcq", 10), ("mini_game", 10)):
+                if sum(q["subject"] == s and q["gradeBand"] == g and q["questionType"] == t for q in qs) != cnt:
+                    errors.append(f"{s} {g} {t}: bukan {cnt}")
+    for q in qs:
+        if int(q["id"][-3:]) not in TYPE_RANGE[q["questionType"]]:
+            errors.append(f"{q['id']}: nomor di luar rentang tipe {q['questionType']}")
+        if q["timeLimitSeconds"] != {"mudah": 60, "sedang": 90, "sulit": 120}[q["difficulty"]]:
+            errors.append(f"{q['id']}: durasi tidak sesuai kesulitan")
+        if q["questionType"] == "mini_game":
+            if q["game"]["kind"] != GAME_KIND[q["subject"]] or q["solution"]["kind"] != q["game"]["kind"]:
+                errors.append(f"{q['id']}: jenis game tidak sesuai mapel")
+            if "options" in q or "correctOptionId" in q:
+                errors.append(f"{q['id']}: soal game tidak boleh memaksakan opsi A-D")
+        if q["questionType"] == "visual_mcq" and not (IMG_OUT / Path(q["imageAsset"]).name).exists():
+            errors.append(f"{q['id']}: gambar tidak tersalin")
+    if errors:
+        raise SystemExit("Bank gabungan tidak valid:\n" + "\n".join(errors))
+
+
+def build() -> tuple[bytes, list[str], list[str], list[str], list[dict]]:
+    classic, corr_log, norm_log = build_classic()
+    classic = [{"id": q["id"], "questionType": "classic_mcq", **{k: v for k, v in q.items() if k != "id"}} for q in classic]
+    visual, manifest, vis_log = build_visual()
+    game = build_game()
+    qs = classic + visual + game
     asset = {
         "schemaVersion": SCHEMA_VERSION,
         "bankVersionName": BANK_VERSION_NAME,
-        "sourceFile": SRC.name,
-        "sourceSha256": hashlib.sha256(SRC.read_bytes()).hexdigest(),
-        "questionCount": len(out_questions),
-        "questions": out_questions,
+        "questionCount": len(qs),
+        "sources": [
+            {"file": f"kickstart/{SRC.name}", "sha256": hashlib.sha256(SRC.read_bytes()).hexdigest(), "questions": len(classic)},
+            {"file": "content/visual/questions_extra_80.json", "sha256": hashlib.sha256(VISUAL_SRC.read_bytes()).hexdigest(), "questions": len(visual)},
+            {"file": "content/game/game_questions_80.json", "sha256": hashlib.sha256(GAME_SRC.read_bytes()).hexdigest(), "questions": len(game)},
+        ],
+        "assetManifest": manifest,
+        "questions": qs,
     }
     payload = json.dumps(asset, ensure_ascii=False, separators=(",", ":"), sort_keys=False).encode("utf-8") + b"\n"
-    return payload, corr_log, norm_log
+    return payload, corr_log, norm_log, vis_log, qs
+
+
+def sync_images(check: bool) -> list[str]:
+    """Salin PNG paket bergambar ke assets/images (hapus PNG basi). Mengembalikan daftar perbedaan."""
+    diffs = []
+    wanted = {p.name: p.read_bytes() for p in sorted(VISUAL_IMG.glob("*.png"))}
+    existing = {p.name for p in IMG_OUT.glob("*.png")} if IMG_OUT.exists() else set()
+    for name, raw in wanted.items():
+        dst = IMG_OUT / name
+        if not dst.exists() or dst.read_bytes() != raw:
+            diffs.append(name)
+            if not check:
+                IMG_OUT.mkdir(parents=True, exist_ok=True)
+                dst.write_bytes(raw)
+    for name in existing - set(wanted):
+        diffs.append(f"basi:{name}")
+        if not check:
+            (IMG_OUT / name).unlink()
+    return diffs
 
 
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--check", action="store_true")
     args = ap.parse_args()
-    payload, corr_log, norm_log = build()
-    sha = hashlib.sha256(payload).hexdigest()
     out = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8")
+    img_diffs = sync_images(check=args.check)
+    payload, corr_log, norm_log, vis_log, qs = build()
+    sha = hashlib.sha256(payload).hexdigest()
     if args.check:
         current = OUT.read_bytes() if OUT.exists() else b""
-        if current != payload:
-            out.write(f"ASSET TIDAK SINKRON: jalankan `python tools/build_question_asset.py`.\n")
+        if current != payload or img_diffs:
+            out.write(f"ASSET TIDAK SINKRON ({'gambar: ' + ', '.join(img_diffs[:5]) if img_diffs else 'questions.json'}): "
+                      f"jalankan `python tools/build_question_asset.py`.\n")
             return 1
-        out.write(f"OK asset sinkron. bankSha256={sha}\n")
+        validate_merged(qs)
+        out.write(f"OK asset sinkron (560 soal, 80 gambar). bankSha256={sha}\n")
         return 0
+    validate_merged(qs)
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_bytes(payload)
     LOG.parent.mkdir(parents=True, exist_ok=True)
@@ -272,18 +440,23 @@ def main() -> int:
         f"- Asset: `app/src/main/assets/questions.json`\n"
         f"- bankVersionName: `{BANK_VERSION_NAME}`\n"
         f"- bankSha256 (SHA-256 file asset): `{sha}`\n"
-        f"- Koreksi eksplisit: {len(corr_log)}; normalisasi tipografi: {len(norm_log)} field\n\n"
+        f"- Koreksi eksplisit: {len(corr_log)}; normalisasi tipografi: {len(norm_log)} field (400 klasik), "
+        f"{len(vis_log)} field (80 bergambar)\n"
+        "- Paket game (80) disalin apa adanya dari `content/game/game_questions_80.json`.\n\n"
         "## Koreksi eksplisit (dengan guard teks lama)\n\n"
         "| ID | Field | Sebelum | Sesudah | Alasan |\n|---|---|---|---|---|\n"
         + "\n".join(corr_log)
         + "\n\n## Normalisasi tipografi (makna tidak berubah)\n\n"
         "| ID | Field | Sebelum | Sesudah |\n|---|---|---|---|\n"
         + "\n".join(norm_log)
+        + "\n\n## Normalisasi tipografi paket bergambar (makna, kunci, dan gambar tidak berubah)\n\n"
+        "| ID | Field | Sumber (ZIP/PDF) | Asset |\n|---|---|---|---|\n"
+        + "\n".join(vis_log)
         + "\n",
         encoding="utf-8",
     )
-    out.write(f"Asset ditulis: {OUT} ({len(payload)} byte)\nbankSha256={sha}\n"
-              f"Koreksi={len(corr_log)} Normalisasi={len(norm_log)} -> {LOG}\n")
+    out.write(f"Asset ditulis: {OUT} ({len(payload)} byte, {len(qs)} soal; gambar disalin: {len(img_diffs)})\nbankSha256={sha}\n"
+              f"Koreksi={len(corr_log)} Normalisasi={len(norm_log)} NormalisasiVisual={len(vis_log)} -> {LOG}\n")
     return 0
 
 

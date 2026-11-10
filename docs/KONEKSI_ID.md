@@ -47,12 +47,15 @@ tertentu; karena itu IP selalu ditampilkan untuk diketik manual.
   dicek ulang setiap layar kembali aktif. Bluetooth dimatikan di tengah room Bluetooth → room dihentikan
   (`BLUETOOTH_OFF`) tanpa pemenang otomatis.
 
-## 3. Framing & protokol v2
+## 3. Framing & protokol v3
 
 - Frame: `[panjang 4 byte big-endian][JSON UTF-8]`, batas 64 KiB, decoder inkremental (paket terpotong,
   beberapa frame dalam satu read).
-- Envelope: `v` (versi protokol = **2**), `seq` (monoton per koneksi), `msgId` (dedup), `matchId`, `roundIndex`.
-  Aplikasi versi 0.1.x (protokol v1, duel 1 lawan 1) ditolak dengan pesan "Versi aplikasi tidak cocok".
+- Envelope: `v` (versi protokol = **3**, Duelmu 0.4.0), `seq` (monoton per koneksi), `msgId` (dedup), `matchId`, `roundIndex`.
+  Aplikasi 0.3.x (protokol v2) dan 0.1.x (v1) ditolak dengan pesan "Versi aplikasi tidak cocok".
+- v3 menambah soal bergambar & mini-game: `seeds` di `MATCH_SETUP`, `tutorialMs` di `QUESTION_PREPARE`, `seed` di
+  `QUESTION_START`, `GAME_SUBMIT`, `GAME_STATE_UPDATE` (ghost 5–10 Hz) dan `GAME_ACTION` yang di-relay Host ke semua
+  peserta lain, serta submisi game di `ROUND_RESULT`. Detail lengkap: [GAME_AND_GHOST_ARCHITECTURE.md](GAME_AND_GHOST_ARCHITECTURE.md).
 - Pesan duplikat / `seq` lama diabaikan; pesan rusak dibalas `ERROR` non-fatal (koneksi diputus setelah 5).
 
 | Pesan | Arah | Isi |
@@ -66,7 +69,10 @@ tertentu; karena itu IP selalu ditampilkan untuk diketik manual.
 | `QUESTION_PREPARE` / `QUESTION_READY` / `QUESTION_START` | Host↔Tamu | siapkan → siap → mulai (durasi dari tingkat kesulitan). **Tanpa kunci** |
 | `ANSWER` | Tamu→Host | id opsi kanonik (bukan posisi) + waktu jawab; `null` = waktu habis |
 | `ANSWER_LOCKED` | Host→semua | "pemain X sudah menjawab" (tanpa isi jawaban) |
-| `ROUND_RESULT` | Host→peserta | kunci + hasil SEMUA peserta + total. Dikirim setelah ronde ditutup |
+| `GAME_SUBMIT` | Tamu→Host | masukan mini-game (bukan flag benar); Host memutar ulang dengan mesin & seed yang sama |
+| `GAME_STATE_UPDATE` | Tamu→Host→semua peserta lain; Host→semua | snapshot ghost (koordinat dunia 0..1), tanpa kunci jawaban; disensor pada mode FAIR |
+| `GAME_ACTION` | sama seperti di atas | event aksi (tembak/luncur/tap/tuang) untuk animasi ghost |
+| `ROUND_RESULT` | Host→peserta | kunci (MCQ) / submisi + ringkasan (game) + hasil SEMUA peserta + total. Dikirim setelah ronde ditutup |
 | `NEXT_ROUND` | Tamu→Host | tombol Lanjut (Host lanjut bila semua menekan, atau otomatis 6 dtk) |
 | `MATCH_END` | Host→peserta | total akhir + alasan (selesai/dibatalkan) |
 | `BACK_TO_ROOM` | Host→semua | Host membuka room lagi setelah pertandingan |

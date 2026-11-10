@@ -18,6 +18,7 @@ import id.eduduel.app.domain.QuestionSelector
 import id.eduduel.app.domain.SoloEngine
 import id.eduduel.app.domain.SoloState
 import id.eduduel.app.domain.describe
+import id.eduduel.app.domain.game.GameSubmission
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -73,15 +74,16 @@ class SoloViewModel(
     }
 
     private fun newSession(b: QuestionBank): SoloState {
-        val pool = b.pool(config)
-        val count = config.questionCount.coerceAtMost(pool.size)
-        val rounds = QuestionSelector.select(pool, count, Ids.randomSeed(), avoidIds = usedIds)
+        val rounds = QuestionSelector.forConfig(b, config, Ids.randomSeed(), avoidIds = usedIds)
         usedIds += rounds.map { it.question.id }
         handle[KEY_SESSION] = Ids.random()
         return SoloEngine.start(config, rounds, clock.nowMs())
     }
 
     fun answer(option: OptionId) = update { SoloEngine.answer(it, option, clock.nowMs()) }
+    fun answerGame(submission: GameSubmission?) = update { SoloEngine.answerGame(it, submission, clock.nowMs()) }
+    /** Tutorial game selesai/dilewati: waktu soal mulai berjalan. */
+    fun begin() = update { SoloEngine.begin(it, clock.nowMs()) }
     fun next() = update { SoloEngine.next(it, clock.nowMs()) }
 
     /** Ulangi latihan dengan soal lain (menghindari soal yang sudah muncul bila memungkinkan). */
@@ -125,7 +127,11 @@ class SoloViewModel(
                 configSummary = s.config.describe(),
                 roundsJson = HistoryRepository.encodeRounds(
                     s.answers.mapIndexed { i, a ->
-                        RoundRecord(i, a.questionId, s.rounds[i].question.correctOptionId.name, a.optionId?.name, a.score.total, a.elapsedMs)
+                        val q = s.rounds[i].question
+                        RoundRecord(
+                            i, a.questionId, q.correctOptionId?.name, a.optionId?.name, a.score.total, a.elapsedMs,
+                            questionType = q.type.key, correct = a.correct, detail = a.detail,
+                        )
                     },
                 ),
                 bankVersionName = b.versionName,

@@ -84,6 +84,22 @@ fun SettingsScreen(onBack: () -> Unit, onPrivacy: () -> Unit) {
                 scope.launch { repo.setHaptics(it) }
             }
             HorizontalDivider()
+            Header(stringResource(R.string.settings_game))
+            ToggleRow(stringResource(R.string.settings_ghost), stringResource(R.string.settings_ghost_body), settings.ghostEnabled) {
+                scope.launch { repo.setGhost(it) }
+            }
+            Text(stringResource(R.string.settings_ghost_opacity, (settings.ghostOpacity * 100).toInt()), style = MaterialTheme.typography.bodyLarge)
+            androidx.compose.material3.Slider(
+                value = settings.ghostOpacity,
+                onValueChange = { v -> scope.launch { repo.setGhostOpacity(v) } },
+                valueRange = id.eduduel.app.data.settings.MIN_GHOST_OPACITY..id.eduduel.app.data.settings.MAX_GHOST_OPACITY,
+                steps = 2,
+                enabled = settings.ghostEnabled,
+            )
+            ToggleRow(stringResource(R.string.settings_touch_assist), stringResource(R.string.settings_touch_assist_body), settings.touchAssist) {
+                scope.launch { repo.setTouchAssist(it) }
+            }
+            HorizontalDivider()
             Header(stringResource(R.string.settings_data))
             ToggleRow(stringResource(R.string.settings_remember_name), stringResource(R.string.settings_remember_name_body), settings.rememberLastNickname) {
                 scope.launch { repo.setRememberNickname(it) }

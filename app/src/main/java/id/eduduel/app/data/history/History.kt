@@ -63,7 +63,8 @@ data class ParticipantRecord(val nickname: String, val score: Int, val rank: Int
 data class RoundRecord(
     val index: Int,
     val questionId: String,
-    val correctOptionId: String,
+    /** Kunci MCQ; null untuk soal game. */
+    val correctOptionId: String? = null,
     val myOptionId: String? = null,
     val myPoints: Int,
     val myElapsedMs: Long,
@@ -71,6 +72,11 @@ data class RoundRecord(
     val opponentPoints: Int? = null,
     val opponentElapsedMs: Long? = null,
     val voided: Boolean = false,
+    /** classic_mcq / visual_mcq / mini_game (null = riwayat lama sebelum 0.4 = klasik). */
+    val questionType: String? = null,
+    val correct: Boolean? = null,
+    /** Ringkasan hasil game (mis. "Kena sasaran pada tembakan 2"). */
+    val detail: String? = null,
 )
 
 data class DuelStats(val wins: Int, val losses: Int, val draws: Int, val cancelled: Int) {

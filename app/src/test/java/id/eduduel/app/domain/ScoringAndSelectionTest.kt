@@ -96,7 +96,7 @@ class SoloEngineTest {
     @Test fun answerIsLocked_scoring_andTimeout() {
         var s = SoloEngine.start(MatchConfig.INITIAL, rounds, now = 1_000)
         val q0 = s.current.question
-        s = SoloEngine.answer(s, q0.correctOptionId, now = 1_000 + q0.timeLimitMs / 2)
+        s = SoloEngine.answer(s, q0.correctOptionId!!, now = 1_000 + q0.timeLimitMs / 2)
         assertTrue(s.isLocked)
         val locked = s
         s = SoloEngine.answer(s, OptionId.entries.first { it != q0.correctOptionId }, now = 2_000_000)
@@ -114,7 +114,7 @@ class SoloEngineTest {
 
     @Test fun timerSurvivesRecreation_viaSnapshot() {
         var s = SoloEngine.start(MatchConfig.INITIAL, rounds, now = 50_000)
-        s = SoloEngine.answer(s, s.current.question.correctOptionId, 51_000)
+        s = SoloEngine.answer(s, s.current.question.correctOptionId!!, 51_000)
         s = SoloEngine.next(s, 60_000)
         val restored = SoloEngine.restore(SoloEngine.snapshot(s), bank)!!
         assertEquals(s.index, restored.index)
@@ -127,7 +127,7 @@ class SoloEngineTest {
     @Test fun finishesAfterLastQuestion() {
         var s = SoloEngine.start(MatchConfig.INITIAL, rounds, 0)
         repeat(5) { i ->
-            s = SoloEngine.answer(s, s.current.question.correctOptionId, i * 1_000L)
+            s = SoloEngine.answer(s, s.current.question.correctOptionId!!, i * 1_000L)
             s = SoloEngine.next(s, i * 1_000L)
         }
         assertTrue(s.finished)
@@ -147,5 +147,98 @@ class MathTextTest {
         assertEquals("3ˣ⁺¹ = 81", MathText.format("3^(x+1) = 81"))
         assertEquals("tanpa pangkat", MathText.format("tanpa pangkat"))
         assertEquals("a^(qq)", MathText.format("a^(qq)")) // tidak bisa -> dibiarkan
+    }
+}
+
+/** Mode Klasik / Bergambar / Mini-Game / Campuran pada 560 soal. */
+class ModeSelectionTest {
+    private val bank = TestBank.bank
+
+    @Test fun defaultModeIsClassic_existingBehaviourUnchanged() {
+        assertEquals(QuestionMode.CLASSIC, MatchConfig(Subject.FISIKA).mode)
+        assertEquals(GhostMode.LIVE, MatchConfig().ghostMode)
+        assertEquals(400, bank.pool(MatchConfig()).size)
+        assertTrue(bank.pool(MatchConfig()).all { it.type == QuestionType.CLASSIC_MCQ })
+    }
+
+    @Test fun poolSizesPerMode() {
+        for (s in Subject.entries) {
+            assertEquals(100, bank.pool(MatchConfig(s, QuestionMode.CLASSIC)).size)
+            assertEquals(20, bank.pool(MatchConfig(s, QuestionMode.VISUAL)).size)
+            assertEquals(20, bank.pool(MatchConfig(s, QuestionMode.GAME)).size)
+            assertEquals(140, bank.pool(MatchConfig(s, QuestionMode.MIXED)).size)
+            // Mini-game mapel ini selalu mengarah ke gameplay khasnya.
+            assertEquals(setOf(id.eduduel.app.domain.game.GameType.forSubject(s)), bank.pool(MatchConfig(s, QuestionMode.GAME)).map { it.game!!.gameType }.toSet())
+        }
+        assertEquals(80, bank.pool(MatchConfig(null, QuestionMode.VISUAL)).size)
+        assertEquals(80, bank.pool(MatchConfig(null, QuestionMode.GAME)).size)
+        assertEquals(560, bank.pool(MatchConfig(null, QuestionMode.MIXED)).size)
+    }
+
+    @Test fun gameRounds_haveSeed_andNoOptionOrder_mcqRoundsKeepPermutation() {
+        val rounds = QuestionSelector.forConfig(bank, MatchConfig(Subject.FISIKA, QuestionMode.GAME), seed = 9)
+        assertEquals(10, rounds.size)
+        assertTrue(rounds.all { it.question.isGame && it.optionOrder.isEmpty() })
+        assertTrue(rounds.map { it.seed }.toSet().size > 1)
+        assertEquals(rounds, QuestionSelector.forConfig(bank, MatchConfig(Subject.FISIKA, QuestionMode.GAME), seed = 9))
+        val vis = QuestionSelector.forConfig(bank, MatchConfig(Subject.BIOLOGI, QuestionMode.VISUAL), seed = 9)
+        assertTrue(vis.all { it.question.imageAsset != null && it.optionOrder.toSet() == OptionId.entries.toSet() })
+    }
+
+    @Test fun mixedMode_isStratified_4classic_3visual_3game() {
+        assertEquals(mapOf(QuestionType.CLASSIC_MCQ to 4, QuestionType.VISUAL_MCQ to 3, QuestionType.MINI_GAME to 3), QuestionSelector.mixedQuota(10))
+        for (seed in 1L..20L) {
+            val rounds = QuestionSelector.forConfig(bank, MatchConfig(Subject.KIMIA, QuestionMode.MIXED), seed)
+            val byType = rounds.groupingBy { it.question.type }.eachCount()
+            assertEquals(4, byType[QuestionType.CLASSIC_MCQ])
+            assertEquals(3, byType[QuestionType.VISUAL_MCQ])
+            assertEquals(3, byType[QuestionType.MINI_GAME])
+            assertEquals(10, rounds.map { it.question.id }.toSet().size)
+        }
+    }
+
+    @Test fun describeIncludesMode() {
+        assertEquals("Fisika · Mini-Game · 10 soal", MatchConfig(Subject.FISIKA, QuestionMode.GAME).describe())
+    }
+}
+
+/** Solo dengan soal game: tutorial menahan timer, skor game = rumus kuis, snapshot bertahan. */
+class SoloGameTest {
+    private val bank = TestBank.bank
+    private val rounds = QuestionSelector.forConfig(bank, MatchConfig(Subject.MATEMATIKA, QuestionMode.GAME), seed = 5)
+
+    @Test fun tutorialHoldsTimer_thenScoringUsesSameFormula() {
+        var s = SoloEngine.start(MatchConfig(Subject.MATEMATIKA, QuestionMode.GAME), rounds, now = 0)
+        assertTrue(s.awaitingStart)
+        val q = s.current.question
+        // selama tutorial: tidak bisa menjawab dan tidak timeout walau lama
+        assertEquals(s, SoloEngine.timeout(s, now = 10_000_000))
+        assertEquals(s, SoloEngine.answerGame(s, q.game!!.reference, now = 5))
+        assertEquals(q.timeLimitMs, s.remainingMs(99_999_999))
+        s = SoloEngine.begin(s, now = 50_000)
+        assertFalse(s.awaitingStart)
+        s = SoloEngine.answerGame(s, q.game!!.reference, now = 50_000 + q.timeLimitMs / 2)
+        assertTrue(s.currentAnswer!!.correct)
+        assertEquals(q.difficulty.basePoints + q.difficulty.basePoints / 4, s.totalScore)
+        assertTrue(s.currentAnswer!!.detail!!.isNotBlank())
+        // soal berikutnya juga game -> kembali ke tutorial
+        s = SoloEngine.next(s, now = 200_000)
+        assertTrue(s.awaitingStart)
+        // menyerah = 0 poin, tetap terkunci
+        s = SoloEngine.begin(s, 200_000)
+        s = SoloEngine.answerGame(s, null, 201_000)
+        assertTrue(s.isLocked)
+        assertEquals(0, s.currentAnswer!!.score.total)
+        // snapshot memulihkan submisi & skor
+        val restored = SoloEngine.restore(SoloEngine.snapshot(s), bank)!!
+        assertEquals(s.totalScore, restored.totalScore)
+        assertEquals(s.rounds.map { it.seed }, restored.rounds.map { it.seed })
+        assertEquals(s.answers.map { it.correct }, restored.answers.map { it.correct })
+    }
+
+    @Test fun mcqAnswerCannotBeUsedOnGameQuestion() {
+        var s = SoloEngine.begin(SoloEngine.start(MatchConfig(), rounds, 0), 0)
+        s = SoloEngine.answer(s, OptionId.A, 1_000)
+        assertFalse(s.isLocked)
     }
 }

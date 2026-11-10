@@ -1,0 +1,2487 @@
+{
+  "schemaVersion": 1,
+  "bankVersionName": "2026.11.09-visual-draft",
+  "questionCount": 80,
+  "questions": [
+    {
+      "id": "FIS-SMP-051",
+      "subject": "Fisika",
+      "gradeBand": "SMP",
+      "topic": "Grafik jarak-waktu",
+      "difficulty": "mudah",
+      "timeLimitSeconds": 60,
+      "stem": "Berdasarkan grafik, kelajuan konstan benda adalah ...",
+      "options": [
+        {
+          "id": "A",
+          "text": "2 m/s"
+        },
+        {
+          "id": "B",
+          "text": "3 m/s"
+        },
+        {
+          "id": "C",
+          "text": "4 m/s"
+        },
+        {
+          "id": "D",
+          "text": "6 m/s"
+        }
+      ],
+      "correctOptionId": "B",
+      "correctAnswer": "3 m/s",
+      "explanation": "Kelajuan = perubahan jarak / waktu = 12 m / 4 s = 3 m/s.",
+      "imageAsset": "images/FIS-SMP-051.png"
+    },
+    {
+      "id": "FIS-SMP-052",
+      "subject": "Fisika",
+      "gradeBand": "SMP",
+      "topic": "Perpindahan vektor",
+      "difficulty": "mudah",
+      "timeLimitSeconds": 60,
+      "stem": "Robot bergerak 9 m ke timur lalu 12 m ke utara. Besar perpindahannya adalah ...",
+      "options": [
+        {
+          "id": "A",
+          "text": "15 m"
+        },
+        {
+          "id": "B",
+          "text": "21 m"
+        },
+        {
+          "id": "C",
+          "text": "3 m"
+        },
+        {
+          "id": "D",
+          "text": "12 m"
+        }
+      ],
+      "correctOptionId": "A",
+      "correctAnswer": "15 m",
+      "explanation": "Perpindahan adalah hipotenusa: akar(9^2 + 12^2) = 15 m.",
+      "imageAsset": "images/FIS-SMP-052.png"
+    },
+    {
+      "id": "FIS-SMP-053",
+      "subject": "Fisika",
+      "gradeBand": "SMP",
+      "topic": "Tuas dan momen",
+      "difficulty": "mudah",
+      "timeLimitSeconds": 60,
+      "stem": "Pada tuas ideal, beban 120 N berjarak 1 m dari titik tumpu. Gaya F pada jarak 4 m adalah ...",
+      "options": [
+        {
+          "id": "A",
+          "text": "15 N"
+        },
+        {
+          "id": "B",
+          "text": "20 N"
+        },
+        {
+          "id": "C",
+          "text": "30 N"
+        },
+        {
+          "id": "D",
+          "text": "40 N"
+        }
+      ],
+      "correctOptionId": "C",
+      "correctAnswer": "30 N",
+      "explanation": "Keseimbangan momen: 120 x 1 = F x 4 sehingga F = 30 N.",
+      "imageAsset": "images/FIS-SMP-053.png"
+    },
+    {
+      "id": "FIS-SMP-054",
+      "subject": "Fisika",
+      "gradeBand": "SMP",
+      "topic": "Rangkaian seri",
+      "difficulty": "mudah",
+      "timeLimitSeconds": 60,
+      "stem": "Dua hambatan 2 ohm dan 4 ohm dihubungkan seri dengan baterai 12 V. Arus rangkaian adalah ...",
+      "options": [
+        {
+          "id": "A",
+          "text": "1 A"
+        },
+        {
+          "id": "B",
+          "text": "2 A"
+        },
+        {
+          "id": "C",
+          "text": "3 A"
+        },
+        {
+          "id": "D",
+          "text": "6 A"
+        }
+      ],
+      "correctOptionId": "B",
+      "correctAnswer": "2 A",
+      "explanation": "R total = 2 + 4 = 6 ohm; I = V/R = 12/6 = 2 A.",
+      "imageAsset": "images/FIS-SMP-054.png"
+    },
+    {
+      "id": "FIS-SMP-055",
+      "subject": "Fisika",
+      "gradeBand": "SMP",
+      "topic": "Suhu dan kalor",
+      "difficulty": "sedang",
+      "timeLimitSeconds": 90,
+      "stem": "Termometer mula-mula menunjukkan 25 derajat C, lalu 65 derajat C. Kenaikan suhu adalah ...",
+      "options": [
+        {
+          "id": "A",
+          "text": "40 derajat C"
+        },
+        {
+          "id": "B",
+          "text": "65 derajat C"
+        },
+        {
+          "id": "C",
+          "text": "90 derajat C"
+        },
+        {
+          "id": "D",
+          "text": "25 derajat C"
+        }
+      ],
+      "correctOptionId": "A",
+      "correctAnswer": "40 derajat C",
+      "explanation": "Kenaikan suhu = 65 - 25 = 40 derajat C.",
+      "imageAsset": "images/FIS-SMP-055.png"
+    },
+    {
+      "id": "FIS-SMP-056",
+      "subject": "Fisika",
+      "gradeBand": "SMP",
+      "topic": "Gaya apung",
+      "difficulty": "sedang",
+      "timeLimitSeconds": 90,
+      "stem": "Neraca pegas menunjukkan 12 N di udara dan 9 N saat benda tercelup. Gaya apungnya adalah ...",
+      "options": [
+        {
+          "id": "A",
+          "text": "1 N"
+        },
+        {
+          "id": "B",
+          "text": "2 N"
+        },
+        {
+          "id": "C",
+          "text": "3 N"
+        },
+        {
+          "id": "D",
+          "text": "9 N"
+        }
+      ],
+      "correctOptionId": "C",
+      "correctAnswer": "3 N",
+      "explanation": "Gaya apung sama dengan selisih berat tampak: 12 - 9 = 3 N.",
+      "imageAsset": "images/FIS-SMP-056.png"
+    },
+    {
+      "id": "FIS-SMP-057",
+      "subject": "Fisika",
+      "gradeBand": "SMP",
+      "topic": "Katrol bergerak",
+      "difficulty": "sedang",
+      "timeLimitSeconds": 90,
+      "stem": "Katrol ideal pada gambar menopang beban 80 N dengan dua ruas tali. Gaya tarik minimal F adalah ...",
+      "options": [
+        {
+          "id": "A",
+          "text": "20 N"
+        },
+        {
+          "id": "B",
+          "text": "40 N"
+        },
+        {
+          "id": "C",
+          "text": "80 N"
+        },
+        {
+          "id": "D",
+          "text": "160 N"
+        }
+      ],
+      "correctOptionId": "B",
+      "correctAnswer": "40 N",
+      "explanation": "Dua ruas tali menahan beban, sehingga F = 80/2 = 40 N.",
+      "imageAsset": "images/FIS-SMP-057.png"
+    },
+    {
+      "id": "FIS-SMP-058",
+      "subject": "Fisika",
+      "gradeBand": "SMP",
+      "topic": "Pemantulan cahaya",
+      "difficulty": "sedang",
+      "timeLimitSeconds": 90,
+      "stem": "Sinar datang membentuk sudut 35 derajat terhadap garis normal. Sudut pantulnya adalah ...",
+      "options": [
+        {
+          "id": "A",
+          "text": "35 derajat"
+        },
+        {
+          "id": "B",
+          "text": "55 derajat"
+        },
+        {
+          "id": "C",
+          "text": "70 derajat"
+        },
+        {
+          "id": "D",
+          "text": "145 derajat"
+        }
+      ],
+      "correctOptionId": "A",
+      "correctAnswer": "35 derajat",
+      "explanation": "Menurut hukum pemantulan, sudut datang = sudut pantul, diukur dari normal.",
+      "imageAsset": "images/FIS-SMP-058.png"
+    },
+    {
+      "id": "FIS-SMP-059",
+      "subject": "Fisika",
+      "gradeBand": "SMP",
+      "topic": "Gelombang",
+      "difficulty": "sulit",
+      "timeLimitSeconds": 120,
+      "stem": "Grafik gelombang menampilkan dua siklus penuh dalam rentang 8 m. Panjang gelombang adalah ...",
+      "options": [
+        {
+          "id": "A",
+          "text": "2 m"
+        },
+        {
+          "id": "B",
+          "text": "3 m"
+        },
+        {
+          "id": "C",
+          "text": "4 m"
+        },
+        {
+          "id": "D",
+          "text": "8 m"
+        }
+      ],
+      "correctOptionId": "C",
+      "correctAnswer": "4 m",
+      "explanation": "Dua siklus meliputi 8 m, maka panjang satu gelombang = 8/2 = 4 m.",
+      "imageAsset": "images/FIS-SMP-059.png"
+    },
+    {
+      "id": "FIS-SMP-060",
+      "subject": "Fisika",
+      "gradeBand": "SMP",
+      "topic": "Hukum Pascal",
+      "difficulty": "sulit",
+      "timeLimitSeconds": 120,
+      "stem": "Luas piston A1 = 3 cm2, A2 = 30 cm2, dan F1 = 24 N. Besar gaya keluaran F2 adalah ...",
+      "options": [
+        {
+          "id": "A",
+          "text": "24 N"
+        },
+        {
+          "id": "B",
+          "text": "80 N"
+        },
+        {
+          "id": "C",
+          "text": "120 N"
+        },
+        {
+          "id": "D",
+          "text": "240 N"
+        }
+      ],
+      "correctOptionId": "D",
+      "correctAnswer": "240 N",
+      "explanation": "Tekanan sama: F2 = F1(A2/A1) = 24(30/3) = 240 N.",
+      "imageAsset": "images/FIS-SMP-060.png"
+    },
+    {
+      "id": "FIS-SMA-051",
+      "subject": "Fisika",
+      "gradeBand": "SMA",
+      "topic": "Grafik kecepatan",
+      "difficulty": "mudah",
+      "timeLimitSeconds": 60,
+      "stem": "Kecepatan meningkat lurus dari 0 menjadi 18 m/s selama 6 s. Percepatannya adalah ...",
+      "options": [
+        {
+          "id": "A",
+          "text": "2 m/s2"
+        },
+        {
+          "id": "B",
+          "text": "3 m/s2"
+        },
+        {
+          "id": "C",
+          "text": "6 m/s2"
+        },
+        {
+          "id": "D",
+          "text": "18 m/s2"
+        }
+      ],
+      "correctOptionId": "B",
+      "correctAnswer": "3 m/s2",
+      "explanation": "Kemiringan grafik v-t adalah (18-0)/(6-0) = 3 m/s2.",
+      "imageAsset": "images/FIS-SMA-051.png"
+    },
+    {
+      "id": "FIS-SMA-052",
+      "subject": "Fisika",
+      "gradeBand": "SMA",
+      "topic": "Gerak parabola",
+      "difficulty": "mudah",
+      "timeLimitSeconds": 60,
+      "stem": "Bola dilempar dengan v0 = 20 m/s dan sudut 30 derajat. Komponen kecepatan awal vertikal adalah ...",
+      "options": [
+        {
+          "id": "A",
+          "text": "5 m/s"
+        },
+        {
+          "id": "B",
+          "text": "10 m/s"
+        },
+        {
+          "id": "C",
+          "text": "10 akar(3) m/s"
+        },
+        {
+          "id": "D",
+          "text": "20 m/s"
+        }
+      ],
+      "correctOptionId": "B",
+      "correctAnswer": "10 m/s",
+      "explanation": "v_y = v0 sin(30 derajat) = 20 x 1/2 = 10 m/s.",
+      "imageAsset": "images/FIS-SMA-052.png"
+    },
+    {
+      "id": "FIS-SMA-053",
+      "subject": "Fisika",
+      "gradeBand": "SMA",
+      "topic": "Hukum Newton",
+      "difficulty": "sedang",
+      "timeLimitSeconds": 90,
+      "stem": "Balok bermassa 4 kg mendapat gaya 21 N ke kanan dan 9 N ke kiri. Percepatannya adalah ...",
+      "options": [
+        {
+          "id": "A",
+          "text": "2 m/s2"
+        },
+        {
+          "id": "B",
+          "text": "3 m/s2"
+        },
+        {
+          "id": "C",
+          "text": "5 m/s2"
+        },
+        {
+          "id": "D",
+          "text": "7,5 m/s2"
+        }
+      ],
+      "correctOptionId": "B",
+      "correctAnswer": "3 m/s2",
+      "explanation": "Resultan gaya = 21 - 9 = 12 N; a = F/m = 12/4 = 3 m/s2.",
+      "imageAsset": "images/FIS-SMA-053.png"
+    },
+    {
+      "id": "FIS-SMA-054",
+      "subject": "Fisika",
+      "gradeBand": "SMA",
+      "topic": "Rangkaian paralel",
+      "difficulty": "sedang",
+      "timeLimitSeconds": 90,
+      "stem": "Resistor 6 ohm dan 3 ohm terhubung paralel ke sumber 12 V. Arus totalnya adalah ...",
+      "options": [
+        {
+          "id": "A",
+          "text": "2 A"
+        },
+        {
+          "id": "B",
+          "text": "4 A"
+        },
+        {
+          "id": "C",
+          "text": "6 A"
+        },
+        {
+          "id": "D",
+          "text": "12 A"
+        }
+      ],
+      "correctOptionId": "C",
+      "correctAnswer": "6 A",
+      "explanation": "1/R = 1/6 + 1/3 = 1/2, sehingga R=2 ohm dan I=12/2=6 A.",
+      "imageAsset": "images/FIS-SMA-054.png"
+    },
+    {
+      "id": "FIS-SMA-055",
+      "subject": "Fisika",
+      "gradeBand": "SMA",
+      "topic": "Bidang miring",
+      "difficulty": "sedang",
+      "timeLimitSeconds": 90,
+      "stem": "Balok 4 kg pada bidang licin bersudut 30 derajat. Jika g=10 m/s2, komponen gaya berat sejajar bidang adalah ...",
+      "options": [
+        {
+          "id": "A",
+          "text": "10 N"
+        },
+        {
+          "id": "B",
+          "text": "20 N"
+        },
+        {
+          "id": "C",
+          "text": "30 N"
+        },
+        {
+          "id": "D",
+          "text": "40 N"
+        }
+      ],
+      "correctOptionId": "B",
+      "correctAnswer": "20 N",
+      "explanation": "F_sejajar = mg sin(30 derajat) = 4 x 10 x 1/2 = 20 N.",
+      "imageAsset": "images/FIS-SMA-055.png"
+    },
+    {
+      "id": "FIS-SMA-056",
+      "subject": "Fisika",
+      "gradeBand": "SMA",
+      "topic": "Lensa tipis",
+      "difficulty": "sedang",
+      "timeLimitSeconds": 90,
+      "stem": "Lensa cembung memiliki f = 12 cm. Benda diletakkan 36 cm di depan lensa. Jarak bayangan adalah ...",
+      "options": [
+        {
+          "id": "A",
+          "text": "12 cm"
+        },
+        {
+          "id": "B",
+          "text": "15 cm"
+        },
+        {
+          "id": "C",
+          "text": "18 cm"
+        },
+        {
+          "id": "D",
+          "text": "24 cm"
+        }
+      ],
+      "correctOptionId": "C",
+      "correctAnswer": "18 cm",
+      "explanation": "1/f=1/s+1/s'; 1/s'=1/12-1/36=1/18, jadi s'=18 cm.",
+      "imageAsset": "images/FIS-SMA-056.png"
+    },
+    {
+      "id": "FIS-SMA-057",
+      "subject": "Fisika",
+      "gradeBand": "SMA",
+      "topic": "Hukum Coulomb",
+      "difficulty": "sulit",
+      "timeLimitSeconds": 120,
+      "stem": "Dua muatan +2 mikroC dan +4 mikroC terpisah 0,2 m. Dengan k=9x10^9, gaya listriknya adalah ...",
+      "options": [
+        {
+          "id": "A",
+          "text": "0,18 N"
+        },
+        {
+          "id": "B",
+          "text": "0,9 N"
+        },
+        {
+          "id": "C",
+          "text": "1,8 N"
+        },
+        {
+          "id": "D",
+          "text": "18 N"
+        }
+      ],
+      "correctOptionId": "C",
+      "correctAnswer": "1,8 N",
+      "explanation": "F=k q1 q2/r^2 = 9x10^9 x 8x10^-12 /0,04 = 1,8 N.",
+      "imageAsset": "images/FIS-SMA-057.png"
+    },
+    {
+      "id": "FIS-SMA-058",
+      "subject": "Fisika",
+      "gradeBand": "SMA",
+      "topic": "Tekanan hidrostatis",
+      "difficulty": "sulit",
+      "timeLimitSeconds": 120,
+      "stem": "Titik P berada 3 m di bawah permukaan air. Jika rho=1000 kg/m3 dan g=10 m/s2, tekanan hidrostatisnya adalah ...",
+      "options": [
+        {
+          "id": "A",
+          "text": "3.000 Pa"
+        },
+        {
+          "id": "B",
+          "text": "10.000 Pa"
+        },
+        {
+          "id": "C",
+          "text": "30.000 Pa"
+        },
+        {
+          "id": "D",
+          "text": "300.000 Pa"
+        }
+      ],
+      "correctOptionId": "C",
+      "correctAnswer": "30.000 Pa",
+      "explanation": "P=rho g h=1000 x 10 x 3 = 30.000 Pa (tekanan ukur).",
+      "imageAsset": "images/FIS-SMA-058.png"
+    },
+    {
+      "id": "FIS-SMA-059",
+      "subject": "Fisika",
+      "gradeBand": "SMA",
+      "topic": "Energi pegas",
+      "difficulty": "sulit",
+      "timeLimitSeconds": 120,
+      "stem": "Pegas k=150 N/m ditekan sejauh 0,20 m dari setimbang. Energi potensial elastisnya adalah ...",
+      "options": [
+        {
+          "id": "A",
+          "text": "1,5 J"
+        },
+        {
+          "id": "B",
+          "text": "3 J"
+        },
+        {
+          "id": "C",
+          "text": "6 J"
+        },
+        {
+          "id": "D",
+          "text": "15 J"
+        }
+      ],
+      "correctOptionId": "B",
+      "correctAnswer": "3 J",
+      "explanation": "E = 1/2 k x^2 = 0,5 x 150 x 0,20^2 = 3 J.",
+      "imageAsset": "images/FIS-SMA-059.png"
+    },
+    {
+      "id": "FIS-SMA-060",
+      "subject": "Fisika",
+      "gradeBand": "SMA",
+      "topic": "Transformator",
+      "difficulty": "sulit",
+      "timeLimitSeconds": 120,
+      "stem": "Transformator ideal memiliki Np=120 lilitan, Ns=600 lilitan, dan Vp=10 V. Tegangan sekunder adalah ...",
+      "options": [
+        {
+          "id": "A",
+          "text": "2 V"
+        },
+        {
+          "id": "B",
+          "text": "12 V"
+        },
+        {
+          "id": "C",
+          "text": "50 V"
+        },
+        {
+          "id": "D",
+          "text": "60 V"
+        }
+      ],
+      "correctOptionId": "C",
+      "correctAnswer": "50 V",
+      "explanation": "Vs/Vp = Ns/Np = 600/120 = 5; Vs=5 x 10=50 V.",
+      "imageAsset": "images/FIS-SMA-060.png"
+    },
+    {
+      "id": "BIO-SMP-051",
+      "subject": "Biologi",
+      "gradeBand": "SMP",
+      "topic": "Organel sel",
+      "difficulty": "mudah",
+      "timeLimitSeconds": 60,
+      "stem": "Pada diagram sel, bagian A berbentuk oval berlipat di dalam. Organel A adalah ...",
+      "options": [
+        {
+          "id": "A",
+          "text": "Mitokondria"
+        },
+        {
+          "id": "B",
+          "text": "Nukleus"
+        },
+        {
+          "id": "C",
+          "text": "Ribosom"
+        },
+        {
+          "id": "D",
+          "text": "Dinding sel"
+        }
+      ],
+      "correctOptionId": "A",
+      "correctAnswer": "Mitokondria",
+      "explanation": "Mitokondria memiliki membran dalam berlipat (krista) untuk respirasi sel.",
+      "imageAsset": "images/BIO-SMP-051.png"
+    },
+    {
+      "id": "BIO-SMP-052",
+      "subject": "Biologi",
+      "gradeBand": "SMP",
+      "topic": "Stomata",
+      "difficulty": "mudah",
+      "timeLimitSeconds": 60,
+      "stem": "Dua sel penjaga mengapit celah stomata pada gambar. Fungsi utama celah itu adalah ...",
+      "options": [
+        {
+          "id": "A",
+          "text": "Menyerap mineral dari tanah"
+        },
+        {
+          "id": "B",
+          "text": "Pertukaran gas dan uap air"
+        },
+        {
+          "id": "C",
+          "text": "Menyimpan pati"
+        },
+        {
+          "id": "D",
+          "text": "Membentuk biji"
+        }
+      ],
+      "correctOptionId": "B",
+      "correctAnswer": "Pertukaran gas dan uap air",
+      "explanation": "Stomata memungkinkan pertukaran CO2/O2 dan keluarnya uap air.",
+      "imageAsset": "images/BIO-SMP-052.png"
+    },
+    {
+      "id": "BIO-SMP-053",
+      "subject": "Biologi",
+      "gradeBand": "SMP",
+      "topic": "Rantai makanan",
+      "difficulty": "mudah",
+      "timeLimitSeconds": 60,
+      "stem": "Pada rantai makanan yang digambar, organisme konsumen tingkat II adalah ...",
+      "options": [
+        {
+          "id": "A",
+          "text": "Rumput"
+        },
+        {
+          "id": "B",
+          "text": "Belalang"
+        },
+        {
+          "id": "C",
+          "text": "Katak"
+        },
+        {
+          "id": "D",
+          "text": "Ular"
+        }
+      ],
+      "correctOptionId": "C",
+      "correctAnswer": "Katak",
+      "explanation": "Belalang konsumen I, katak memakan belalang sehingga konsumen II.",
+      "imageAsset": "images/BIO-SMP-053.png"
+    },
+    {
+      "id": "BIO-SMP-054",
+      "subject": "Biologi",
+      "gradeBand": "SMP",
+      "topic": "Sirkulasi darah",
+      "difficulty": "mudah",
+      "timeLimitSeconds": 60,
+      "stem": "Darah kaya oksigen dari paru-paru pertama kali masuk ke ruang jantung ...",
+      "options": [
+        {
+          "id": "A",
+          "text": "Serambi kanan"
+        },
+        {
+          "id": "B",
+          "text": "Bilik kanan"
+        },
+        {
+          "id": "C",
+          "text": "Serambi kiri"
+        },
+        {
+          "id": "D",
+          "text": "Bilik kiri"
+        }
+      ],
+      "correctOptionId": "C",
+      "correctAnswer": "Serambi kiri",
+      "explanation": "Vena pulmonalis membawa darah beroksigen dari paru menuju serambi kiri.",
+      "imageAsset": "images/BIO-SMP-054.png"
+    },
+    {
+      "id": "BIO-SMP-055",
+      "subject": "Biologi",
+      "gradeBand": "SMP",
+      "topic": "Pencernaan",
+      "difficulty": "sedang",
+      "timeLimitSeconds": 90,
+      "stem": "Pada diagram saluran pencernaan, sebagian besar penyerapan nutrien terjadi di ...",
+      "options": [
+        {
+          "id": "A",
+          "text": "Lambung"
+        },
+        {
+          "id": "B",
+          "text": "Usus halus"
+        },
+        {
+          "id": "C",
+          "text": "Kerongkongan"
+        },
+        {
+          "id": "D",
+          "text": "Usus besar"
+        }
+      ],
+      "correctOptionId": "B",
+      "correctAnswer": "Usus halus",
+      "explanation": "Vili dan mikrovili usus halus memperluas permukaan penyerapan zat gizi.",
+      "imageAsset": "images/BIO-SMP-055.png"
+    },
+    {
+      "id": "BIO-SMP-056",
+      "subject": "Biologi",
+      "gradeBand": "SMP",
+      "topic": "Pertukaran gas",
+      "difficulty": "sedang",
+      "timeLimitSeconds": 90,
+      "stem": "Panah dari alveolus menuju kapiler menunjukkan gas yang masuk ke darah. Gas itu adalah ...",
+      "options": [
+        {
+          "id": "A",
+          "text": "CO2"
+        },
+        {
+          "id": "B",
+          "text": "Nitrogen"
+        },
+        {
+          "id": "C",
+          "text": "O2"
+        },
+        {
+          "id": "D",
+          "text": "Uap air"
+        }
+      ],
+      "correctOptionId": "C",
+      "correctAnswer": "O2",
+      "explanation": "Oksigen berdifusi dari udara alveolus ke darah, CO2 bergerak sebaliknya.",
+      "imageAsset": "images/BIO-SMP-056.png"
+    },
+    {
+      "id": "BIO-SMP-057",
+      "subject": "Biologi",
+      "gradeBand": "SMP",
+      "topic": "Jaringan pengangkut",
+      "difficulty": "sedang",
+      "timeLimitSeconds": 90,
+      "stem": "Pada penampang batang, saluran X menunjukkan panah transport air ke atas. Saluran X adalah ...",
+      "options": [
+        {
+          "id": "A",
+          "text": "Floem"
+        },
+        {
+          "id": "B",
+          "text": "Kutikula"
+        },
+        {
+          "id": "C",
+          "text": "Xilem"
+        },
+        {
+          "id": "D",
+          "text": "Epidermis"
+        }
+      ],
+      "correctOptionId": "C",
+      "correctAnswer": "Xilem",
+      "explanation": "Xilem mengangkut air dan mineral dari akar ke bagian atas tumbuhan.",
+      "imageAsset": "images/BIO-SMP-057.png"
+    },
+    {
+      "id": "BIO-SMP-058",
+      "subject": "Biologi",
+      "gradeBand": "SMP",
+      "topic": "Piramida energi",
+      "difficulty": "sedang",
+      "timeLimitSeconds": 90,
+      "stem": "Jika produsen memiliki 8.000 kJ, berapa energi pada konsumen tingkat I menurut diagram?",
+      "options": [
+        {
+          "id": "A",
+          "text": "80 kJ"
+        },
+        {
+          "id": "B",
+          "text": "800 kJ"
+        },
+        {
+          "id": "C",
+          "text": "8.000 kJ"
+        },
+        {
+          "id": "D",
+          "text": "80.000 kJ"
+        }
+      ],
+      "correctOptionId": "B",
+      "correctAnswer": "800 kJ",
+      "explanation": "Piramida menunjukkan tingkat berikutnya menerima sekitar 10%, yaitu 800 kJ.",
+      "imageAsset": "images/BIO-SMP-058.png"
+    },
+    {
+      "id": "BIO-SMP-059",
+      "subject": "Biologi",
+      "gradeBand": "SMP",
+      "topic": "Reproduksi tumbuhan",
+      "difficulty": "sulit",
+      "timeLimitSeconds": 120,
+      "stem": "Perpindahan serbuk sari dari kepala sari menuju kepala putik disebut ...",
+      "options": [
+        {
+          "id": "A",
+          "text": "Pembuahan"
+        },
+        {
+          "id": "B",
+          "text": "Perkecambahan"
+        },
+        {
+          "id": "C",
+          "text": "Penyerbukan"
+        },
+        {
+          "id": "D",
+          "text": "Fragmentasi"
+        }
+      ],
+      "correctOptionId": "C",
+      "correctAnswer": "Penyerbukan",
+      "explanation": "Penyerbukan adalah perpindahan serbuk sari ke stigma/kepala putik, sebelum pembuahan.",
+      "imageAsset": "images/BIO-SMP-059.png"
+    },
+    {
+      "id": "BIO-SMP-060",
+      "subject": "Biologi",
+      "gradeBand": "SMP",
+      "topic": "Persilangan monohibrid",
+      "difficulty": "sulit",
+      "timeLimitSeconds": 120,
+      "stem": "Pada kotak Punnett Mm x mm, M dominan penuh. Peluang fenotipe dominan pada keturunan adalah ...",
+      "options": [
+        {
+          "id": "A",
+          "text": "0%"
+        },
+        {
+          "id": "B",
+          "text": "25%"
+        },
+        {
+          "id": "C",
+          "text": "50%"
+        },
+        {
+          "id": "D",
+          "text": "100%"
+        }
+      ],
+      "correctOptionId": "C",
+      "correctAnswer": "50%",
+      "explanation": "Kotak Punnett menghasilkan 2 Mm dan 2 mm, sehingga 2/4 = 50% dominan.",
+      "imageAsset": "images/BIO-SMP-060.png"
+    },
+    {
+      "id": "BIO-SMA-051",
+      "subject": "Biologi",
+      "gradeBand": "SMA",
+      "topic": "Rekombinasi genetik",
+      "difficulty": "mudah",
+      "timeLimitSeconds": 60,
+      "stem": "Gambar kromosom homolog bertukar segmen pada profase I meiosis. Peristiwa itu meningkatkan ...",
+      "options": [
+        {
+          "id": "A",
+          "text": "Jumlah kromosom gamet"
+        },
+        {
+          "id": "B",
+          "text": "Variasi kombinasi alel"
+        },
+        {
+          "id": "C",
+          "text": "Jumlah nukleus"
+        },
+        {
+          "id": "D",
+          "text": "Laju mitosis"
+        }
+      ],
+      "correctOptionId": "B",
+      "correctAnswer": "Variasi kombinasi alel",
+      "explanation": "Crossing-over menghasilkan kombinasi alel baru pada kromatid rekombinan.",
+      "imageAsset": "images/BIO-SMA-051.png"
+    },
+    {
+      "id": "BIO-SMA-052",
+      "subject": "Biologi",
+      "gradeBand": "SMA",
+      "topic": "Aktivitas enzim",
+      "difficulty": "mudah",
+      "timeLimitSeconds": 60,
+      "stem": "Kurva menunjukkan aktivitas enzim tertinggi di sekitar suhu ...",
+      "options": [
+        {
+          "id": "A",
+          "text": "10 derajat C"
+        },
+        {
+          "id": "B",
+          "text": "25 derajat C"
+        },
+        {
+          "id": "C",
+          "text": "37 derajat C"
+        },
+        {
+          "id": "D",
+          "text": "70 derajat C"
+        }
+      ],
+      "correctOptionId": "C",
+      "correctAnswer": "37 derajat C",
+      "explanation": "Puncak kurva menunjukkan suhu optimum sekitar 37 derajat C.",
+      "imageAsset": "images/BIO-SMA-052.png"
+    },
+    {
+      "id": "BIO-SMA-053",
+      "subject": "Biologi",
+      "gradeBand": "SMA",
+      "topic": "Sistem golongan darah",
+      "difficulty": "sedang",
+      "timeLimitSeconds": 90,
+      "stem": "Eritrosit pada gambar memiliki antigen A tetapi tidak memiliki antigen B. Golongan darah ABO-nya adalah ...",
+      "options": [
+        {
+          "id": "A",
+          "text": "A"
+        },
+        {
+          "id": "B",
+          "text": "B"
+        },
+        {
+          "id": "C",
+          "text": "AB"
+        },
+        {
+          "id": "D",
+          "text": "O"
+        }
+      ],
+      "correctOptionId": "A",
+      "correctAnswer": "A",
+      "explanation": "Golongan A memiliki antigen A pada eritrosit dan tidak memiliki antigen B.",
+      "imageAsset": "images/BIO-SMA-053.png"
+    },
+    {
+      "id": "BIO-SMA-054",
+      "subject": "Biologi",
+      "gradeBand": "SMA",
+      "topic": "Transkripsi",
+      "difficulty": "sedang",
+      "timeLimitSeconds": 90,
+      "stem": "Dari untai DNA cetakan 3'-TAC GGA-5', urutan mRNA hasil transkripsi adalah ...",
+      "options": [
+        {
+          "id": "A",
+          "text": "5'-AUG CCU-3'"
+        },
+        {
+          "id": "B",
+          "text": "5'-UAC GGA-3'"
+        },
+        {
+          "id": "C",
+          "text": "5'-ATG CCT-3'"
+        },
+        {
+          "id": "D",
+          "text": "3'-AUG CCU-5'"
+        }
+      ],
+      "correctOptionId": "A",
+      "correctAnswer": "5'-AUG CCU-3'",
+      "explanation": "RNA komplementer dengan untai cetakan dan disintesis 5' ke 3': AUG CCU.",
+      "imageAsset": "images/BIO-SMA-054.png"
+    },
+    {
+      "id": "BIO-SMA-055",
+      "subject": "Biologi",
+      "gradeBand": "SMA",
+      "topic": "Genetika populasi",
+      "difficulty": "sedang",
+      "timeLimitSeconds": 90,
+      "stem": "Dalam populasi Hardy-Weinberg dengan p=0,7 dan q=0,3, proporsi heterozigot 2pq adalah ...",
+      "options": [
+        {
+          "id": "A",
+          "text": "0,21"
+        },
+        {
+          "id": "B",
+          "text": "0,30"
+        },
+        {
+          "id": "C",
+          "text": "0,42"
+        },
+        {
+          "id": "D",
+          "text": "0,49"
+        }
+      ],
+      "correctOptionId": "C",
+      "correctAnswer": "0,42",
+      "explanation": "2pq = 2(0,7)(0,3)=0,42.",
+      "imageAsset": "images/BIO-SMA-055.png"
+    },
+    {
+      "id": "BIO-SMA-056",
+      "subject": "Biologi",
+      "gradeBand": "SMA",
+      "topic": "Faktor pembatas fotosintesis",
+      "difficulty": "sedang",
+      "timeLimitSeconds": 90,
+      "stem": "Saat intensitas cahaya terus naik tetapi laju fotosintesis mendatar, faktor pembatas lain yang mungkin adalah ...",
+      "options": [
+        {
+          "id": "A",
+          "text": "Warna pot"
+        },
+        {
+          "id": "B",
+          "text": "Ketersediaan CO2"
+        },
+        {
+          "id": "C",
+          "text": "Panjang akar semata"
+        },
+        {
+          "id": "D",
+          "text": "Jumlah bunga"
+        }
+      ],
+      "correctOptionId": "B",
+      "correctAnswer": "Ketersediaan CO2",
+      "explanation": "Pada daerah plateau, cahaya bukan lagi pembatas; CO2 atau suhu dapat membatasi laju.",
+      "imageAsset": "images/BIO-SMA-056.png"
+    },
+    {
+      "id": "BIO-SMA-057",
+      "subject": "Biologi",
+      "gradeBand": "SMA",
+      "topic": "Pertumbuhan populasi",
+      "difficulty": "sulit",
+      "timeLimitSeconds": 120,
+      "stem": "Pada kurva pertumbuhan logistik, garis horizontal K berada pada 500 individu. K adalah ...",
+      "options": [
+        {
+          "id": "A",
+          "text": "Laju mutasi"
+        },
+        {
+          "id": "B",
+          "text": "Daya dukung lingkungan"
+        },
+        {
+          "id": "C",
+          "text": "Laju natalitas"
+        },
+        {
+          "id": "D",
+          "text": "Jumlah spesies"
+        }
+      ],
+      "correctOptionId": "B",
+      "correctAnswer": "Daya dukung lingkungan",
+      "explanation": "K adalah carrying capacity, populasi maksimum yang berkelanjutan pada kondisi tersebut.",
+      "imageAsset": "images/BIO-SMA-057.png"
+    },
+    {
+      "id": "BIO-SMA-058",
+      "subject": "Biologi",
+      "gradeBand": "SMA",
+      "topic": "Rekayasa DNA",
+      "difficulty": "sulit",
+      "timeLimitSeconds": 120,
+      "stem": "Diagram menunjukkan gen target disambungkan ke plasmid yang telah dipotong. Enzim yang menyambung ujung DNA adalah ...",
+      "options": [
+        {
+          "id": "A",
+          "text": "DNA ligase"
+        },
+        {
+          "id": "B",
+          "text": "Amilase"
+        },
+        {
+          "id": "C",
+          "text": "Lipase"
+        },
+        {
+          "id": "D",
+          "text": "Helikase"
+        }
+      ],
+      "correctOptionId": "A",
+      "correctAnswer": "DNA ligase",
+      "explanation": "DNA ligase membentuk ikatan fosfodiester untuk menyambung fragmen DNA.",
+      "imageAsset": "images/BIO-SMA-058.png"
+    },
+    {
+      "id": "BIO-SMA-059",
+      "subject": "Biologi",
+      "gradeBand": "SMA",
+      "topic": "Nefron",
+      "difficulty": "sulit",
+      "timeLimitSeconds": 120,
+      "stem": "Panah pada glomerulus menuju kapsul Bowman menandai proses ...",
+      "options": [
+        {
+          "id": "A",
+          "text": "Reabsorpsi glukosa"
+        },
+        {
+          "id": "B",
+          "text": "Sekresi ion H+"
+        },
+        {
+          "id": "C",
+          "text": "Filtrasi plasma"
+        },
+        {
+          "id": "D",
+          "text": "Pembentukan urea"
+        }
+      ],
+      "correctOptionId": "C",
+      "correctAnswer": "Filtrasi plasma",
+      "explanation": "Filtrasi terjadi saat cairan plasma tersaring dari kapiler glomerulus ke ruang Bowman.",
+      "imageAsset": "images/BIO-SMA-059.png"
+    },
+    {
+      "id": "BIO-SMA-060",
+      "subject": "Biologi",
+      "gradeBand": "SMA",
+      "topic": "Respirasi sel",
+      "difficulty": "sulit",
+      "timeLimitSeconds": 120,
+      "stem": "Bagian M adalah matriks mitokondria. Tahap respirasi yang berlangsung di M adalah ...",
+      "options": [
+        {
+          "id": "A",
+          "text": "Glikolisis"
+        },
+        {
+          "id": "B",
+          "text": "Siklus Krebs"
+        },
+        {
+          "id": "C",
+          "text": "Fotosistem II"
+        },
+        {
+          "id": "D",
+          "text": "Transkripsi inti"
+        }
+      ],
+      "correctOptionId": "B",
+      "correctAnswer": "Siklus Krebs",
+      "explanation": "Siklus Krebs terjadi di matriks mitokondria, sedangkan glikolisis di sitosol.",
+      "imageAsset": "images/BIO-SMA-060.png"
+    },
+    {
+      "id": "KIM-SMP-051",
+      "subject": "Kimia",
+      "gradeBand": "SMP",
+      "topic": "Wujud zat",
+      "difficulty": "mudah",
+      "timeLimitSeconds": 60,
+      "stem": "Pada model partikel, susunan A paling rapat dan teratur. Wujud zat A adalah ...",
+      "options": [
+        {
+          "id": "A",
+          "text": "Padat"
+        },
+        {
+          "id": "B",
+          "text": "Cair"
+        },
+        {
+          "id": "C",
+          "text": "Gas"
+        },
+        {
+          "id": "D",
+          "text": "Plasma"
+        }
+      ],
+      "correctOptionId": "A",
+      "correctAnswer": "Padat",
+      "explanation": "Padatan memiliki partikel relatif rapat dan teratur.",
+      "imageAsset": "images/KIM-SMP-051.png"
+    },
+    {
+      "id": "KIM-SMP-052",
+      "subject": "Kimia",
+      "gradeBand": "SMP",
+      "topic": "Pemisahan campuran",
+      "difficulty": "mudah",
+      "timeLimitSeconds": 60,
+      "stem": "Berdasarkan gambar campuran pasir dan serbuk besi, alat paling tepat untuk mengambil besi adalah ...",
+      "options": [
+        {
+          "id": "A",
+          "text": "Saringan"
+        },
+        {
+          "id": "B",
+          "text": "Magnet"
+        },
+        {
+          "id": "C",
+          "text": "Corong pisah"
+        },
+        {
+          "id": "D",
+          "text": "Termometer"
+        }
+      ],
+      "correctOptionId": "B",
+      "correctAnswer": "Magnet",
+      "explanation": "Serbuk besi tertarik magnet, sedangkan pasir umumnya tidak.",
+      "imageAsset": "images/KIM-SMP-052.png"
+    },
+    {
+      "id": "KIM-SMP-053",
+      "subject": "Kimia",
+      "gradeBand": "SMP",
+      "topic": "Unsur dan senyawa",
+      "difficulty": "mudah",
+      "timeLimitSeconds": 60,
+      "stem": "Gambar A menunjukkan molekul dua atom sejenis, sedangkan B dua atom berbeda. Yang merupakan unsur adalah ...",
+      "options": [
+        {
+          "id": "A",
+          "text": "A saja"
+        },
+        {
+          "id": "B",
+          "text": "B saja"
+        },
+        {
+          "id": "C",
+          "text": "Keduanya senyawa"
+        },
+        {
+          "id": "D",
+          "text": "Keduanya campuran"
+        }
+      ],
+      "correctOptionId": "A",
+      "correctAnswer": "A saja",
+      "explanation": "Molekul unsur tersusun hanya dari atom-atom sejenis.",
+      "imageAsset": "images/KIM-SMP-053.png"
+    },
+    {
+      "id": "KIM-SMP-054",
+      "subject": "Kimia",
+      "gradeBand": "SMP",
+      "topic": "Asam dan basa",
+      "difficulty": "mudah",
+      "timeLimitSeconds": 60,
+      "stem": "Larutan X pada indikator universal terbaca pH 3. Sifat larutan X adalah ...",
+      "options": [
+        {
+          "id": "A",
+          "text": "Basa kuat"
+        },
+        {
+          "id": "B",
+          "text": "Basa lemah"
+        },
+        {
+          "id": "C",
+          "text": "Netral"
+        },
+        {
+          "id": "D",
+          "text": "Asam"
+        }
+      ],
+      "correctOptionId": "D",
+      "correctAnswer": "Asam",
+      "explanation": "Nilai pH di bawah 7 menunjukkan larutan asam.",
+      "imageAsset": "images/KIM-SMP-054.png"
+    },
+    {
+      "id": "KIM-SMP-055",
+      "subject": "Kimia",
+      "gradeBand": "SMP",
+      "topic": "Filtrasi",
+      "difficulty": "sedang",
+      "timeLimitSeconds": 90,
+      "stem": "Diagram menunjukkan pasir tertahan pada kertas saring sedangkan air melewati corong. Proses ini disebut ...",
+      "options": [
+        {
+          "id": "A",
+          "text": "Destilasi"
+        },
+        {
+          "id": "B",
+          "text": "Sublimasi"
+        },
+        {
+          "id": "C",
+          "text": "Filtrasi"
+        },
+        {
+          "id": "D",
+          "text": "Kromatografi"
+        }
+      ],
+      "correctOptionId": "C",
+      "correctAnswer": "Filtrasi",
+      "explanation": "Filtrasi memisahkan padatan tidak larut dari cairannya dengan penyaringan.",
+      "imageAsset": "images/KIM-SMP-055.png"
+    },
+    {
+      "id": "KIM-SMP-056",
+      "subject": "Kimia",
+      "gradeBand": "SMP",
+      "topic": "Struktur atom",
+      "difficulty": "sedang",
+      "timeLimitSeconds": 90,
+      "stem": "Dalam model atom, partikel bertanda E mengorbit inti dan bermuatan negatif. E adalah ...",
+      "options": [
+        {
+          "id": "A",
+          "text": "Proton"
+        },
+        {
+          "id": "B",
+          "text": "Elektron"
+        },
+        {
+          "id": "C",
+          "text": "Neutron"
+        },
+        {
+          "id": "D",
+          "text": "Nukleon"
+        }
+      ],
+      "correctOptionId": "B",
+      "correctAnswer": "Elektron",
+      "explanation": "Elektron bermuatan negatif dan berada pada daerah kulit/orbital atom.",
+      "imageAsset": "images/KIM-SMP-056.png"
+    },
+    {
+      "id": "KIM-SMP-057",
+      "subject": "Kimia",
+      "gradeBand": "SMP",
+      "topic": "Reaksi logam dengan asam",
+      "difficulty": "sedang",
+      "timeLimitSeconds": 90,
+      "stem": "Seng bereaksi dengan HCl encer menghasilkan gelembung. Gas utama yang terbentuk adalah ...",
+      "options": [
+        {
+          "id": "A",
+          "text": "O2"
+        },
+        {
+          "id": "B",
+          "text": "CO2"
+        },
+        {
+          "id": "C",
+          "text": "H2"
+        },
+        {
+          "id": "D",
+          "text": "N2"
+        }
+      ],
+      "correctOptionId": "C",
+      "correctAnswer": "H2",
+      "explanation": "Zn + 2HCl -> ZnCl2 + H2(g).",
+      "imageAsset": "images/KIM-SMP-057.png"
+    },
+    {
+      "id": "KIM-SMP-058",
+      "subject": "Kimia",
+      "gradeBand": "SMP",
+      "topic": "Skala pH",
+      "difficulty": "sedang",
+      "timeLimitSeconds": 90,
+      "stem": "Titik X pada skala pH menunjukkan nilai 11. Larutan tersebut bersifat ...",
+      "options": [
+        {
+          "id": "A",
+          "text": "Asam"
+        },
+        {
+          "id": "B",
+          "text": "Netral"
+        },
+        {
+          "id": "C",
+          "text": "Basa"
+        },
+        {
+          "id": "D",
+          "text": "Tidak dapat ditentukan"
+        }
+      ],
+      "correctOptionId": "C",
+      "correctAnswer": "Basa",
+      "explanation": "Pada skala pH umum (25 derajat C), pH > 7 bersifat basa.",
+      "imageAsset": "images/KIM-SMP-058.png"
+    },
+    {
+      "id": "KIM-SMP-059",
+      "subject": "Kimia",
+      "gradeBand": "SMP",
+      "topic": "Perubahan kimia",
+      "difficulty": "sulit",
+      "timeLimitSeconds": 120,
+      "stem": "Pada gambar lilin menyala, parafin terbakar membentuk zat baru. Pembakaran adalah perubahan ...",
+      "options": [
+        {
+          "id": "A",
+          "text": "Fisika saja"
+        },
+        {
+          "id": "B",
+          "text": "Kimia"
+        },
+        {
+          "id": "C",
+          "text": "Wujud saja"
+        },
+        {
+          "id": "D",
+          "text": "Ukuran saja"
+        }
+      ],
+      "correctOptionId": "B",
+      "correctAnswer": "Kimia",
+      "explanation": "Pembakaran merupakan reaksi kimia, menghasilkan antara lain CO2 dan H2O.",
+      "imageAsset": "images/KIM-SMP-059.png"
+    },
+    {
+      "id": "KIM-SMP-060",
+      "subject": "Kimia",
+      "gradeBand": "SMP",
+      "topic": "Kekekalan massa",
+      "difficulty": "sulit",
+      "timeLimitSeconds": 120,
+      "stem": "Dalam bejana tertutup massa total pereaksi sebelum reaksi adalah 180 g. Massa total sesudah reaksi adalah ...",
+      "options": [
+        {
+          "id": "A",
+          "text": "90 g"
+        },
+        {
+          "id": "B",
+          "text": "160 g"
+        },
+        {
+          "id": "C",
+          "text": "180 g"
+        },
+        {
+          "id": "D",
+          "text": "200 g"
+        }
+      ],
+      "correctOptionId": "C",
+      "correctAnswer": "180 g",
+      "explanation": "Dalam sistem tertutup massa total tetap 180 g menurut hukum kekekalan massa.",
+      "imageAsset": "images/KIM-SMP-060.png"
+    },
+    {
+      "id": "KIM-SMA-051",
+      "subject": "Kimia",
+      "gradeBand": "SMA",
+      "topic": "Konfigurasi elektron",
+      "difficulty": "mudah",
+      "timeLimitSeconds": 60,
+      "stem": "Atom pada gambar memiliki konfigurasi kulit 2-8-1. Posisi unsur ini adalah ...",
+      "options": [
+        {
+          "id": "A",
+          "text": "Golongan IA, periode 3"
+        },
+        {
+          "id": "B",
+          "text": "Golongan IIA, periode 3"
+        },
+        {
+          "id": "C",
+          "text": "Golongan VIIA, periode 2"
+        },
+        {
+          "id": "D",
+          "text": "Golongan IA, periode 2"
+        }
+      ],
+      "correctOptionId": "A",
+      "correctAnswer": "Golongan IA, periode 3",
+      "explanation": "Elektron valensi 1 menunjukkan golongan IA dan tiga kulit menunjukkan periode 3.",
+      "imageAsset": "images/KIM-SMA-051.png"
+    },
+    {
+      "id": "KIM-SMA-052",
+      "subject": "Kimia",
+      "gradeBand": "SMA",
+      "topic": "Stoikiometri",
+      "difficulty": "mudah",
+      "timeLimitSeconds": 60,
+      "stem": "Pada reaksi 2H2 + O2 -> 2H2O, tersedia 4 mol H2 dan O2 berlebih. Air yang terbentuk sebanyak ...",
+      "options": [
+        {
+          "id": "A",
+          "text": "2 mol"
+        },
+        {
+          "id": "B",
+          "text": "4 mol"
+        },
+        {
+          "id": "C",
+          "text": "6 mol"
+        },
+        {
+          "id": "D",
+          "text": "8 mol"
+        }
+      ],
+      "correctOptionId": "B",
+      "correctAnswer": "4 mol",
+      "explanation": "Koefisien H2 dan H2O sama (2:2), jadi 4 mol H2 menghasilkan 4 mol H2O.",
+      "imageAsset": "images/KIM-SMA-052.png"
+    },
+    {
+      "id": "KIM-SMA-053",
+      "subject": "Kimia",
+      "gradeBand": "SMA",
+      "topic": "Bentuk molekul",
+      "difficulty": "sedang",
+      "timeLimitSeconds": 90,
+      "stem": "Struktur Lewis CO2 pada gambar adalah O=C=O. Bentuk molekul CO2 adalah ...",
+      "options": [
+        {
+          "id": "A",
+          "text": "Bengkok"
+        },
+        {
+          "id": "B",
+          "text": "Tetrahedral"
+        },
+        {
+          "id": "C",
+          "text": "Linear"
+        },
+        {
+          "id": "D",
+          "text": "Piramida trigonal"
+        }
+      ],
+      "correctOptionId": "C",
+      "correctAnswer": "Linear",
+      "explanation": "Karbon pusat memiliki dua domain elektron ikatan, sehingga bentuk linear.",
+      "imageAsset": "images/KIM-SMA-053.png"
+    },
+    {
+      "id": "KIM-SMA-054",
+      "subject": "Kimia",
+      "gradeBand": "SMA",
+      "topic": "Orbital elektron",
+      "difficulty": "sedang",
+      "timeLimitSeconds": 90,
+      "stem": "Diagram orbital menunjukkan konfigurasi 2p4. Jumlah elektron tak berpasangan di subkulit 2p adalah ...",
+      "options": [
+        {
+          "id": "A",
+          "text": "0"
+        },
+        {
+          "id": "B",
+          "text": "1"
+        },
+        {
+          "id": "C",
+          "text": "2"
+        },
+        {
+          "id": "D",
+          "text": "4"
+        }
+      ],
+      "correctOptionId": "C",
+      "correctAnswer": "2",
+      "explanation": "Menurut aturan Hund, 2p4 menyisakan dua elektron tak berpasangan.",
+      "imageAsset": "images/KIM-SMA-054.png"
+    },
+    {
+      "id": "KIM-SMA-055",
+      "subject": "Kimia",
+      "gradeBand": "SMA",
+      "topic": "Titrasi asam-basa",
+      "difficulty": "sedang",
+      "timeLimitSeconds": 90,
+      "stem": "Kurva titrasi asam kuat oleh basa kuat pada 25 derajat C menunjukkan titik ekuivalen. Nilai pH ekuivalen adalah ...",
+      "options": [
+        {
+          "id": "A",
+          "text": "3"
+        },
+        {
+          "id": "B",
+          "text": "5"
+        },
+        {
+          "id": "C",
+          "text": "7"
+        },
+        {
+          "id": "D",
+          "text": "11"
+        }
+      ],
+      "correctOptionId": "C",
+      "correctAnswer": "7",
+      "explanation": "Titik ekuivalen asam kuat-basa kuat memiliki pH sekitar 7 pada 25 derajat C.",
+      "imageAsset": "images/KIM-SMA-055.png"
+    },
+    {
+      "id": "KIM-SMA-056",
+      "subject": "Kimia",
+      "gradeBand": "SMA",
+      "topic": "Termokimia",
+      "difficulty": "sedang",
+      "timeLimitSeconds": 90,
+      "stem": "Diagram entalpi menunjukkan pereaksi 120 kJ dan produk 40 kJ. Delta H reaksi adalah ...",
+      "options": [
+        {
+          "id": "A",
+          "text": "+80 kJ"
+        },
+        {
+          "id": "B",
+          "text": "-80 kJ"
+        },
+        {
+          "id": "C",
+          "text": "+160 kJ"
+        },
+        {
+          "id": "D",
+          "text": "-160 kJ"
+        }
+      ],
+      "correctOptionId": "B",
+      "correctAnswer": "-80 kJ",
+      "explanation": "Delta H = H_produk - H_pereaksi = 40 - 120 = -80 kJ.",
+      "imageAsset": "images/KIM-SMA-056.png"
+    },
+    {
+      "id": "KIM-SMA-057",
+      "subject": "Kimia",
+      "gradeBand": "SMA",
+      "topic": "Perbandingan mol reaksi",
+      "difficulty": "sulit",
+      "timeLimitSeconds": 120,
+      "stem": "Dalam reaksi N2 + 3H2 -> 2NH3, jika 3 mol N2 habis dan H2 berlebih, NH3 terbentuk ...",
+      "options": [
+        {
+          "id": "A",
+          "text": "2 mol"
+        },
+        {
+          "id": "B",
+          "text": "3 mol"
+        },
+        {
+          "id": "C",
+          "text": "6 mol"
+        },
+        {
+          "id": "D",
+          "text": "9 mol"
+        }
+      ],
+      "correctOptionId": "C",
+      "correctAnswer": "6 mol",
+      "explanation": "Setiap 1 mol N2 menghasilkan 2 mol NH3; 3 mol N2 menghasilkan 6 mol NH3.",
+      "imageAsset": "images/KIM-SMA-057.png"
+    },
+    {
+      "id": "KIM-SMA-058",
+      "subject": "Kimia",
+      "gradeBand": "SMA",
+      "topic": "Sel volta",
+      "difficulty": "sulit",
+      "timeLimitSeconds": 120,
+      "stem": "Pada sel volta Zn | Zn2+ || Cu2+ | Cu, arah elektron melalui kawat adalah ...",
+      "options": [
+        {
+          "id": "A",
+          "text": "Cu ke Zn"
+        },
+        {
+          "id": "B",
+          "text": "Zn ke Cu"
+        },
+        {
+          "id": "C",
+          "text": "Elektrolit ke Zn"
+        },
+        {
+          "id": "D",
+          "text": "Berputar di jembatan garam"
+        }
+      ],
+      "correctOptionId": "B",
+      "correctAnswer": "Zn ke Cu",
+      "explanation": "Zn adalah anode (oksidasi), elektron mengalir lewat kawat dari Zn ke Cu.",
+      "imageAsset": "images/KIM-SMA-058.png"
+    },
+    {
+      "id": "KIM-SMA-059",
+      "subject": "Kimia",
+      "gradeBand": "SMA",
+      "topic": "Tata nama alkohol",
+      "difficulty": "sulit",
+      "timeLimitSeconds": 120,
+      "stem": "Struktur yang ditunjukkan adalah CH3-CH2-CH2-OH. Nama IUPAC senyawa ini adalah ...",
+      "options": [
+        {
+          "id": "A",
+          "text": "Propan-1-ol"
+        },
+        {
+          "id": "B",
+          "text": "Propan-2-ol"
+        },
+        {
+          "id": "C",
+          "text": "Etanol"
+        },
+        {
+          "id": "D",
+          "text": "Propanon"
+        }
+      ],
+      "correctOptionId": "A",
+      "correctAnswer": "Propan-1-ol",
+      "explanation": "Rantai terdiri atas tiga karbon dan gugus OH pada karbon nomor 1.",
+      "imageAsset": "images/KIM-SMA-059.png"
+    },
+    {
+      "id": "KIM-SMA-060",
+      "subject": "Kimia",
+      "gradeBand": "SMA",
+      "topic": "Laju reaksi",
+      "difficulty": "sulit",
+      "timeLimitSeconds": 120,
+      "stem": "Konsentrasi A turun dari 0,9 M ke 0,3 M selama 20 s. Laju rata-rata penghilangan A adalah ...",
+      "options": [
+        {
+          "id": "A",
+          "text": "0,01 M/s"
+        },
+        {
+          "id": "B",
+          "text": "0,02 M/s"
+        },
+        {
+          "id": "C",
+          "text": "0,03 M/s"
+        },
+        {
+          "id": "D",
+          "text": "0,06 M/s"
+        }
+      ],
+      "correctOptionId": "C",
+      "correctAnswer": "0,03 M/s",
+      "explanation": "Laju penghilangan = -(Delta[A]/Delta t) = (0,9 - 0,3)/20 = 0,03 M/s.",
+      "imageAsset": "images/KIM-SMA-060.png"
+    },
+    {
+      "id": "MAT-SMP-051",
+      "subject": "Matematika",
+      "gradeBand": "SMP",
+      "topic": "Teorema Pythagoras",
+      "difficulty": "mudah",
+      "timeLimitSeconds": 60,
+      "stem": "Segitiga siku-siku pada gambar memiliki sisi siku-siku 9 cm dan 12 cm. Sisi miringnya adalah ...",
+      "options": [
+        {
+          "id": "A",
+          "text": "13 cm"
+        },
+        {
+          "id": "B",
+          "text": "14 cm"
+        },
+        {
+          "id": "C",
+          "text": "15 cm"
+        },
+        {
+          "id": "D",
+          "text": "21 cm"
+        }
+      ],
+      "correctOptionId": "C",
+      "correctAnswer": "15 cm",
+      "explanation": "c = akar(9^2 + 12^2) = akar(225) = 15 cm.",
+      "imageAsset": "images/MAT-SMP-051.png"
+    },
+    {
+      "id": "MAT-SMP-052",
+      "subject": "Matematika",
+      "gradeBand": "SMP",
+      "topic": "Pecahan",
+      "difficulty": "mudah",
+      "timeLimitSeconds": 60,
+      "stem": "Dalam kisi 4 x 6, terdapat 8 petak berwarna dari 24 petak. Pecahan bagian berwarna yang disederhanakan adalah ...",
+      "options": [
+        {
+          "id": "A",
+          "text": "1/4"
+        },
+        {
+          "id": "B",
+          "text": "1/3"
+        },
+        {
+          "id": "C",
+          "text": "2/3"
+        },
+        {
+          "id": "D",
+          "text": "3/4"
+        }
+      ],
+      "correctOptionId": "B",
+      "correctAnswer": "1/3",
+      "explanation": "8/24 disederhanakan dengan membagi 8 menjadi 1/3.",
+      "imageAsset": "images/MAT-SMP-052.png"
+    },
+    {
+      "id": "MAT-SMP-053",
+      "subject": "Matematika",
+      "gradeBand": "SMP",
+      "topic": "Koordinat Kartesius",
+      "difficulty": "mudah",
+      "timeLimitSeconds": 60,
+      "stem": "Titik A(-3,2) dan B(4,2) berada pada garis horizontal. Panjang AB adalah ...",
+      "options": [
+        {
+          "id": "A",
+          "text": "5 satuan"
+        },
+        {
+          "id": "B",
+          "text": "6 satuan"
+        },
+        {
+          "id": "C",
+          "text": "7 satuan"
+        },
+        {
+          "id": "D",
+          "text": "8 satuan"
+        }
+      ],
+      "correctOptionId": "C",
+      "correctAnswer": "7 satuan",
+      "explanation": "Panjang horizontal = |4 - (-3)| = 7 satuan.",
+      "imageAsset": "images/MAT-SMP-053.png"
+    },
+    {
+      "id": "MAT-SMP-054",
+      "subject": "Matematika",
+      "gradeBand": "SMP",
+      "topic": "Diagram batang",
+      "difficulty": "mudah",
+      "timeLimitSeconds": 60,
+      "stem": "Diagram batang menunjukkan jumlah buku terjual. Pada hari apa penjualan tertinggi terjadi?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Senin"
+        },
+        {
+          "id": "B",
+          "text": "Selasa"
+        },
+        {
+          "id": "C",
+          "text": "Rabu"
+        },
+        {
+          "id": "D",
+          "text": "Kamis"
+        }
+      ],
+      "correctOptionId": "B",
+      "correctAnswer": "Selasa",
+      "explanation": "Batang Selasa setinggi 8, lebih tinggi dari hari lain.",
+      "imageAsset": "images/MAT-SMP-054.png"
+    },
+    {
+      "id": "MAT-SMP-055",
+      "subject": "Matematika",
+      "gradeBand": "SMP",
+      "topic": "Sudut berpelurus",
+      "difficulty": "sedang",
+      "timeLimitSeconds": 90,
+      "stem": "Dua sudut pada garis lurus adalah 128 derajat dan x. Besar x adalah ...",
+      "options": [
+        {
+          "id": "A",
+          "text": "42 derajat"
+        },
+        {
+          "id": "B",
+          "text": "52 derajat"
+        },
+        {
+          "id": "C",
+          "text": "62 derajat"
+        },
+        {
+          "id": "D",
+          "text": "128 derajat"
+        }
+      ],
+      "correctOptionId": "B",
+      "correctAnswer": "52 derajat",
+      "explanation": "Dua sudut berpelurus berjumlah 180 derajat; x=180-128=52.",
+      "imageAsset": "images/MAT-SMP-055.png"
+    },
+    {
+      "id": "MAT-SMP-056",
+      "subject": "Matematika",
+      "gradeBand": "SMP",
+      "topic": "Perbandingan",
+      "difficulty": "sedang",
+      "timeLimitSeconds": 90,
+      "stem": "Gambar menampilkan 4 bola merah dan 6 bola biru. Rasio merah : biru paling sederhana adalah ...",
+      "options": [
+        {
+          "id": "A",
+          "text": "1:2"
+        },
+        {
+          "id": "B",
+          "text": "2:3"
+        },
+        {
+          "id": "C",
+          "text": "3:2"
+        },
+        {
+          "id": "D",
+          "text": "4:3"
+        }
+      ],
+      "correctOptionId": "B",
+      "correctAnswer": "2:3",
+      "explanation": "Rasio 4:6 dibagi 2 menjadi 2:3.",
+      "imageAsset": "images/MAT-SMP-056.png"
+    },
+    {
+      "id": "MAT-SMP-057",
+      "subject": "Matematika",
+      "gradeBand": "SMP",
+      "topic": "Pola bilangan",
+      "difficulty": "sedang",
+      "timeLimitSeconds": 90,
+      "stem": "Banyak kotak pada empat pola berturut-turut adalah 3, 6, 9, 12. Pola kelima memiliki ...",
+      "options": [
+        {
+          "id": "A",
+          "text": "13 kotak"
+        },
+        {
+          "id": "B",
+          "text": "14 kotak"
+        },
+        {
+          "id": "C",
+          "text": "15 kotak"
+        },
+        {
+          "id": "D",
+          "text": "18 kotak"
+        }
+      ],
+      "correctOptionId": "C",
+      "correctAnswer": "15 kotak",
+      "explanation": "Pola bertambah tiga kotak, jadi suku ke-5 adalah 12+3=15.",
+      "imageAsset": "images/MAT-SMP-057.png"
+    },
+    {
+      "id": "MAT-SMP-058",
+      "subject": "Matematika",
+      "gradeBand": "SMP",
+      "topic": "Himpunan",
+      "difficulty": "sedang",
+      "timeLimitSeconds": 90,
+      "stem": "Pada diagram Venn, A={1,2,3} dan B={3,4,5}. Irisan A dan B adalah ...",
+      "options": [
+        {
+          "id": "A",
+          "text": "{1,2}"
+        },
+        {
+          "id": "B",
+          "text": "{3}"
+        },
+        {
+          "id": "C",
+          "text": "{4,5}"
+        },
+        {
+          "id": "D",
+          "text": "{1,2,3,4,5}"
+        }
+      ],
+      "correctOptionId": "B",
+      "correctAnswer": "{3}",
+      "explanation": "Hanya angka 3 yang merupakan anggota kedua himpunan.",
+      "imageAsset": "images/MAT-SMP-058.png"
+    },
+    {
+      "id": "MAT-SMP-059",
+      "subject": "Matematika",
+      "gradeBand": "SMP",
+      "topic": "Skala peta",
+      "difficulty": "sulit",
+      "timeLimitSeconds": 120,
+      "stem": "Pada peta skala 1:20.000, jarak dua tempat adalah 5 cm. Jarak sebenarnya adalah ...",
+      "options": [
+        {
+          "id": "A",
+          "text": "100 m"
+        },
+        {
+          "id": "B",
+          "text": "500 m"
+        },
+        {
+          "id": "C",
+          "text": "1 km"
+        },
+        {
+          "id": "D",
+          "text": "10 km"
+        }
+      ],
+      "correctOptionId": "C",
+      "correctAnswer": "1 km",
+      "explanation": "5 x 20.000 = 100.000 cm = 1.000 m = 1 km.",
+      "imageAsset": "images/MAT-SMP-059.png"
+    },
+    {
+      "id": "MAT-SMP-060",
+      "subject": "Matematika",
+      "gradeBand": "SMP",
+      "topic": "Fungsi linear",
+      "difficulty": "sulit",
+      "timeLimitSeconds": 120,
+      "stem": "Grafik garis menunjukkan y=3x-1. Jika x=3, nilai y adalah ...",
+      "options": [
+        {
+          "id": "A",
+          "text": "6"
+        },
+        {
+          "id": "B",
+          "text": "7"
+        },
+        {
+          "id": "C",
+          "text": "8"
+        },
+        {
+          "id": "D",
+          "text": "9"
+        }
+      ],
+      "correctOptionId": "C",
+      "correctAnswer": "8",
+      "explanation": "Substitusi x=3: y=3(3)-1=8.",
+      "imageAsset": "images/MAT-SMP-060.png"
+    },
+    {
+      "id": "MAT-SMA-051",
+      "subject": "Matematika",
+      "gradeBand": "SMA",
+      "topic": "Fungsi kuadrat",
+      "difficulty": "mudah",
+      "timeLimitSeconds": 60,
+      "stem": "Grafik parabola mempunyai titik puncak (1,-4) dan membuka ke atas. Nilai minimum fungsi adalah ...",
+      "options": [
+        {
+          "id": "A",
+          "text": "-4"
+        },
+        {
+          "id": "B",
+          "text": "-1"
+        },
+        {
+          "id": "C",
+          "text": "1"
+        },
+        {
+          "id": "D",
+          "text": "4"
+        }
+      ],
+      "correctOptionId": "A",
+      "correctAnswer": "-4",
+      "explanation": "Parabola membuka ke atas, sehingga minimum adalah koordinat y titik puncak (-4).",
+      "imageAsset": "images/MAT-SMA-051.png"
+    },
+    {
+      "id": "MAT-SMA-052",
+      "subject": "Matematika",
+      "gradeBand": "SMA",
+      "topic": "Turunan",
+      "difficulty": "mudah",
+      "timeLimitSeconds": 60,
+      "stem": "Grafik f(x)=x^2 diberi garis singgung pada x=3. Gradien garis singgung adalah ...",
+      "options": [
+        {
+          "id": "A",
+          "text": "3"
+        },
+        {
+          "id": "B",
+          "text": "6"
+        },
+        {
+          "id": "C",
+          "text": "9"
+        },
+        {
+          "id": "D",
+          "text": "12"
+        }
+      ],
+      "correctOptionId": "B",
+      "correctAnswer": "6",
+      "explanation": "f'(x)=2x, maka f'(3)=6.",
+      "imageAsset": "images/MAT-SMA-052.png"
+    },
+    {
+      "id": "MAT-SMA-053",
+      "subject": "Matematika",
+      "gradeBand": "SMA",
+      "topic": "Trigonometri",
+      "difficulty": "sedang",
+      "timeLimitSeconds": 90,
+      "stem": "Pada lingkaran satuan, sudut 60 derajat membentuk titik P(cos60,sin60). Nilai cos60 adalah ...",
+      "options": [
+        {
+          "id": "A",
+          "text": "0"
+        },
+        {
+          "id": "B",
+          "text": "1/2"
+        },
+        {
+          "id": "C",
+          "text": "akar(2)/2"
+        },
+        {
+          "id": "D",
+          "text": "akar(3)/2"
+        }
+      ],
+      "correctOptionId": "B",
+      "correctAnswer": "1/2",
+      "explanation": "Proyeksi horizontal pada lingkaran satuan adalah cos60 = 1/2.",
+      "imageAsset": "images/MAT-SMA-053.png"
+    },
+    {
+      "id": "MAT-SMA-054",
+      "subject": "Matematika",
+      "gradeBand": "SMA",
+      "topic": "Barisan geometri",
+      "difficulty": "sedang",
+      "timeLimitSeconds": 90,
+      "stem": "Tiga tahap pola menunjukkan 2, 6, dan 18 titik. Jika rasionya tetap, banyak titik tahap keempat adalah ...",
+      "options": [
+        {
+          "id": "A",
+          "text": "24"
+        },
+        {
+          "id": "B",
+          "text": "36"
+        },
+        {
+          "id": "C",
+          "text": "48"
+        },
+        {
+          "id": "D",
+          "text": "54"
+        }
+      ],
+      "correctOptionId": "D",
+      "correctAnswer": "54",
+      "explanation": "Barisan geometri rasio 3: 18 x 3 = 54.",
+      "imageAsset": "images/MAT-SMA-054.png"
+    },
+    {
+      "id": "MAT-SMA-055",
+      "subject": "Matematika",
+      "gradeBand": "SMA",
+      "topic": "Barisan aritmetika",
+      "difficulty": "sedang",
+      "timeLimitSeconds": 90,
+      "stem": "Grafik suku barisan menunjukkan U1=5, U2=9, U3=13, U4=17. Nilai U10 adalah ...",
+      "options": [
+        {
+          "id": "A",
+          "text": "37"
+        },
+        {
+          "id": "B",
+          "text": "40"
+        },
+        {
+          "id": "C",
+          "text": "41"
+        },
+        {
+          "id": "D",
+          "text": "45"
+        }
+      ],
+      "correctOptionId": "C",
+      "correctAnswer": "41",
+      "explanation": "Un=5+(n-1)4. U10=5+9x4=41.",
+      "imageAsset": "images/MAT-SMA-055.png"
+    },
+    {
+      "id": "MAT-SMA-056",
+      "subject": "Matematika",
+      "gradeBand": "SMA",
+      "topic": "Integral tentu",
+      "difficulty": "sedang",
+      "timeLimitSeconds": 90,
+      "stem": "Daerah di bawah garis y=3x dari x=0 sampai x=2 diarsir. Luas daerah itu adalah ...",
+      "options": [
+        {
+          "id": "A",
+          "text": "3"
+        },
+        {
+          "id": "B",
+          "text": "4"
+        },
+        {
+          "id": "C",
+          "text": "6"
+        },
+        {
+          "id": "D",
+          "text": "12"
+        }
+      ],
+      "correctOptionId": "C",
+      "correctAnswer": "6",
+      "explanation": "Luas segitiga = 1/2 x alas 2 x tinggi 6 = 6.",
+      "imageAsset": "images/MAT-SMA-056.png"
+    },
+    {
+      "id": "MAT-SMA-057",
+      "subject": "Matematika",
+      "gradeBand": "SMA",
+      "topic": "Peluang tanpa pengembalian",
+      "difficulty": "sulit",
+      "timeLimitSeconds": 120,
+      "stem": "Dalam kantong ada 4 bola merah dan 2 bola biru. Diambil 2 tanpa pengembalian. Peluang keduanya merah adalah ...",
+      "options": [
+        {
+          "id": "A",
+          "text": "1/5"
+        },
+        {
+          "id": "B",
+          "text": "2/5"
+        },
+        {
+          "id": "C",
+          "text": "1/2"
+        },
+        {
+          "id": "D",
+          "text": "2/3"
+        }
+      ],
+      "correctOptionId": "B",
+      "correctAnswer": "2/5",
+      "explanation": "(4/6)(3/5)=12/30=2/5.",
+      "imageAsset": "images/MAT-SMA-057.png"
+    },
+    {
+      "id": "MAT-SMA-058",
+      "subject": "Matematika",
+      "gradeBand": "SMA",
+      "topic": "Logaritma",
+      "difficulty": "sulit",
+      "timeLimitSeconds": 120,
+      "stem": "Grafik y=log basis 2 dari x melalui titik (8,y). Nilai y adalah ...",
+      "options": [
+        {
+          "id": "A",
+          "text": "2"
+        },
+        {
+          "id": "B",
+          "text": "3"
+        },
+        {
+          "id": "C",
+          "text": "4"
+        },
+        {
+          "id": "D",
+          "text": "8"
+        }
+      ],
+      "correctOptionId": "B",
+      "correctAnswer": "3",
+      "explanation": "log2(8)=3 karena 2^3=8.",
+      "imageAsset": "images/MAT-SMA-058.png"
+    },
+    {
+      "id": "MAT-SMA-059",
+      "subject": "Matematika",
+      "gradeBand": "SMA",
+      "topic": "Persamaan lingkaran",
+      "difficulty": "sulit",
+      "timeLimitSeconds": 120,
+      "stem": "Lingkaran berpusat di (-1,2) dengan jari-jari 3. Persamaannya adalah ...",
+      "options": [
+        {
+          "id": "A",
+          "text": "(x-1)^2+(y+2)^2=9"
+        },
+        {
+          "id": "B",
+          "text": "(x+1)^2+(y-2)^2=3"
+        },
+        {
+          "id": "C",
+          "text": "(x+1)^2+(y-2)^2=9"
+        },
+        {
+          "id": "D",
+          "text": "(x-1)^2+(y-2)^2=9"
+        }
+      ],
+      "correctOptionId": "C",
+      "correctAnswer": "(x+1)^2+(y-2)^2=9",
+      "explanation": "Rumus (x-h)^2+(y-k)^2=r^2; h=-1,k=2,r=3.",
+      "imageAsset": "images/MAT-SMA-059.png"
+    },
+    {
+      "id": "MAT-SMA-060",
+      "subject": "Matematika",
+      "gradeBand": "SMA",
+      "topic": "Transformasi geometri",
+      "difficulty": "sulit",
+      "timeLimitSeconds": 120,
+      "stem": "Titik P(3,-2) dicerminkan terhadap garis y=x. Koordinat bayangannya adalah ...",
+      "options": [
+        {
+          "id": "A",
+          "text": "(3,2)"
+        },
+        {
+          "id": "B",
+          "text": "(-3,2)"
+        },
+        {
+          "id": "C",
+          "text": "(2,-3)"
+        },
+        {
+          "id": "D",
+          "text": "(-2,3)"
+        }
+      ],
+      "correctOptionId": "D",
+      "correctAnswer": "(-2,3)",
+      "explanation": "Refleksi terhadap y=x menukar koordinat (x,y)->(y,x), jadi (-2,3).",
+      "imageAsset": "images/MAT-SMA-060.png"
+    }
+  ]
+}

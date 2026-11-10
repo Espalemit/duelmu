@@ -97,10 +97,14 @@ class ProtocolCodecTest {
     @Test fun malformedJson_andUnknownType_andWrongVersion() {
         assertTrue(MessageCodec.decode("{bukan json".toByteArray()) is DecodeResult.Malformed)
         assertTrue(MessageCodec.decode(byteArrayOf(0xC3.toByte(), 0x28)) is DecodeResult.Malformed) // UTF-8 rusak
-        val unknown = """{"v":2,"seq":1,"msgId":"x","payload":{"type":"HACK"}}"""
+        val unknown = """{"v":3,"seq":1,"msgId":"x","payload":{"type":"HACK"}}"""
         assertTrue(MessageCodec.decode(unknown.toByteArray()) is DecodeResult.Malformed)
-        val missingField = """{"v":2,"seq":1,"msgId":"x","payload":{"type":"HELLO"}}"""
+        val missingField = """{"v":3,"seq":1,"msgId":"x","payload":{"type":"HELLO"}}"""
         assertTrue(MessageCodec.decode(missingField.toByteArray()) is DecodeResult.Malformed)
+        // Duelmu 0.3.x (protokol v2, tanpa soal game) ditolak dengan alasan versi yang jelas.
+        val v2 = """{"v":2,"seq":1,"msgId":"x","payload":{"type":"PING","sentAtMs":1}}"""
+        assertEquals(DecodeResult.VersionMismatch(2), MessageCodec.decode(v2.toByteArray()))
+        assertEquals(3, PROTOCOL_VERSION)
         // Aplikasi versi lama (protokol v1, duel 1 lawan 1) ditolak dengan jelas.
         val v1 = """{"v":1,"seq":1,"msgId":"x","payload":{"type":"PING","sentAtMs":1}}"""
         assertEquals(DecodeResult.VersionMismatch(1), MessageCodec.decode(v1.toByteArray()))
@@ -149,5 +153,59 @@ class ProtocolCodecTest {
 
     @Test fun encodeIsStableAcrossDevices() {
         assertArrayEquals(MessageCodec.encode(hello()), MessageCodec.encode(hello()))
+    }
+
+    private fun roundTrip(p: id.eduduel.app.net.protocol.Payload): Pair<id.eduduel.app.net.protocol.Payload, Int> {
+        val bytes = MessageCodec.encode(Envelope(PROTOCOL_VERSION, 7, "m7", "match", 2, p))
+        return (MessageCodec.decode(bytes.drop(4).toByteArray()) as DecodeResult.Ok).envelope.payload to bytes.size
+    }
+
+    @Test fun v3_ghostAndGamePayloads_roundTrip_andStaySmall() {
+        val ghosts = listOf(
+            id.eduduel.app.net.protocol.AsteroidGhost(0.31f, firing = true, filled = 1, wrong = 0),
+            id.eduduel.app.net.protocol.TrajectoryGhost(0.5f, 0.75f, 2),
+            id.eduduel.app.net.protocol.MicroGhost(0.1f, 0.2f, 0.4f, 0.4f, 0.55f, 0.3f, 0.4f),
+            id.eduduel.app.net.protocol.LabGhost(0.6f, 0.2f, holding = 1, pouring = true, fill = 0.4f, done = true),
+        )
+        for (g in ghosts) {
+            val type = when (g) {
+                is id.eduduel.app.net.protocol.AsteroidGhost -> id.eduduel.app.domain.game.GameType.ASTEROID
+                is id.eduduel.app.net.protocol.TrajectoryGhost -> id.eduduel.app.domain.game.GameType.TRAJECTORY
+                is id.eduduel.app.net.protocol.MicroGhost -> id.eduduel.app.domain.game.GameType.MICROSCOPE
+                is id.eduduel.app.net.protocol.LabGhost -> id.eduduel.app.domain.game.GameType.LAB
+            }
+            val (back, size) = roundTrip(id.eduduel.app.net.protocol.GameStateUpdate("11111111-2222-3333-4444-555555555555", type, 42, 12_345, g))
+            assertEquals(g, (back as id.eduduel.app.net.protocol.GameStateUpdate).ghost)
+            assertTrue("snapshot ghost $size byte (harus kecil untuk 5-10 Hz di Bluetooth)", size < 400)
+        }
+        val subs = listOf(
+            id.eduduel.app.domain.game.AsteroidSubmission(listOf(0, 3, 1)),
+            id.eduduel.app.domain.game.TrajectorySubmission(listOf(id.eduduel.app.domain.game.ShotInput(30, 4))),
+            id.eduduel.app.domain.game.MicroSubmission(listOf(id.eduduel.app.domain.game.MicroTap(10, 20, 150, 500)), assist = true),
+            id.eduduel.app.domain.game.LabSubmission(listOf(id.eduduel.app.domain.game.LabAction(0, 20_000), id.eduduel.app.domain.game.LabAction(-1))),
+        )
+        for (sub in subs) {
+            val (back, _) = roundTrip(id.eduduel.app.net.protocol.GameSubmit("MAT-SMA-061", 9_000, sub))
+            assertEquals(sub, (back as id.eduduel.app.net.protocol.GameSubmit).submission)
+        }
+        val (act, _) = roundTrip(id.eduduel.app.net.protocol.GameActionEvent("p", id.eduduel.app.domain.game.GameType.TRAJECTORY, 1, 5, id.eduduel.app.net.protocol.LaunchAction(3, 4, true)))
+        assertEquals(id.eduduel.app.net.protocol.LaunchAction(3, 4, true), (act as id.eduduel.app.net.protocol.GameActionEvent).action)
+    }
+
+    @Test fun v3_setupAndStart_carrySeedButNoAnswerOrSolution() {
+        val bank = id.eduduel.app.TestBank.bank
+        val rounds = id.eduduel.app.domain.QuestionSelector.forConfig(bank, MatchConfig(Subject.FISIKA, id.eduduel.app.domain.QuestionMode.MIXED), 3)
+        val setup = MatchSetup(MatchConfig(Subject.FISIKA, id.eduduel.app.domain.QuestionMode.MIXED), rounds.map { it.question.id },
+            rounds.map { r -> r.optionOrder.map { it.name } }, listOf(WirePlayer("p1", "Budi", true, true, true)), bank.bankSha256, bank.versionName,
+            seeds = rounds.map { it.seed })
+        val (back, size) = roundTrip(setup)
+        assertEquals(setup, back)
+        assertTrue(size < MAX_FRAME_BYTES)
+        val text = MessageCodec.encode(Envelope(PROTOCOL_VERSION, 1, "x", payload = setup)).drop(4).toByteArray().toString(Charsets.UTF_8)
+        assertFalse(text.contains("correct", true) || text.contains("solution", true) || text.contains("reference", true))
+        val game = rounds.first { it.question.isGame }
+        val start = QuestionStart(game.question.id, emptyList(), game.question.timeLimitMs, game.seed)
+        val startText = MessageCodec.encode(Envelope(PROTOCOL_VERSION, 1, "x", payload = start)).drop(4).toByteArray().toString(Charsets.UTF_8)
+        assertFalse(startText.contains("answer", true) || startText.contains("target", true))
     }
 }

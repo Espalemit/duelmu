@@ -53,7 +53,7 @@ class LanDeviceSmokeTest {
                 val ar = q.activeRound!!
                 println("SMOKE round ${round + 1}: ${ar.round.question.id} ${ar.round.question.subject} ${ar.round.question.difficulty} order=${ar.round.optionOrder}")
                 delay(2_000)
-                guest.answer(ar.round.question.correctOptionId)
+                guest.answer(ar.round.question.correctOptionId!!)
                 val rev = withTimeout(200_000) { guest.state.first { it.phase == RoomPhase.REVEAL && it.results.size == round + 1 } }
                 println("SMOKE result ${round + 1}: " + rev.results.last().players.map { (id, r) -> "${rev.nameOf(id)}=${r.points}" })
                 guest.requestNext()

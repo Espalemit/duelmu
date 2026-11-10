@@ -197,7 +197,7 @@ fun LobbyContent(
     Text(stringResource(R.string.lobby_rules_title), style = MaterialTheme.typography.titleLarge)
     if (isHost) {
         Text(stringResource(R.string.lobby_rules_host_hint), style = MaterialTheme.typography.bodyMedium)
-        SubjectPicker(bank, state.config, onConfigChange, enabled = state.phase == RoomPhase.LOBBY)
+        SubjectPicker(bank, state.config, onConfigChange, enabled = state.phase == RoomPhase.LOBBY, showGhostMode = true)
     } else {
         Text(stringResource(R.string.lobby_rules_guest_hint), style = MaterialTheme.typography.bodyMedium)
         InfoCard { ConfigSummary(bank, state.config) }

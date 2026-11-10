@@ -2,10 +2,18 @@ package id.eduduel.app.net.room
 
 import id.eduduel.app.core.Ids
 import id.eduduel.app.core.MonotonicClock
+import id.eduduel.app.domain.ChoiceAnswer
+import id.eduduel.app.domain.GameAnswer
+import id.eduduel.app.domain.Grader
 import id.eduduel.app.domain.OptionId
 import id.eduduel.app.domain.Question
 import id.eduduel.app.domain.QuestionBank
-import id.eduduel.app.domain.ScoringEngine
+import id.eduduel.app.domain.RoundAnswer
+import id.eduduel.app.domain.game.GameType
+import id.eduduel.app.net.protocol.GameActionEvent
+import id.eduduel.app.net.protocol.GameStateUpdate
+import id.eduduel.app.net.protocol.GhostAction
+import id.eduduel.app.net.protocol.GhostState
 import id.eduduel.app.net.protocol.Envelope
 import id.eduduel.app.net.protocol.ErrorCode
 import id.eduduel.app.net.protocol.PROTOCOL_VERSION
@@ -69,6 +77,8 @@ abstract class RoomSessionCore(
         data class User(val action: Any) : Event
         data class Timer(val key: Any, val token: Long) : Event
         data class TransportFatal(val failure: RoomFailure) : Event
+        data class LocalGhost(val state: GhostState) : Event
+        data class LocalAction(val action: GhostAction) : Event
     }
 
     init {
@@ -115,8 +125,78 @@ abstract class RoomSessionCore(
                 onTimer(e.key)
             }
             is Event.TransportFatal -> onTransportFatal(e.failure)
+            is Event.LocalGhost -> if (ghostAllowed()) pendingGhost = e.state
+            is Event.LocalAction -> if (ghostAllowed()) sendLocalAction(e.action)
         }
     }
+
+    // ============================================================ Ghost (semua pemain melihat semua pemain lain)
+
+    /** Ghost pemain LAIN (Host maupun Tamu). Ghost sendiri tidak pernah ada di sini. */
+    protected val ghostHub = GhostHub { s.me.sessionId }
+    val ghosts: StateFlow<Map<String, GhostTrack>> get() = ghostHub.tracks
+    val droppedGhosts: Int get() = ghostHub.dropped
+
+    private var pendingGhost: GhostState? = null
+    private var lastSentGhost: GhostState? = null
+    private var ghostSeq = 0
+    private var actionSeq = 0
+
+    /** Pemain lokal memperbarui state visualnya (dipanggil UI setiap frame/gerakan; di-coalesce). */
+    fun publishGhost(state: GhostState) = post(Event.LocalGhost(state))
+
+    /** Event aksi lokal (tembak/luncur/tap/tuang) dikirim segera. */
+    fun publishAction(action: GhostAction) = post(Event.LocalAction(action))
+
+    private fun ghostAllowed(): Boolean {
+        val ar = s.activeRound ?: return false
+        return s.phase == RoomPhase.QUESTION && ar.round.question.isGame
+    }
+
+    protected fun ghostIntervalMs(): Long =
+        if (s.transport == TransportKind.BLUETOOTH) timing.ghostIntervalBtMs else timing.ghostIntervalLanMs
+
+    /** Dipanggil subkelas saat ronde game dimulai. */
+    protected fun beginGhostRound(index: Int) {
+        ghostHub.reset(index)
+        pendingGhost = null
+        lastSentGhost = null
+        ghostSeq = 0
+        actionSeq = 0
+        schedule(GhostTick, ghostIntervalMs())
+    }
+
+    protected fun endGhostRound() {
+        cancelTimer(GhostTick)
+        pendingGhost = null
+    }
+
+    protected object GhostTick
+
+    /** Dipanggil subkelas dari onTimer. */
+    protected fun handleGhostTick() {
+        val ar = s.activeRound ?: return
+        if (s.phase != RoomPhase.QUESTION || !ar.round.question.isGame) return
+        val g = pendingGhost
+        if (g != null && !GhostInterpolator.nearlyEqual(g, lastSentGhost)) {
+            lastSentGhost = g
+            val type = ar.round.question.game!!.gameType
+            val redacted = GhostPrivacy.redact(g, s.config.ghostMode)
+            transmitGhost(GameStateUpdate(s.me.sessionId, type, ghostSeq++, clock.nowMs() - ar.startedAtMs, redacted), ar.index)
+        }
+        schedule(GhostTick, ghostIntervalMs())
+    }
+
+    private fun sendLocalAction(action: GhostAction) {
+        val ar = s.activeRound ?: return
+        val type: GameType = ar.round.question.game?.gameType ?: return
+        val redacted = GhostPrivacy.redact(action, s.config.ghostMode)
+        transmitAction(GameActionEvent(s.me.sessionId, type, actionSeq++, clock.nowMs() - ar.startedAtMs, redacted), ar.index)
+    }
+
+    /** Host: kirim ke semua Tamu peserta. Tamu: kirim ke Host (yang me-relay). */
+    protected abstract fun transmitGhost(update: GameStateUpdate, roundIndex: Int)
+    protected abstract fun transmitAction(event: GameActionEvent, roundIndex: Int)
 
     protected abstract fun onNewConnection(conn: DuelConnection)
     protected abstract fun onPayload(link: Link, env: Envelope)
@@ -276,13 +356,27 @@ abstract class RoomSessionCore(
     /** Hasil pemain dari jawaban lokal (Host maupun Tamu memakai rumus yang SAMA). */
     protected fun localResult(ar: ActiveRound): PlayerRoundResult {
         val q = ar.round.question
-        val opt = ar.myAnswer ?: return PlayerRoundResult.timeout(q.timeLimitMs)
         val elapsed = ar.myElapsedMs ?: q.timeLimitMs
-        return scored(q, opt, elapsed)
+        return when {
+            ar.myAnswer != null -> scored(q, ChoiceAnswer(ar.myAnswer), elapsed)
+            ar.myGame != null -> scored(q, GameAnswer(ar.myGame), elapsed)
+            ar.myGaveUp -> gaveUp(elapsed)
+            else -> PlayerRoundResult.timeout(q.timeLimitMs)
+        }
     }
 
-    protected fun scored(q: Question, opt: OptionId, elapsedMs: Long): PlayerRoundResult =
-        PlayerRoundResult(opt, elapsedMs, opt == q.correctOptionId, ScoringEngine.score(q, opt, elapsedMs).total, timedOut = false)
+    /** Penilaian tunggal ([Grader]) untuk MCQ dan game. */
+    protected fun scored(q: Question, answer: RoundAnswer, elapsedMs: Long): PlayerRoundResult {
+        if (elapsedMs >= q.timeLimitMs) return PlayerRoundResult.timeout(q.timeLimitMs)
+        val g = Grader.grade(q, answer, elapsedMs)
+        return PlayerRoundResult(
+            optionId = (answer as? ChoiceAnswer)?.optionId, elapsedMs = elapsedMs, correct = g.correct, points = g.score.total,
+            timedOut = false, game = (answer as? GameAnswer)?.submission, detail = g.detail,
+        )
+    }
+
+    protected fun gaveUp(elapsedMs: Long) =
+        PlayerRoundResult(null, elapsedMs, correct = false, points = 0, timedOut = false, detail = "Tidak berhasil / menyerah")
 
     companion object {
         const val MAX_MALFORMED = 5
@@ -293,9 +387,9 @@ abstract class RoomSessionCore(
 
 // ---------------------------------------------------------------- konversi wire <-> domain
 
-internal fun PlayerRoundResult.toWire() = PlayerRound(optionId?.name, elapsedMs, correct, points, timedOut, absent)
+internal fun PlayerRoundResult.toWire() = PlayerRound(optionId?.name, elapsedMs, correct, points, timedOut, absent, game, detail)
 
-internal fun PlayerRound.toDomain() = PlayerRoundResult(OptionId.parse(optionId), elapsedMs, correct, points, timedOut, absent)
+internal fun PlayerRound.toDomain() = PlayerRoundResult(OptionId.parse(optionId), elapsedMs, correct, points, timedOut, absent, submission, detail)
 
 internal fun RoomPlayer.toWire() = WirePlayer(sessionId, nickname, isHost, ready, connected)
 

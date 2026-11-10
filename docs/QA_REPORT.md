@@ -1,3 +1,52 @@
+# Laporan QA Duelmu 0.4.0 (560 soal, mini-game, ghost multiplayer)
+
+Tanggal: 10 November 2026 · Lingkungan: Linux x86_64 (ChromeOS Crostini), Temurin JDK 21.0.13, Gradle 9.8.2,
+AGP 9.5.1, Kotlin 2.4.21, Android SDK cmdline-tools (platform 37 diunduh AGP) · **Tanpa emulator/HP fisik.**
+
+| Pemeriksaan | Perintah | Hasil nyata |
+|---|---|---|
+| Unit test JVM/Robolectric (sebelum perubahan) | `gradlew :app:testDebugUnitTest` | 83 tes, 0 gagal (baseline commit 4607b47) |
+| Unit test JVM/Robolectric (0.4.0) | `gradlew :app:testDebugUnitTest` | **118 tes: 117 lulus, 0 gagal, 1 dilewati (uji asap perangkat manual `LanDeviceSmokeTest`, butuh `EDUDUEL_LAN_TARGET`)** |
+| Android Lint | `gradlew :app:lintDebug` | **0 error, 5 warning (3 string lama tidak terpakai, OldTargetApi, versi AGP)** |
+| Build debug | `gradlew :app:assembleDebug` | **OK, `app-debug.apk` 25.007.741 byte (23,85 MiB), SHA-256 `be6d393d…0112d6`** |
+| Build APK instrumented test | `gradlew :app:assembleDebugAndroidTest` | OK (sumber androidTest terkompilasi); **tidak dijalankan: tidak ada emulator/HP** |
+| 400 soal klasik vs PDF/CSV | `python tools/validate_question_bank.py` | ERROR 0, WARNING 14 (sumber, sudah dikoreksi di asset) |
+| 80 soal bergambar vs ZIP/PDF | `python tools/validate_visual_pack.py` | 5/5 LULUS, termasuk **pasangan piksel gambar PDF == PNG untuk 80/80 ID** |
+| 80 soal game + bank 560 | `python tools/validate_game_pack.py` | 4/4 LULUS, 0 error, 0 peringatan kemiripan |
+| Asset & generator sinkron | `build_question_asset.py --check`, `generate_game_questions.py --check` | OK, bankSha256 `67217b6d…861da` |
+| Isi APK | `unzip -l app-debug.apk` | 80 PNG di `assets/images/`; `assets/questions.json` identik (SHA-256) dengan sumber |
+
+Tes baru yang relevan:
+
+- `QuestionBankDatasetTest` (14): 560 = 400/80/80, 140/mapel, 70/mapel/jenjang, rentang ID per tipe, **400 soal lama
+  identik dengan asset v1** (sidik jari kanonik), 80 soal bergambar == sumber ZIP & PNG di APK byte-identik +
+  dapat didekode ImageIO 1250×600, deteksi PNG hilang/rusak, 80 game: parse + jenis sesuai mapel + solusi valid,
+  decoder ketat menolak field asing, schema 1 tetap bisa dimuat.
+- `GameEngineTest` (11): setiap dari 80 game menang/kalah/timeout/replay deterministik; Asteroid urutan token &
+  nyawa, spawn per seed; Trajectory radius toleransi, dua sudut berkomplemen sah, rintangan, batas tembakan,
+  setiap konfigurasi punya solusi tetapi tidak trivial; Micro Hunter fokus/zoom/hotspot/bantuan sentuh,
+  koordinat dunia independen resolusi, 20 ilustrasi berbeda; Reaction Lab pH ekuivalen = 7, pH 2 = 40,9 mL,
+  kekekalan massa Mg + 2HCl, pereaksi pembatas NH₃, M₁V₁ = M₂V₂, RESET, batas kapasitas.
+- `ModeSelectionTest` (5) & `SoloGameTest` (2): ukuran pool per mode, Campuran berstrata 4/3/3, seed ronde game,
+  tutorial menahan timer, skor game = rumus kuis, snapshot.
+- `GhostMultiplayerTest` (9, Host + 3 Tamu SUNGGUHAN lewat codec frame): **A melihat B/C/D, B melihat A/C/D,
+  C melihat A/B/D, D melihat A/B/C** (Host ikut tampil bagi Tamu), event aksi di-relay, ghost tidak mengubah state
+  lokal, Host memutar ulang submisi, FAIR menyensor tetapi tetap menampilkan ketiga ghost, klien nakal disensor
+  Host + identitas palsu diganti + rate-limit spam, tutorial tidak deadlock, pertandingan Campuran penuh konsisten
+  di 4 HP, putus koneksi saat game, GhostHub membuang out-of-order/stale/ghost sendiri, interpolasi jitter.
+- `ProtocolCodecTest` (14, +2 baru): round-trip semua payload v3, snapshot ghost < 400 byte, v2 ditolak, setup/start tanpa
+  kunci/solusi.
+
+Belum diuji (langkah manual):
+
+1. `connectedDebugAndroidTest` dan uji UI di emulator/HP (tidak ada emulator di lingkungan ini).
+2. Room nyata 2–4 HP lewat Wi-Fi/hotspot dan Bluetooth dengan mini-game (FPS, sentuhan, ghost 5–8 Hz di perangkat
+   nyata). Logika relay & ghost hanya diuji dengan sesi sungguhan di JVM (in-memory + codec yang sama).
+3. Build release bertanda tangan (butuh `keystore.properties` milik pengguna).
+4. Tinjauan guru untuk ilustrasi preparat biologi (sudah ditinjau visual saat pengembangan; diberi `editorialFlags`).
+
+---
+
 # Laporan QA Duelmu 0.2.0 (room 2–4 pemain)
 
 Tanggal: 8 November 2026 · Lingkungan: Windows 11, JBR 21, Gradle 9.8.2, AGP 9.5.1, Kotlin 2.4.21,

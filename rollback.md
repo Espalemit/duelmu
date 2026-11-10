@@ -454,3 +454,50 @@ untuk downgrade tanpa konfirmasi.
   `build/outputs/duelmu-v0.3.3-artifacts.json`.
 - Pengujian speaker/headphone dan panggilan pada HP fisik belum dilakukan;
   pemeriksaan decoder/pemutaran/lifecycle/focus di atas memakai emulator.
+
+## v0.05 — 10 November 2026 (Asia/Jakarta)
+
+Permintaan: menambah 80 soal BERGAMBAR (dari ZIP/PDF kickstart) dan 80 soal MINI-GAME baru (satu gameplay
+khas per mapel) sehingga bank menjadi 560 soal, plus ghost multiplayer simetris (LIVE/FAIR) di room 2–4 pemain.
+Versi aplikasi 0.3.3 (versionCode 6) → **0.4.0 (versionCode 7)**; protokol room v2 → **v3**; bank
+`2026.11.07-r1` (schema 1, 400) → `2026.11.10-r560` (schema 2, 560).
+
+### Cadangan sebelum modifikasi
+
+Salinan asli (dari commit 4607b47) semua file yang DIUBAH disimpan di `.rollback/v0.05/` dengan struktur
+direktori yang sama (36 file, termasuk `app/src/main/assets/questions.json` 400 soal). File BARU tidak memiliki
+cadangan; untuk rollback hapus file berikut: `app/src/main/assets/images/`, `content/`, `domain/Grading.kt`,
+`domain/game/`, `net/room/Ghosts.kt`, `presentation/components/AssetImage.kt`, `presentation/game/`,
+`tools/game_content/`, `tools/pngutil.py`, `tools/validate_visual_pack.py`, `tools/validate_game_pack.py`,
+`docs/GAME_AND_GHOST_ARCHITECTURE.md`, `docs/CONTENT_560_QA.md`, `docs/QA_VISUAL_REPORT.md`, serta tes baru
+`GameEngineTest.kt` dan `GhostMultiplayerTest.kt`. Tidak ada data pengguna, riwayat, atau soal lama yang dihapus.
+
+### Perubahan terperinci
+
+1. Data: `content/visual/` = salinan utuh ZIP (JSON + 80 PNG); `content/game/game_questions_80.json` dihasilkan
+   `tools/game_content/generate_game_questions.py` (konten ditulis manual; solusi dibuktikan mesin cermin Python).
+   `tools/build_question_asset.py` menggabungkan 400 + 80 + 80, menyalin PNG ke `assets/images/`, menulis
+   `assetManifest` (SHA-256 PNG) ke bank, dan GAGAL bila 400 soal lama berubah (sidik jari).
+2. Domain: `QuestionType` + isi tersegel `McqBody`/`GameBody`; `MatchConfig` menambah `mode` (default KLASIK)
+   dan `ghostMode` (default LIVE); `Grader` tunggal; `SoloEngine` mendukung game + tutorial yang menahan timer.
+3. Empat mesin game deterministik (`domain/game/`) dan UI Compose Canvas (`presentation/game/`).
+4. Loader bank schema 1 & 2, decoder ketat (tanpa ignoreUnknownKeys), verifikasi semua PNG saat bank dimuat.
+5. Protokol v3 + sesi Host/Tamu: seed ronde, tutorial, GAME_SUBMIT (Host memutar ulang masukan), relay
+   GAME_STATE_UPDATE/GAME_ACTION ke semua peserta lain, sensor FAIR berlapis, rate-limit, validasi ghost.
+6. UI: pemilih jenis soal & mode ghost (lobi/solo), gambar soal + zoom, tutorial, ghost berwarna dengan label,
+   pengaturan ghost ON/OFF + opasitas 15–30% + bantuan sentuh, hasil ronde/riwayat menampilkan tipe & detail game.
+7. Tes: dataset 560, mesin game, mode/solo, ghost 4 pemain, protokol v3 (118 unit test).
+
+### Cara rollback
+
+```bash
+cp -r .rollback/v0.05/. .          # kembalikan 36 file yang diubah
+rm -rf app/src/main/assets/images content app/src/main/java/id/eduduel/app/domain/game \
+       app/src/main/java/id/eduduel/app/presentation/game tools/game_content
+rm app/src/main/java/id/eduduel/app/domain/Grading.kt app/src/main/java/id/eduduel/app/net/room/Ghosts.kt \
+   app/src/main/java/id/eduduel/app/presentation/components/AssetImage.kt \
+   app/src/test/java/id/eduduel/app/domain/GameEngineTest.kt app/src/test/java/id/eduduel/app/net/GhostMultiplayerTest.kt
+python tools/build_question_asset.py --check   # harus OK untuk bank 400 lama
+```
+
+Semua HP dalam satu room harus memakai versi yang sama (protokol & hash bank berbeda ditolak dengan jelas).

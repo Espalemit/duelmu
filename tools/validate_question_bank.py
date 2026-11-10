@@ -592,7 +592,11 @@ def validate_asset(src_qs: list[dict], asset_path: Path, rep: Report) -> str | N
         return None
     raw = asset_path.read_bytes()
     data = json.loads(raw.decode("utf-8"))
-    aqs = [dict(q, question=q["stem"]) for q in data.get("questions", [])]
+    # Bank aplikasi berisi 560 soal (400 klasik + 80 bergambar + 80 game). Validator ini mengunci
+    # 400 soal KLASIK terhadap sumber kickstart; paket tambahan divalidasi validate_visual_pack.py,
+    # validate_game_pack.py, dan validasi gabungan di build_question_asset.py.
+    aqs = [dict(q, question=q["stem"]) for q in data.get("questions", [])
+           if q.get("questionType", "classic_mcq") == "classic_mcq"]
     sub = Report()
     validate_structure({"questions": aqs}, sub)
     ok = not sub.errors

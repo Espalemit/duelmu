@@ -13,6 +13,22 @@ import id.eduduel.app.domain.MatchOutcome
 import id.eduduel.app.domain.OptionId
 import id.eduduel.app.domain.QuestionBank
 import id.eduduel.app.domain.describe
+import id.eduduel.app.domain.game.AsteroidSpec
+import id.eduduel.app.domain.game.AsteroidSubmission
+import id.eduduel.app.domain.game.GameSubmission
+import id.eduduel.app.domain.game.LabSpec
+import id.eduduel.app.domain.game.MicroscopeSpec
+import id.eduduel.app.domain.game.TrajectorySpec
+import id.eduduel.app.domain.game.TrajectorySubmission
+import id.eduduel.app.net.protocol.AsteroidGhost
+import id.eduduel.app.net.protocol.FireAction
+import id.eduduel.app.net.protocol.GhostState
+import id.eduduel.app.net.protocol.LabGhost
+import id.eduduel.app.net.protocol.LabStepAction
+import id.eduduel.app.net.protocol.LaunchAction
+import id.eduduel.app.net.protocol.MicroGhost
+import id.eduduel.app.net.protocol.TapAction
+import id.eduduel.app.net.protocol.TrajectoryGhost
 import id.eduduel.app.net.transport.AdapterState
 import id.eduduel.app.net.transport.BluetoothController
 import id.eduduel.app.net.transport.BtDevice
@@ -26,8 +42,10 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import java.io.IOException
+import kotlin.math.sin
 import kotlin.random.Random
 
 sealed interface ConnectStatus {
@@ -48,6 +66,27 @@ sealed interface ActiveRoom {
 
     data class Host(override val session: RoomHostSession) : ActiveRoom
     data class Guest(override val session: RoomGuestSession) : ActiveRoom
+
+    // Aksi pemain yang sama untuk Host maupun Tamu (Host juga pemain).
+    fun answer(option: OptionId) = when (this) {
+        is Host -> session.answer(option)
+        is Guest -> session.answer(option)
+    }
+
+    fun submitGame(submission: GameSubmission?) = when (this) {
+        is Host -> session.submitGame(submission)
+        is Guest -> session.submitGame(submission)
+    }
+
+    fun confirmReady() = when (this) {
+        is Host -> session.confirmReady()
+        is Guest -> session.confirmReady()
+    }
+
+    fun requestNext() = when (this) {
+        is Host -> session.requestNext()
+        is Guest -> session.requestNext()
+    }
 }
 
 /** Info room Wi-Fi milik Host untuk ditampilkan di lobi. */
@@ -229,20 +268,53 @@ class RoomCoordinator(
     private suspend fun runBot(b: RoomGuestSession, accuracy: Double) {
         var answeredRound = -1
         var nextRound = -1
+        var tutorialRound = -1
         b.state.collect { st ->
             when (st.phase) {
                 RoomPhase.LOBBY -> if (!st.me.ready && st.players.isNotEmpty()) {
                     delay(Random.nextLong(500, 1_500)); b.setReady(true)
                 }
+                RoomPhase.PREPARING -> {
+                    val prep = st.prepare
+                    if (prep != null && !prep.meReady && prep.index != tutorialRound) {
+                        tutorialRound = prep.index
+                        appScope.launch { delay(Random.nextLong(1_000, 2_500)); b.confirmReady() }
+                    }
+                }
                 RoomPhase.QUESTION -> {
                     val ar = st.activeRound
                     if (ar != null && ar.index != answeredRound) {
                         answeredRound = ar.index
-                        appScope.launch {
-                            delay(Random.nextLong(2_500, (ar.durationMs / 3).coerceAtLeast(3_000)))
-                            val q = ar.round.question
-                            val pick: OptionId = if (Random.nextDouble() < accuracy) q.correctOptionId else ar.round.optionOrder.random()
-                            b.answer(pick)
+                        val q = ar.round.question
+                        val game = q.game
+                        if (game == null) {
+                            appScope.launch {
+                                delay(Random.nextLong(2_500, (ar.durationMs / 3).coerceAtLeast(3_000)))
+                                val pick: OptionId = if (Random.nextDouble() < accuracy) q.correctOptionId!! else ar.round.optionOrder.random()
+                                b.answer(pick)
+                            }
+                        } else {
+                            // Bot demo juga tampil sebagai GHOST di HP ini (dan di HP lain bila relay), lalu mengirim
+                            // submisi referensi (berhasil) atau menyerah sesuai akurasinya.
+                            val success = Random.nextDouble() < accuracy
+                            val finishAt = Random.nextLong(6_000, (ar.durationMs / 2).coerceAtLeast(8_000))
+                            appScope.launch {
+                                val phase = Random.nextDouble() * 6.0
+                                var t = 0L
+                                while (isActive && t < finishAt && b.state.value.activeRound?.index == ar.index) {
+                                    b.publishGhost(botGhost(game.spec, t / 1000.0 + phase, done = false))
+                                    if (t % 1_800L < 150L) botAction(game.spec, t / 1000.0 + phase)?.let(b::publishAction)
+                                    delay(150); t += 150
+                                }
+                                if (b.state.value.activeRound?.index != ar.index) return@launch
+                                if (success && game.reference is TrajectorySubmission) {
+                                    val shot = (game.reference as TrajectorySubmission).shots.first()
+                                    b.publishAction(LaunchAction(shot.a, shot.b, hit = true))
+                                }
+                                b.publishGhost(botGhost(game.spec, finishAt / 1000.0 + phase, done = true))
+                                delay(300)
+                                b.submitGame(if (success) game.reference else null)
+                            }
                         }
                     }
                 }
@@ -302,11 +374,14 @@ class RoomCoordinator(
             RoundRecord(
                 index = r.index,
                 questionId = r.round.question.id,
-                correctOptionId = r.correctOptionId.name,
+                correctOptionId = r.correctOptionId?.name,
                 myOptionId = me?.optionId?.name,
                 myPoints = me?.points ?: 0,
                 myElapsedMs = me?.elapsedMs ?: 0,
                 voided = me?.absent == true,
+                questionType = r.round.question.type.key,
+                correct = me?.correct,
+                detail = me?.detail,
             )
         }
         val others = standings.filter { it.player.sessionId != meId }
@@ -338,5 +413,26 @@ class RoomCoordinator(
     companion object {
         val BOT_NAMES = listOf("Bot Andi 🤖", "Bot Sari 🤖", "Bot Joko 🤖")
         private val BOT_ACCURACY = listOf(0.7, 0.55, 0.4)
+
+        /** Animasi ghost sederhana untuk bot demo (koordinat dunia ternormalisasi). */
+        internal fun botGhost(spec: id.eduduel.app.domain.game.GameSpec, t: Double, done: Boolean): GhostState = when (spec) {
+            is AsteroidSpec -> AsteroidGhost(x = (0.5 + 0.38 * sin(t * 0.9)).toFloat(), firing = (t % 1.8) < 0.15, done = done)
+            is TrajectorySpec -> TrajectoryGhost(aim = (0.5 + 0.25 * sin(t * 0.7)).toFloat(), power = (0.6 + 0.2 * sin(t * 0.4)).toFloat(),
+                shots = (t / 4).toInt().coerceAtMost(spec.maxShots), done = done)
+            is MicroscopeSpec -> {
+                val w = (0.5 + 0.2 * sin(t * 0.3)).toFloat()
+                MicroGhost(vx = ((0.5 + 0.3 * sin(t * 0.5)) - w / 2).toFloat().coerceIn(0f, 1f - w), vy = ((0.5 + 0.25 * sin(t * 0.37)) - w / 2).toFloat().coerceIn(0f, 1f - w),
+                    vw = w, vh = w, focus = (0.5 + 0.3 * sin(t * 0.8)).toFloat(), cx = (0.5 + 0.3 * sin(t * 0.5)).toFloat(), cy = (0.5 + 0.25 * sin(t * 0.37)).toFloat(), done = done)
+            }
+            is LabSpec -> LabGhost(tx = (0.5 + 0.35 * sin(t * 0.6)).toFloat(), ty = (0.45 + 0.2 * sin(t * 1.1)).toFloat(),
+                holding = if (spec.reagents.isNotEmpty()) ((t / 3).toInt() % spec.reagents.size) else null, pouring = (t % 3) > 2.2, done = done)
+        }
+
+        internal fun botAction(spec: id.eduduel.app.domain.game.GameSpec, t: Double) = when (spec) {
+            is AsteroidSpec -> FireAction((0.5 + 0.38 * sin(t * 0.9)).toFloat())
+            is MicroscopeSpec -> TapAction((0.5 + 0.3 * sin(t * 0.5)).toFloat(), (0.5 + 0.25 * sin(t * 0.37)).toFloat(), hit = false)
+            is LabSpec -> if (spec.reagents.isNotEmpty()) LabStepAction(0, (spec.reagents[0].step * 1000).toInt()) else null
+            is TrajectorySpec -> null
+        }
     }
 }

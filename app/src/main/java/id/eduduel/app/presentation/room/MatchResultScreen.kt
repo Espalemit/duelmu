@@ -176,8 +176,8 @@ private fun RoundRow(r: RoundSummary, summary: MatchSummary) {
     InfoCard {
         Row {
             Text(stringResource(R.string.result_round, r.index + 1), style = MaterialTheme.typography.labelLarge, modifier = Modifier.weight(1f))
-            Text("${r.round.question.subject.label} · ${r.round.question.gradeBand.name} · ${r.round.question.difficulty.label}",
-                style = MaterialTheme.typography.labelSmall)
+            Text("${r.round.question.subject.label} · ${r.round.question.gradeBand.name} · ${r.round.question.difficulty.label} · " +
+                id.eduduel.app.presentation.components.typeLabel(r.round.question), style = MaterialTheme.typography.labelSmall)
         }
         MathAwareText(r.round.question.stem, style = MaterialTheme.typography.bodyMedium)
         Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
@@ -191,7 +191,7 @@ private fun RoundRow(r: RoundSummary, summary: MatchSummary) {
 
 @Composable
 private fun PlayerLine(name: String, p: PlayerRoundResult, r: RoundSummary, good: androidx.compose.ui.graphics.Color, bad: androidx.compose.ui.graphics.Color) {
-    val answer = p.optionId?.let { r.round.question.option(it).text }
+    val answer = p.optionId?.let { r.round.question.option(it).text } ?: p.detail
     val time = if (!p.timedOut && !p.absent) " · " + stringResource(R.string.duel_answered_in, "%.1f".format(p.elapsedMs / 1000.0)) else ""
     Text("$name: ${playerResultText(p)}$time" + (answer?.let { " — $it" } ?: ""), color = if (p.correct) good else bad,
         style = MaterialTheme.typography.bodyMedium)

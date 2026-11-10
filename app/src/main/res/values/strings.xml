@@ -314,4 +314,25 @@
     <string name="play_name_body">Pakai nama andalanmu, lalu tantang teman untuk belajar bareng.</string>
     <string name="play_result_title">Latihan tuntas!</string>
     <string name="play_result_encouragement">Setiap tantangan bikin kamu makin jago.</string>
+
+    <!-- v0.4: soal bergambar, mini-game, ghost -->
+    <string name="config_mode">Jenis soal</string>
+    <string name="config_mode_classic_desc">400 soal pilihan ganda (perilaku lama).</string>
+    <string name="config_mode_visual_desc">80 soal pilihan ganda bergambar (grafik, diagram, ilustrasi).</string>
+    <string name="config_mode_game_desc">80 tantangan mini-game: Matematika = Asteroid Solver, Fisika = Trajectory Lab, Biologi = Micro Hunter, Kimia = Reaction Lab.</string>
+    <string name="config_mode_mixed_desc">Campuran semua tipe (10 soal: 4 klasik, 3 bergambar, 3 mini-game).</string>
+    <string name="config_ghost">Mode ghost (mini-game)</string>
+    <string name="config_ghost_live">LIVE (default)</string>
+    <string name="config_ghost_fair">FAIR</string>
+    <string name="config_ghost_live_desc">Gerak &amp; aksi semua pemain terlihat real-time sebagai ghost semitransparan, termasuk token yang ditembak dan parameter eksperimen. Pemain bisa meniru strategi lawan.</string>
+    <string name="config_ghost_fair_desc">Ghost tetap terlihat (posisi &amp; gerak), tetapi label asteroid yang ditembak, titik sentuh, parameter eksperimen, dan indikator berhasil disembunyikan sampai ronde ditutup.</string>
+    <string name="game_solution_title">Solusi</string>
+    <string name="game_result_detail">Hasil game: %1$s</string>
+    <string name="settings_game">Mini-game &amp; ghost</string>
+    <string name="settings_ghost">Tampilkan ghost pemain lain</string>
+    <string name="settings_ghost_body">Ghost semitransparan tidak menghalangi sentuhan dan tidak memengaruhi permainanmu.</string>
+    <string name="settings_ghost_opacity">Opasitas ghost: %1$d%%</string>
+    <string name="settings_touch_assist">Bantuan sentuh</string>
+    <string name="settings_touch_assist_body">Target sentuh lebih besar untuk objek kecil (mikroskop/asteroid) bagi pengguna dengan kendala motorik.</string>
+    <string name="history_type_breakdown">Klasik %1$d · Bergambar %2$d · Game %3$d</string>
 </resources>

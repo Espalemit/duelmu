@@ -11,7 +11,16 @@ object TestBank {
         listOf(File("src/main/assets/questions.json"), File("app/src/main/assets/questions.json"))
             .first { it.exists() }
     }
-    val bank: QuestionBank by lazy { QuestionBankLoader.load(assetFile.readBytes(), expectedSha256 = null) }
+
+    /** Akar repository (tes berjalan dari app/ atau dari akar). */
+    val root: File by lazy { assetFile.absoluteFile.parentFile!!.parentFile!!.parentFile!!.parentFile!!.parentFile!! }
+
+    fun file(relative: String): File = File(root, relative)
+
+    val bank: QuestionBank by lazy {
+        val dir = assetFile.parentFile!!
+        QuestionBankLoader.load(assetFile.readBytes(), expectedSha256 = null) { File(dir, it).readBytes() }
+    }
 }
 
 /** Bank identik isi tetapi hash berbeda: mensimulasikan APK dengan versi bank lain. */

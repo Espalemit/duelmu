@@ -5,6 +5,7 @@ import id.eduduel.app.domain.MatchOutcome
 import id.eduduel.app.domain.OptionId
 import id.eduduel.app.domain.RoundQuestion
 import id.eduduel.app.domain.ScoringEngine
+import id.eduduel.app.domain.game.GameSubmission
 import id.eduduel.app.net.protocol.EndReason
 
 /** Peran KONEKSI di room. Identitas aplikasi semua pemain tetap Guest (tanpa akun). */
@@ -65,6 +66,9 @@ data class PlayerRoundResult(
     val timedOut: Boolean,
     /** Tidak tersambung selama ronde ini (0 poin). */
     val absent: Boolean = false,
+    /** Soal game: submisi pemain (diverifikasi ulang semua HP saat hasil ronde). */
+    val game: GameSubmission? = null,
+    val detail: String? = null,
 ) {
     companion object {
         fun timeout(limitMs: Long) = PlayerRoundResult(null, limitMs, correct = false, points = 0, timedOut = true)
@@ -81,17 +85,22 @@ data class ActiveRound(
     val myAnswer: OptionId? = null,
     val myElapsedMs: Long? = null,
     val myTimedOut: Boolean = false,
+    /** Soal game: submisi saya (terkunci setelah dikirim). */
+    val myGame: GameSubmission? = null,
+    /** Soal game: gagal/menyerah sebelum waktu habis. */
+    val myGaveUp: Boolean = false,
     /** playerSessionId yang sudah mengunci jawaban (termasuk diri sendiri). */
     val lockedPlayers: Set<String> = emptySet(),
 ) {
-    val isLocked: Boolean get() = myAnswer != null || myTimedOut
+    val isLocked: Boolean get() = myAnswer != null || myTimedOut || myGame != null || myGaveUp
     fun remainingMs(now: Long): Long = ScoringEngine.remainingMs(durationMs, now - startedAtMs)
 }
 
 data class RoundSummary(
     val index: Int,
     val round: RoundQuestion,
-    val correctOptionId: OptionId,
+    /** Kunci MCQ; null untuk soal game. */
+    val correctOptionId: OptionId?,
     /** playerSessionId -> hasil untuk SEMUA peserta. */
     val players: Map<String, PlayerRoundResult>,
 ) {
@@ -158,6 +167,8 @@ data class RoomState(
     val participants: List<RoomPlayer> = emptyList(),
     val totalRounds: Int = 0,
     val activeRound: ActiveRound? = null,
+    /** Ronde game yang sedang disiapkan (tutorial interaksi; waktu belum berjalan). */
+    val prepare: PrepareInfo? = null,
     val results: List<RoundSummary> = emptyList(),
     val revealUntilMs: Long? = null,
     val meNextReady: Boolean = false,
@@ -199,6 +210,9 @@ data class RoomState(
     }
 }
 
+/** Tutorial sebelum START soal game. [untilMs] = batas tutorial otomatis (jam monotonic lokal). */
+data class PrepareInfo(val index: Int, val round: RoundQuestion, val untilMs: Long, val meReady: Boolean, val firstOfType: Boolean)
+
 sealed interface RoomNotice {
     data class PlayerJoined(val name: String) : RoomNotice
     data class PlayerLeft(val name: String) : RoomNotice
@@ -226,4 +240,10 @@ data class RoomTiming(
     val reconnectRetryMs: Long = 2_000,
     /** Toleransi klaim waktu jawab Tamu terhadap waktu yang diamati Host. */
     val elapsedToleranceMs: Long = 1_000,
+    /** Tutorial interaksi game: pertama kali jenis game muncul di pertandingan / berikutnya. */
+    val tutorialFirstMs: Long = 8_000,
+    val tutorialRepeatMs: Long = 3_000,
+    /** Interval kirim ghost: Wi-Fi/demo ±8 Hz, Bluetooth ±5 Hz (lebih lambat). */
+    val ghostIntervalLanMs: Long = 125,
+    val ghostIntervalBtMs: Long = 200,
 )

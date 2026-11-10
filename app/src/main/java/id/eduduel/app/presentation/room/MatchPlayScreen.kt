@@ -31,8 +31,13 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import id.eduduel.app.R
 import id.eduduel.app.core.MonotonicClock
+import id.eduduel.app.data.settings.AppSettings
 import id.eduduel.app.domain.OptionId
+import id.eduduel.app.domain.game.GameSubmission
+import id.eduduel.app.net.protocol.GhostAction
+import id.eduduel.app.net.protocol.GhostState
 import id.eduduel.app.net.room.ActiveRoom
+import id.eduduel.app.net.room.GhostTrack
 import id.eduduel.app.net.room.ActiveRound
 import id.eduduel.app.net.room.PlayerRoundResult
 import id.eduduel.app.net.room.RoomPhase
@@ -53,6 +58,13 @@ import id.eduduel.app.presentation.components.TimerBar
 import id.eduduel.app.presentation.components.labelOf
 import id.eduduel.app.presentation.components.optionVisual
 import id.eduduel.app.presentation.components.positionLabel
+import id.eduduel.app.presentation.game.GameArena
+import id.eduduel.app.presentation.game.GameCallbacks
+import id.eduduel.app.presentation.game.GameEnv
+import id.eduduel.app.presentation.game.GameTutorial
+import id.eduduel.app.presentation.game.GhostStyle
+import id.eduduel.app.presentation.game.GhostView
+import id.eduduel.app.presentation.game.PlayerColors
 import id.eduduel.app.presentation.navigation.LocalAppContainer
 import id.eduduel.app.presentation.theme.EduDuelTheme
 import id.eduduel.app.presentation.theme.LocalFeedbackColors
@@ -66,6 +78,8 @@ fun MatchPlayScreen(onExit: () -> Unit, onFinished: () -> Unit) {
     val feedback = id.eduduel.app.presentation.components.LocalInteractionFeedback.current
     val snackbar = remember { SnackbarHostState() }
     var confirmLeave by rememberSaveable { mutableStateOf(false) }
+    val settings by container.settings.settings.collectAsStateWithLifecycle(AppSettings())
+    val ghosts by (room?.session?.ghosts ?: NoGhosts).collectAsStateWithLifecycle()
     val lastResult = state?.results?.lastOrNull()
     id.eduduel.app.presentation.components.BackgroundMusicScene(
         if (state?.phase in setOf(RoomPhase.PREPARING, RoomPhase.QUESTION, RoomPhase.REVEAL))
@@ -93,20 +107,14 @@ fun MatchPlayScreen(onExit: () -> Unit, onFinished: () -> Unit) {
             MatchPlayContent(
                 state = st,
                 clock = container.clock,
-                onAnswer = { opt ->
-                    when (room) {
-                        is ActiveRoom.Host -> room.session.answer(opt)
-                        is ActiveRoom.Guest -> room.session.answer(opt)
-                        null -> Unit
-                    }
-                },
-                onNext = {
-                    when (room) {
-                        is ActiveRoom.Host -> room.session.requestNext()
-                        is ActiveRoom.Guest -> room.session.requestNext()
-                        null -> Unit
-                    }
-                },
+                onAnswer = { opt -> room?.answer(opt) },
+                onNext = { room?.requestNext() },
+                ghosts = ghosts,
+                settings = settings,
+                onSubmitGame = { sub -> room?.submitGame(sub) },
+                onReady = { room?.confirmReady() },
+                onGhost = { g -> room?.session?.publishGhost(g) },
+                onAction = { a -> room?.session?.publishAction(a) },
             )
         }
     }
@@ -122,18 +130,42 @@ fun MatchPlayScreen(onExit: () -> Unit, onFinished: () -> Unit) {
     }
 }
 
+private val NoGhosts = kotlinx.coroutines.flow.MutableStateFlow(emptyMap<String, GhostTrack>())
+
 @Composable
-fun MatchPlayContent(state: RoomState, clock: MonotonicClock, onAnswer: (OptionId) -> Unit, onNext: () -> Unit) {
+fun MatchPlayContent(
+    state: RoomState,
+    clock: MonotonicClock,
+    onAnswer: (OptionId) -> Unit,
+    onNext: () -> Unit,
+    ghosts: Map<String, GhostTrack> = emptyMap(),
+    settings: AppSettings = AppSettings(),
+    onSubmitGame: (GameSubmission?) -> Unit = {},
+    onReady: () -> Unit = {},
+    onGhost: (GhostState) -> Unit = {},
+    onAction: (GhostAction) -> Unit = {},
+) {
     val roundNumber = when (state.phase) {
         RoomPhase.QUESTION -> state.activeRound?.index
         RoomPhase.REVEAL -> state.results.lastOrNull()?.index
+        RoomPhase.PREPARING -> state.prepare?.index
         else -> null
     }
     ScoreBoard(state.standings, state.me.sessionId, roundNumber?.let { stringResource(R.string.round_of, it + 1, state.totalRounds) })
     when (state.phase) {
         RoomPhase.STARTING -> Waiting(stringResource(R.string.duel_starting))
-        RoomPhase.PREPARING -> Waiting(stringResource(R.string.duel_preparing))
-        RoomPhase.QUESTION -> state.activeRound?.let { ActiveQuestion(it, state, clock, onAnswer) }
+        RoomPhase.PREPARING -> {
+            val prep = state.prepare
+            val type = prep?.round?.question?.game?.gameType
+            if (prep != null && type != null) {
+                QuestionCard(prep.round, prep.index, state.totalRounds)
+                GameTutorial(type, prep.untilMs, clock, prep.firstOfType, waiting = prep.meReady, onSkip = onReady)
+            } else Waiting(stringResource(R.string.duel_preparing))
+        }
+        RoomPhase.QUESTION -> state.activeRound?.let { ar ->
+            if (ar.round.question.isGame) ActiveGame(ar, state, clock, ghosts, settings, GameCallbacks(onGhost, onAction, onSubmitGame))
+            else ActiveQuestion(ar, state, clock, onAnswer)
+        }
         RoomPhase.REVEAL -> {
             val last = state.results.lastOrNull()
             if (last == null) Waiting(stringResource(R.string.duel_preparing))
@@ -178,6 +210,37 @@ private fun ActiveQuestion(ar: ActiveRound, state: RoomState, clock: MonotonicCl
         modifier = Modifier.semantics { liveRegion = LiveRegionMode.Polite })
 }
 
+/** Warna tetap per peserta (urutan peserta) — sama di semua HP. */
+fun playerColor(state: RoomState, sessionId: String) =
+    PlayerColors[(state.participants.indexOfFirst { it.sessionId == sessionId }.coerceAtLeast(0)) % PlayerColors.size]
+
+/**
+ * Soal mini-game di room: pemain sendiri SOLID, semua pemain lain (termasuk Host bila saya Tamu)
+ * tampil sebagai ghost semitransparan. Ghost tidak menghalangi sentuhan (digambar di kanvas tanpa
+ * penangkap input) dan tidak memengaruhi state game lokal.
+ */
+@Composable
+private fun ActiveGame(
+    ar: ActiveRound, state: RoomState, clock: MonotonicClock, ghosts: Map<String, GhostTrack>, settings: AppSettings, callbacks: GameCallbacks,
+) {
+    QuestionCard(ar.round, ar.index, state.totalRounds)
+    TimerBar(ar.startedAtMs, ar.durationMs, clock, running = !ar.isLocked)
+    val others = state.participants.filter { it.sessionId != state.me.sessionId }.map { p ->
+        GhostView(p.sessionId, p.nickname, playerColor(state, p.sessionId), ghosts[p.sessionId], p.sessionId in ar.lockedPlayers)
+    }
+    val env = GameEnv(
+        round = ar.round, startedAtMs = ar.startedAtMs, durationMs = ar.durationMs, clock = clock, locked = ar.isLocked,
+        myColor = playerColor(state, state.me.sessionId), ghosts = others,
+        ghostStyle = GhostStyle(settings.ghostEnabled, settings.ghostOpacity), ghostMode = state.config.ghostMode, assist = settings.touchAssist,
+    )
+    GameArena(env, callbacks)
+    if (ar.myTimedOut) Text(stringResource(R.string.timeout), style = MaterialTheme.typography.titleSmall)
+    val connected = state.participants.count { p -> state.players.firstOrNull { it.sessionId == p.sessionId }?.connected != false }
+    val locked = ar.lockedPlayers.count { id -> state.participants.any { it.sessionId == id } }
+    Text(stringResource(R.string.duel_answered_count, locked, connected), style = MaterialTheme.typography.titleSmall,
+        modifier = Modifier.semantics { liveRegion = LiveRegionMode.Polite })
+}
+
 @Composable
 fun playerResultText(p: PlayerRoundResult): String = when {
     p.absent -> stringResource(R.string.duel_result_absent)
@@ -199,6 +262,7 @@ private fun Reveal(last: RoundSummary, state: RoomState, clock: MonotonicClock, 
     }
     Text(title, style = MaterialTheme.typography.headlineSmall, color = if (mine?.correct == true) fb.correct else fb.wrong,
         modifier = Modifier.semantics { liveRegion = LiveRegionMode.Polite })
+    mine?.detail?.let { Text(stringResource(R.string.game_result_detail, it), style = MaterialTheme.typography.bodyMedium) }
     last.round.displayedOptions.forEachIndexed { i, opt ->
         val pickers = last.players.filter { (id, r) -> id != state.me.sessionId && r.optionId == opt.id }.keys.map(state::nameOf)
         val mark = if (pickers.isNotEmpty()) "  ◀ " + pickers.joinToString(", ") else ""
@@ -207,7 +271,7 @@ private fun Reveal(last: RoundSummary, state: RoomState, clock: MonotonicClock, 
     InfoCard {
         state.participants.forEach { p ->
             val r = last.of(p.sessionId) ?: return@forEach
-            val ans = r.optionId?.let { " (${last.round.labelOf(it)})" }.orEmpty()
+            val ans = r.optionId?.let { " (${last.round.labelOf(it)})" } ?: r.detail?.let { " — $it" }.orEmpty()
             Text("${p.nickname}: ${playerResultText(r)}$ans", style = MaterialTheme.typography.bodyMedium,
                 color = if (r.correct) fb.correct else MaterialTheme.colorScheme.onSurface)
         }

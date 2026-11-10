@@ -47,6 +47,13 @@ import id.eduduel.app.presentation.components.TimerBar
 import id.eduduel.app.presentation.components.labelOf
 import id.eduduel.app.presentation.components.optionVisual
 import id.eduduel.app.presentation.components.positionLabel
+import id.eduduel.app.presentation.game.GameArena
+import id.eduduel.app.presentation.game.GameCallbacks
+import id.eduduel.app.presentation.game.GameEnv
+import id.eduduel.app.presentation.game.GameTutorial
+import id.eduduel.app.presentation.game.PlayerColors
+import id.eduduel.app.data.settings.AppSettings
+import id.eduduel.app.domain.game.GameSubmission
 import id.eduduel.app.presentation.navigation.LocalAppContainer
 import id.eduduel.app.presentation.navigation.configFromRouteJson
 import id.eduduel.app.presentation.navigation.toRouteJson
@@ -111,7 +118,11 @@ fun SoloPlayScreen(config: MatchConfig, onExit: () -> Unit) {
                 if (u.state.finished) {
                     SoloResult(u.state, onRetry = vm::retry, onHome = onExit)
                 } else {
-                    SoloQuestion(u.state, container.clock, onAnswer = { vm.answer(it) }, onNext = vm::next)
+                    val settings by container.settings.settings.collectAsStateWithLifecycle(AppSettings())
+                    SoloQuestion(
+                        u.state, container.clock, onAnswer = { vm.answer(it) }, onNext = vm::next,
+                        onGame = vm::answerGame, onBegin = vm::begin, assist = settings.touchAssist,
+                    )
                 }
             }
         }
@@ -128,11 +139,37 @@ fun SoloPlayScreen(config: MatchConfig, onExit: () -> Unit) {
 }
 
 @Composable
-fun SoloQuestion(state: SoloState, clock: MonotonicClock, onAnswer: (OptionId) -> Unit, onNext: () -> Unit) {
+fun SoloQuestion(
+    state: SoloState,
+    clock: MonotonicClock,
+    onAnswer: (OptionId) -> Unit,
+    onNext: () -> Unit,
+    onGame: (GameSubmission?) -> Unit = {},
+    onBegin: () -> Unit = {},
+    assist: Boolean = false,
+) {
     val round = state.current
     val answer = state.currentAnswer
     QuestionCard(round, state.index, state.rounds.size)
+    val game = round.question.game
+    if (game != null && state.awaitingStart) {
+        // Tutorial interaksi: waktu soal BELUM berjalan; mulai otomatis setelah hitung mundur.
+        val until = androidx.compose.runtime.remember(state.index) { clock.nowMs() + if (state.rounds.take(state.index).none { it.question.game?.gameType == game.gameType }) 8_000L else 3_000L }
+        val first = state.rounds.take(state.index).none { it.question.game?.gameType == game.gameType }
+        androidx.compose.runtime.LaunchedEffect(state.index) {
+            kotlinx.coroutines.delay((until - clock.nowMs()).coerceAtLeast(0))
+            onBegin()
+        }
+        GameTutorial(game.gameType, until, clock, first, waiting = false, onSkip = onBegin)
+        return
+    }
     TimerBar(state.startedAtMs, round.question.timeLimitMs, clock, running = answer == null)
+    if (game != null) {
+        GameArena(
+            GameEnv(round, state.startedAtMs, round.question.timeLimitMs, clock, locked = answer != null, myColor = PlayerColors[0], assist = assist),
+            GameCallbacks(onSubmit = onGame),
+        )
+    }
     round.displayedOptions.forEachIndexed { i, opt ->
         OptionButton(
             label = positionLabel(i),
@@ -153,6 +190,7 @@ fun SoloQuestion(state: SoloState, clock: MonotonicClock, onAnswer: (OptionId) -
             text, color = color, style = MaterialTheme.typography.headlineSmall,
             modifier = Modifier.semantics { liveRegion = LiveRegionMode.Polite },
         )
+        answer.detail?.let { Text(stringResource(R.string.game_result_detail, it), style = MaterialTheme.typography.bodyMedium) }
         ExplanationCard(round)
         PrimaryButton(
             if (state.isLast) stringResource(R.string.see_result) else stringResource(R.string.next_question),
@@ -178,8 +216,11 @@ fun SoloResult(state: SoloState, onRetry: () -> Unit, onHome: () -> Unit) {
             MathAwareText(r.question.stem)
             val fb = LocalFeedbackColors.current
             Text(
-                if (a?.optionId != null) stringResource(R.string.your_answer, "${r.labelOf(a.optionId)}. ${r.question.option(a.optionId).text}")
-                else stringResource(R.string.your_answer_none),
+                when {
+                    a?.optionId != null -> stringResource(R.string.your_answer, "${r.labelOf(a.optionId)}. ${r.question.option(a.optionId).text}")
+                    a?.detail != null -> stringResource(R.string.game_result_detail, a.detail)
+                    else -> stringResource(R.string.your_answer_none)
+                },
                 color = if (a?.correct == true) fb.correct else fb.wrong,
             )
             Column(verticalArrangement = Arrangement.spacedBy(4.dp)) { ExplanationCard(r) }

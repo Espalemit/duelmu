@@ -4,9 +4,10 @@ Dihasilkan otomatis oleh `tools/build_question_asset.py`. Jangan disunting manua
 
 - Sumber: `kickstart/bank_soal_duel_400.json` (tidak diubah)
 - Asset: `app/src/main/assets/questions.json`
-- bankVersionName: `2026.11.07-r1`
-- bankSha256 (SHA-256 file asset): `32cf858e77fd4565eb5d8a79401418a8c75f74d4b3dbfe85eccf98e39f405d8a`
-- Koreksi eksplisit: 26; normalisasi tipografi: 161 field
+- bankVersionName: `2026.11.10-r560`
+- bankSha256 (SHA-256 file asset): `67217b6d58d047f702b82aa4f22bfad80ff81294f7c2380b8a22ff8d4b9861da`
+- Koreksi eksplisit: 26; normalisasi tipografi: 161 field (400 klasik), 91 field (80 bergambar)
+- Paket game (80) disalin apa adanya dari `content/game/game_questions_80.json`.
 
 ## Koreksi eksplisit (dengan guard teks lama)
 
@@ -204,3 +205,99 @@ Dihasilkan otomatis oleh `tools/build_question_asset.py`. Jangan disunting manua
 | MAT-SMA-048 | explanation | `Integral ax dx = ax²/2. Nilai 0..8 = 4 x 8²/2 = 128.` | `Integral ax dx = ax²/2. Nilai 0..8 = 4 × 8²/2 = 128.` |
 | MAT-SMA-049 | explanation | `Integral ax dx = ax²/2. Nilai 0..10 = 5 x 10²/2 = 250.` | `Integral ax dx = ax²/2. Nilai 0..10 = 5 × 10²/2 = 250.` |
 | MAT-SMA-050 | explanation | `Integral ax dx = ax²/2. Nilai 0..12 = 6 x 12²/2 = 432.` | `Integral ax dx = ax²/2. Nilai 0..12 = 6 × 12²/2 = 432.` |
+
+## Normalisasi tipografi paket bergambar (makna, kunci, dan gambar tidak berubah)
+
+| ID | Field | Sumber (ZIP/PDF) | Asset |
+|---|---|---|---|
+| FIS-SMP-052 | explanation | `Perpindahan adalah hipotenusa: akar(9^2 + 12^2) = 15 m.` | `Perpindahan adalah hipotenusa: √(9² + 12²) = 15 m.` |
+| FIS-SMP-053 | explanation | `Keseimbangan momen: 120 x 1 = F x 4 sehingga F = 30 N.` | `Keseimbangan momen: 120 × 1 = F × 4 sehingga F = 30 N.` |
+| FIS-SMP-055 | question | `Termometer mula-mula menunjukkan 25 derajat C, lalu 65 derajat C. Kenaikan suhu adalah ...` | `Termometer mula-mula menunjukkan 25 °C, lalu 65 °C. Kenaikan suhu adalah ...` |
+| FIS-SMP-055 | explanation | `Kenaikan suhu = 65 - 25 = 40 derajat C.` | `Kenaikan suhu = 65 - 25 = 40 °C.` |
+| FIS-SMP-055 | option:A | `40 derajat C` | `40 °C` |
+| FIS-SMP-055 | option:B | `65 derajat C` | `65 °C` |
+| FIS-SMP-055 | option:C | `90 derajat C` | `90 °C` |
+| FIS-SMP-055 | option:D | `25 derajat C` | `25 °C` |
+| FIS-SMP-058 | question | `Sinar datang membentuk sudut 35 derajat terhadap garis normal. Sudut pantulnya adalah ...` | `Sinar datang membentuk sudut 35° terhadap garis normal. Sudut pantulnya adalah ...` |
+| FIS-SMP-058 | option:A | `35 derajat` | `35°` |
+| FIS-SMP-058 | option:B | `55 derajat` | `55°` |
+| FIS-SMP-058 | option:C | `70 derajat` | `70°` |
+| FIS-SMP-058 | option:D | `145 derajat` | `145°` |
+| FIS-SMP-060 | question | `Luas piston A1 = 3 cm2, A2 = 30 cm2, dan F1 = 24 N. Besar gaya keluaran F2 adalah ...` | `Luas piston A1 = 3 cm², A2 = 30 cm², dan F1 = 24 N. Besar gaya keluaran F2 adalah ...` |
+| FIS-SMA-051 | explanation | `Kemiringan grafik v-t adalah (18-0)/(6-0) = 3 m/s2.` | `Kemiringan grafik v-t adalah (18-0)/(6-0) = 3 m/s².` |
+| FIS-SMA-051 | option:A | `2 m/s2` | `2 m/s²` |
+| FIS-SMA-051 | option:B | `3 m/s2` | `3 m/s²` |
+| FIS-SMA-051 | option:C | `6 m/s2` | `6 m/s²` |
+| FIS-SMA-051 | option:D | `18 m/s2` | `18 m/s²` |
+| FIS-SMA-052 | question | `Bola dilempar dengan v0 = 20 m/s dan sudut 30 derajat. Komponen kecepatan awal vertikal adalah ...` | `Bola dilempar dengan v0 = 20 m/s dan sudut 30°. Komponen kecepatan awal vertikal adalah ...` |
+| FIS-SMA-052 | explanation | `v_y = v0 sin(30 derajat) = 20 x 1/2 = 10 m/s.` | `v_y = v0 sin(30°) = 20 × 1/2 = 10 m/s.` |
+| FIS-SMA-052 | option:C | `10 akar(3) m/s` | `10 √3 m/s` |
+| FIS-SMA-053 | explanation | `Resultan gaya = 21 - 9 = 12 N; a = F/m = 12/4 = 3 m/s2.` | `Resultan gaya = 21 - 9 = 12 N; a = F/m = 12/4 = 3 m/s².` |
+| FIS-SMA-053 | option:A | `2 m/s2` | `2 m/s²` |
+| FIS-SMA-053 | option:B | `3 m/s2` | `3 m/s²` |
+| FIS-SMA-053 | option:C | `5 m/s2` | `5 m/s²` |
+| FIS-SMA-053 | option:D | `7,5 m/s2` | `7,5 m/s²` |
+| FIS-SMA-055 | question | `Balok 4 kg pada bidang licin bersudut 30 derajat. Jika g=10 m/s2, komponen gaya berat sejajar bidang adalah ...` | `Balok 4 kg pada bidang licin bersudut 30°. Jika g=10 m/s², komponen gaya berat sejajar bidang adalah ...` |
+| FIS-SMA-055 | explanation | `F_sejajar = mg sin(30 derajat) = 4 x 10 x 1/2 = 20 N.` | `F_sejajar = mg sin(30°) = 4 × 10 × 1/2 = 20 N.` |
+| FIS-SMA-057 | question | `Dua muatan +2 mikroC dan +4 mikroC terpisah 0,2 m. Dengan k=9x10^9, gaya listriknya adalah ...` | `Dua muatan +2 μC dan +4 μC terpisah 0,2 m. Dengan k=9x10⁹, gaya listriknya adalah ...` |
+| FIS-SMA-057 | explanation | `F=k q1 q2/r^2 = 9x10^9 x 8x10^-12 /0,04 = 1,8 N.` | `F=k q1 q2/r² = 9x10⁹ × 8x10⁻¹² /0,04 = 1,8 N.` |
+| FIS-SMA-058 | question | `Titik P berada 3 m di bawah permukaan air. Jika rho=1000 kg/m3 dan g=10 m/s2, tekanan hidrostatisnya adalah ...` | `Titik P berada 3 m di bawah permukaan air. Jika rho=1000 kg/m³ dan g=10 m/s², tekanan hidrostatisnya adalah ...` |
+| FIS-SMA-058 | explanation | `P=rho g h=1000 x 10 x 3 = 30.000 Pa (tekanan ukur).` | `P=rho g h=1000 × 10 × 3 = 30.000 Pa (tekanan ukur).` |
+| FIS-SMA-059 | explanation | `E = 1/2 k x^2 = 0,5 x 150 x 0,20^2 = 3 J.` | `E = 1/2 k x² = 0,5 × 150 × 0,20² = 3 J.` |
+| FIS-SMA-060 | explanation | `Vs/Vp = Ns/Np = 600/120 = 5; Vs=5 x 10=50 V.` | `Vs/Vp = Ns/Np = 600/120 = 5; Vs=5 × 10=50 V.` |
+| BIO-SMP-052 | explanation | `Stomata memungkinkan pertukaran CO2/O2 dan keluarnya uap air.` | `Stomata memungkinkan pertukaran CO₂/O₂ dan keluarnya uap air.` |
+| BIO-SMP-056 | explanation | `Oksigen berdifusi dari udara alveolus ke darah, CO2 bergerak sebaliknya.` | `Oksigen berdifusi dari udara alveolus ke darah, CO₂ bergerak sebaliknya.` |
+| BIO-SMP-056 | option:A | `CO2` | `CO₂` |
+| BIO-SMP-056 | option:C | `O2` | `O₂` |
+| BIO-SMP-060 | question | `Pada kotak Punnett Mm x mm, M dominan penuh. Peluang fenotipe dominan pada keturunan adalah ...` | `Pada kotak Punnett Mm × mm, M dominan penuh. Peluang fenotipe dominan pada keturunan adalah ...` |
+| BIO-SMA-052 | explanation | `Puncak kurva menunjukkan suhu optimum sekitar 37 derajat C.` | `Puncak kurva menunjukkan suhu optimum sekitar 37 °C.` |
+| BIO-SMA-052 | option:A | `10 derajat C` | `10 °C` |
+| BIO-SMA-052 | option:B | `25 derajat C` | `25 °C` |
+| BIO-SMA-052 | option:C | `37 derajat C` | `37 °C` |
+| BIO-SMA-052 | option:D | `70 derajat C` | `70 °C` |
+| BIO-SMA-056 | explanation | `Pada daerah plateau, cahaya bukan lagi pembatas; CO2 atau suhu dapat membatasi laju.` | `Pada daerah plateau, cahaya bukan lagi pembatas; CO₂ atau suhu dapat membatasi laju.` |
+| BIO-SMA-056 | option:B | `Ketersediaan CO2` | `Ketersediaan CO₂` |
+| BIO-SMA-059 | option:B | `Sekresi ion H+` | `Sekresi ion H⁺` |
+| KIM-SMP-057 | explanation | `Zn + 2HCl -> ZnCl2 + H2(g).` | `Zn + 2HCl → ZnCl₂ + H₂(g).` |
+| KIM-SMP-057 | option:A | `O2` | `O₂` |
+| KIM-SMP-057 | option:B | `CO2` | `CO₂` |
+| KIM-SMP-057 | option:C | `H2` | `H₂` |
+| KIM-SMP-057 | option:D | `N2` | `N₂` |
+| KIM-SMP-058 | explanation | `Pada skala pH umum (25 derajat C), pH > 7 bersifat basa.` | `Pada skala pH umum (25 °C), pH > 7 bersifat basa.` |
+| KIM-SMP-059 | explanation | `Pembakaran merupakan reaksi kimia, menghasilkan antara lain CO2 dan H2O.` | `Pembakaran merupakan reaksi kimia, menghasilkan antara lain CO₂ dan H₂O.` |
+| KIM-SMA-052 | question | `Pada reaksi 2H2 + O2 -> 2H2O, tersedia 4 mol H2 dan O2 berlebih. Air yang terbentuk sebanyak ...` | `Pada reaksi 2H₂ + O₂ → 2H₂O, tersedia 4 mol H₂ dan O₂ berlebih. Air yang terbentuk sebanyak ...` |
+| KIM-SMA-052 | explanation | `Koefisien H2 dan H2O sama (2:2), jadi 4 mol H2 menghasilkan 4 mol H2O.` | `Koefisien H₂ dan H₂O sama (2:2), jadi 4 mol H₂ menghasilkan 4 mol H₂O.` |
+| KIM-SMA-053 | question | `Struktur Lewis CO2 pada gambar adalah O=C=O. Bentuk molekul CO2 adalah ...` | `Struktur Lewis CO₂ pada gambar adalah O=C=O. Bentuk molekul CO₂ adalah ...` |
+| KIM-SMA-054 | question | `Diagram orbital menunjukkan konfigurasi 2p4. Jumlah elektron tak berpasangan di subkulit 2p adalah ...` | `Diagram orbital menunjukkan konfigurasi 2p⁴. Jumlah elektron tak berpasangan di subkulit 2p adalah ...` |
+| KIM-SMA-054 | explanation | `Menurut aturan Hund, 2p4 menyisakan dua elektron tak berpasangan.` | `Menurut aturan Hund, 2p⁴ menyisakan dua elektron tak berpasangan.` |
+| KIM-SMA-055 | question | `Kurva titrasi asam kuat oleh basa kuat pada 25 derajat C menunjukkan titik ekuivalen. Nilai pH ekuivalen adalah ...` | `Kurva titrasi asam kuat oleh basa kuat pada 25 °C menunjukkan titik ekuivalen. Nilai pH ekuivalen adalah ...` |
+| KIM-SMA-055 | explanation | `Titik ekuivalen asam kuat-basa kuat memiliki pH sekitar 7 pada 25 derajat C.` | `Titik ekuivalen asam kuat-basa kuat memiliki pH sekitar 7 pada 25 °C.` |
+| KIM-SMA-056 | question | `Diagram entalpi menunjukkan pereaksi 120 kJ dan produk 40 kJ. Delta H reaksi adalah ...` | `Diagram entalpi menunjukkan pereaksi 120 kJ dan produk 40 kJ. ΔH reaksi adalah ...` |
+| KIM-SMA-056 | explanation | `Delta H = H_produk - H_pereaksi = 40 - 120 = -80 kJ.` | `ΔH = H_produk - H_pereaksi = 40 - 120 = -80 kJ.` |
+| KIM-SMA-057 | question | `Dalam reaksi N2 + 3H2 -> 2NH3, jika 3 mol N2 habis dan H2 berlebih, NH3 terbentuk ...` | `Dalam reaksi N₂ + 3H₂ → 2NH₃, jika 3 mol N₂ habis dan H₂ berlebih, NH₃ terbentuk ...` |
+| KIM-SMA-057 | explanation | `Setiap 1 mol N2 menghasilkan 2 mol NH3; 3 mol N2 menghasilkan 6 mol NH3.` | `Setiap 1 mol N₂ menghasilkan 2 mol NH₃; 3 mol N₂ menghasilkan 6 mol NH₃.` |
+| KIM-SMA-058 | question | `Pada sel volta Zn | Zn2+ || Cu2+ | Cu, arah elektron melalui kawat adalah ...` | `Pada sel volta Zn | Zn²⁺ || Cu²⁺ | Cu, arah elektron melalui kawat adalah ...` |
+| KIM-SMA-059 | question | `Struktur yang ditunjukkan adalah CH3-CH2-CH2-OH. Nama IUPAC senyawa ini adalah ...` | `Struktur yang ditunjukkan adalah CH₃-CH₂-CH₂-OH. Nama IUPAC senyawa ini adalah ...` |
+| KIM-SMA-060 | explanation | `Laju penghilangan = -(Delta[A]/Delta t) = (0,9 - 0,3)/20 = 0,03 M/s.` | `Laju penghilangan = -(Δ[A]/Δt) = (0,9 - 0,3)/20 = 0,03 M/s.` |
+| MAT-SMP-051 | explanation | `c = akar(9^2 + 12^2) = akar(225) = 15 cm.` | `c = √(9² + 12²) = √225 = 15 cm.` |
+| MAT-SMP-052 | question | `Dalam kisi 4 x 6, terdapat 8 petak berwarna dari 24 petak. Pecahan bagian berwarna yang disederhanakan adalah ...` | `Dalam kisi 4 × 6, terdapat 8 petak berwarna dari 24 petak. Pecahan bagian berwarna yang disederhanakan adalah ...` |
+| MAT-SMP-055 | question | `Dua sudut pada garis lurus adalah 128 derajat dan x. Besar x adalah ...` | `Dua sudut pada garis lurus adalah 128° dan x. Besar x adalah ...` |
+| MAT-SMP-055 | explanation | `Dua sudut berpelurus berjumlah 180 derajat; x=180-128=52.` | `Dua sudut berpelurus berjumlah 180°; x=180-128=52.` |
+| MAT-SMP-055 | option:A | `42 derajat` | `42°` |
+| MAT-SMP-055 | option:B | `52 derajat` | `52°` |
+| MAT-SMP-055 | option:C | `62 derajat` | `62°` |
+| MAT-SMP-055 | option:D | `128 derajat` | `128°` |
+| MAT-SMP-059 | explanation | `5 x 20.000 = 100.000 cm = 1.000 m = 1 km.` | `5 × 20.000 = 100.000 cm = 1.000 m = 1 km.` |
+| MAT-SMA-052 | question | `Grafik f(x)=x^2 diberi garis singgung pada x=3. Gradien garis singgung adalah ...` | `Grafik f(x)=x² diberi garis singgung pada x=3. Gradien garis singgung adalah ...` |
+| MAT-SMA-053 | question | `Pada lingkaran satuan, sudut 60 derajat membentuk titik P(cos60,sin60). Nilai cos60 adalah ...` | `Pada lingkaran satuan, sudut 60° membentuk titik P(cos60,sin60). Nilai cos60 adalah ...` |
+| MAT-SMA-053 | option:C | `akar(2)/2` | `√2/2` |
+| MAT-SMA-053 | option:D | `akar(3)/2` | `√3/2` |
+| MAT-SMA-054 | explanation | `Barisan geometri rasio 3: 18 x 3 = 54.` | `Barisan geometri rasio 3: 18 × 3 = 54.` |
+| MAT-SMA-056 | explanation | `Luas segitiga = 1/2 x alas 2 x tinggi 6 = 6.` | `Luas segitiga = 1/2 × alas 2 × tinggi 6 = 6.` |
+| MAT-SMA-058 | explanation | `log2(8)=3 karena 2^3=8.` | `log2(8)=3 karena 2³=8.` |
+| MAT-SMA-059 | explanation | `Rumus (x-h)^2+(y-k)^2=r^2; h=-1,k=2,r=3.` | `Rumus (x-h)²+(y-k)²=r²; h=-1,k=2,r=3.` |
+| MAT-SMA-059 | option:A | `(x-1)^2+(y+2)^2=9` | `(x-1)²+(y+2)²=9` |
+| MAT-SMA-059 | option:B | `(x+1)^2+(y-2)^2=3` | `(x+1)²+(y-2)²=3` |
+| MAT-SMA-059 | option:C | `(x+1)^2+(y-2)^2=9` | `(x+1)²+(y-2)²=9` |
+| MAT-SMA-059 | option:D | `(x-1)^2+(y-2)^2=9` | `(x-1)²+(y-2)²=9` |
+| MAT-SMA-060 | explanation | `Refleksi terhadap y=x menukar koordinat (x,y)->(y,x), jadi (-2,3).` | `Refleksi terhadap y=x menukar koordinat (x,y)→(y,x), jadi (-2,3).` |

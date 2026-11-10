@@ -150,6 +150,19 @@ private fun RecordRow(r: MatchRecordEntity) {
                 Text(stringResource(R.string.points_short, r.myScore), style = MaterialTheme.typography.bodyLarge)
             }
             Text(r.configSummary, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            // Tipe soal per ronde (riwayat sebelum 0.4 tidak punya tipe -> dihitung klasik).
+            val rounds = HistoryRepository.decodeRounds(r.roundsJson)
+            if (rounds.any { it.questionType != null && it.questionType != "classic_mcq" }) {
+                Text(
+                    stringResource(
+                        R.string.history_type_breakdown,
+                        rounds.count { (it.questionType ?: "classic_mcq") == "classic_mcq" },
+                        rounds.count { it.questionType == "visual_mcq" },
+                        rounds.count { it.questionType == "mini_game" },
+                    ),
+                    style = MaterialTheme.typography.bodySmall,
+                )
+            }
         }
     }
 }
