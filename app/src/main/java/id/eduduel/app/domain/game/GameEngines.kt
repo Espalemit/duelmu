@@ -21,7 +21,7 @@ sealed interface GameSubmission {
     val type: GameType
 }
 
-/** Indeks token (ke [AsteroidSpec.tokens]) yang terkena tembakan, berurutan. */
+/** Chronological hits; [AsteroidEngine.COLLISION] records one lost life from a collision. */
 @Serializable
 @SerialName("asteroid")
 data class AsteroidSubmission(val hits: List<Int>) : GameSubmission {
@@ -96,7 +96,7 @@ object GameEngines {
     /** Validasi batas ukuran & rentang sebelum evaluasi (dipakai Host untuk menolak spam). */
     fun isWellFormed(spec: GameSpec, submission: GameSubmission): Boolean = when (spec) {
         is AsteroidSpec -> submission is AsteroidSubmission && submission.hits.size <= GameLimits.MAX_ASTEROID_HITS &&
-            submission.hits.all { it in spec.tokens.indices }
+            submission.hits.all { it == AsteroidEngine.COLLISION || it in spec.tokens.indices }
         is TrajectorySpec -> submission is TrajectorySubmission && submission.shots.size in 1..min(spec.maxShots, GameLimits.MAX_SHOTS) &&
             submission.shots.all { it.a in 0 until spec.a.count && it.b in 0 until spec.b.count }
         is MicroscopeSpec -> submission is MicroSubmission && submission.taps.size in 1..GameLimits.MAX_TAPS &&
@@ -113,6 +113,12 @@ object GameEngines {
 // ============================================================================ Asteroid Solver
 
 object AsteroidEngine {
+    const val COLLISION = -1
+    const val SHIP_Y = 0.9
+    const val SHIP_WIDTH = 0.13
+    const val SHIP_HEIGHT = 0.15
+    const val ASTEROID_RADIUS = 0.085
+    const val ARENA_RATIO = 0.82
     data class Progress(val filled: Int, val wrong: Int, val success: Boolean, val failed: Boolean)
 
     fun progress(spec: AsteroidSpec, hits: List<Int>): Progress {
@@ -121,6 +127,7 @@ object AsteroidEngine {
         val tokens = spec.tokens
         for (h in hits) {
             if (slot == spec.answerTokens.size || wrong > spec.maxWrong) break
+            if (h == COLLISION) { wrong++; continue }
             val token = tokens.getOrNull(h) ?: GameEngines.invalid("token $h")
             if (token == spec.answerTokens[slot]) slot++ else wrong++
         }
@@ -131,7 +138,48 @@ object AsteroidEngine {
     fun evaluate(spec: AsteroidSpec, s: AsteroidSubmission): GameOutcome {
         if (s.hits.size > GameLimits.MAX_ASTEROID_HITS) GameEngines.invalid("terlalu banyak tembakan")
         val p = progress(spec, s.hits)
-        return GameOutcome(p.success, "Slot terisi ${p.filled}/${spec.answerTokens.size}, tembakan salah ${p.wrong} (maks ${spec.maxWrong})", p.wrong)
+        return GameOutcome(p.success, "Slot terisi ${p.filled}/${spec.answerTokens.size}, nyawa hilang ${p.wrong} (maks ${spec.maxWrong} masih boleh)", p.wrong)
+    }
+
+    /** Swept collision in width units, including ship movement and frames that skip past a rock. */
+    fun collidesWithShip(spec: AsteroidSpec, spawn: Spawn, fromSeconds: Double, toSeconds: Double,
+        fromShipX: Double, toShipX: Double, assist: Boolean = false): Boolean {
+        if (toSeconds < spawn.spawnAt || toSeconds < fromSeconds) return false
+        val start = max(fromSeconds, spawn.spawnAt)
+        val fraction = if (toSeconds > fromSeconds) (start - fromSeconds) / (toSeconds - fromSeconds) else 1.0
+        val shipStart = fromShipX + (toShipX - fromShipX) * fraction
+        val x0 = spawn.x - shipStart
+        val x1 = spawn.x - toShipX
+        fun y(t: Double) = (-0.08 + (t - spawn.spawnAt) * spec.fallSpeed * spawn.speedFactor - SHIP_Y) / ARENA_RATIO
+        val y0 = y(start)
+        val y1 = y(toSeconds)
+        val r = ASTEROID_RADIUS * if (assist) 1.1 else 1.0
+        // The drawn ship is a rectangle; sweep the rock center through its rounded expansion.
+        val hw = SHIP_WIDTH / 2
+        val hh = SHIP_HEIGHT / 2
+        var low = 0.0
+        var high = 1.0
+        fun clip(p: Double, delta: Double, half: Double): Boolean {
+            if (abs(delta) < 1e-12) return abs(p) <= half
+            val a = (-half - p) / delta
+            val b = (half - p) / delta
+            low = max(low, min(a, b)); high = min(high, max(a, b))
+            return low <= high
+        }
+        if (!clip(x0, x1 - x0, hw + r) || !clip(y0, y1 - y0, hh + r)) return false
+        // Avoid false hits in the expanded rectangle's corners: exact distance to the ship.
+        fun distance2(t: Double): Double {
+            val dx = max(0.0, abs(x0 + (x1 - x0) * t) - hw)
+            val dy = max(0.0, abs(y0 + (y1 - y0) * t) - hh)
+            return dx * dx + dy * dy
+        }
+        // Convex distance along a segment; a short bounded search is resolution independent.
+        var a = low; var b = high
+        repeat(36) {
+            val m1 = (2 * a + b) / 3; val m2 = (a + 2 * b) / 3
+            if (distance2(m1) <= distance2(m2)) b = m2 else a = m1
+        }
+        return min(distance2(low), min(distance2(high), distance2((a + b) / 2))) <= r * r + 1e-12
     }
 
     /** Asteroid ke-[index] (deterministik dari seed ronde): token, posisi x (0..1), waktu muncul (detik). */

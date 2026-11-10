@@ -43,13 +43,13 @@ android {
         applicationId = "id.eduduel.app"
         minSdk = 26
         targetSdk = 36
-        versionCode = 9
-        versionName = "0.4.2"
+        versionCode = 10
+        versionName = "0.5.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         buildConfigField("String", "BANK_SHA256", "\"$bankSha256\"")
         buildConfigField("String", "BANK_VERSION_NAME", "\"$bankVersionName\"")
-        buildConfigField("int", "PROTOCOL_VERSION", "3")
+        buildConfigField("int", "PROTOCOL_VERSION", "4")
     }
 
     signingConfigs {

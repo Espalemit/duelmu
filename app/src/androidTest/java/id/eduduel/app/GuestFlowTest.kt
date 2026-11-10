@@ -67,7 +67,7 @@ class GuestFlowTest {
             rule.onAllNodesWithText(it).assertCountEquals(0)
         }
         rule.onNodeWithText("Matematika").performScrollTo().performClick()
-        waitText("10 soal diambil acak dari 100 soal Matematika")
+        waitText("10 soal diambil acak dari 140 soal Matematika")
 
         // Tekan Mulai begitu aktif (bot SIAP ulang setelah mapel diganti); ulangi bila klik sintetis jatuh
         // tepat saat status SIAP berubah.

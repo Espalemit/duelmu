@@ -1,7 +1,7 @@
-# Arsitektur Mini-Game & Ghost Multiplayer (Duelmu 0.4.0)
+# Arsitektur Mini-Game & Ghost Multiplayer (Duelmu 0.5.0)
 
 Dokumen ini menjelaskan cara kerja soal bergambar, empat mesin mini-game, ghost multiplayer simetris,
-protokol room v3, format menambah soal game, cara menguji di 2–4 HP, serta strategi migrasi/rollback bank.
+protokol room v4, format menambah soal game, cara menguji di 2–4 HP, serta strategi migrasi/rollback bank.
 
 ## 1. Ringkasan
 
@@ -15,8 +15,9 @@ protokol room v3, format menambah soal game, cara menguji di 2–4 HP, serta str
 | UI game | `presentation/game/*` | `GameArena` → `AsteroidGame` / `TrajectoryGame` / `MicroscopeGame` / `LabGame`, `GameTutorial`, `GhostLegend` |
 | Soal bergambar | `presentation/components/AssetImage.kt` | Dekode malas dari `assets/`, `inSampleSize`, LRU cache ±1/16 heap, placeholder error, dialog pinch-zoom |
 
-Mode pertandingan (`MatchConfig.mode`): **Kuis Klasik** (400, default = perilaku lama), **Kuis Bergambar** (80),
-**Mini-Game** (80; setiap mapel → gameplay khasnya) dan **Campuran Tipe** (berstrata 4 klasik + 3 bergambar + 3 game).
+Semua pertandingan baru memakai **Campuran Tipe**, berstrata **6 klasik + 3 bergambar + 1 mini-game**.
+Pilihan tipe kuis dihapus; nilai mode lama tetap bisa dibaca untuk riwayat. Konfigurasi route dan room
+dinormalisasi ke MIXED, dan selector menerapkan komposisi baru termasuk jika menerima konfigurasi lama.
 Tetap 10 ronde, durasi 60/90/120 dtk dan poin dasar 100/200/300 menurut kesulitan.
 
 ## 2. Empat mesin game
@@ -26,7 +27,7 @@ bilangan bulat, jumlah ×1000) sehingga setiap HP menghitung hasil yang identik.
 
 | Mapel | Mesin | Masukan (`GameSubmission`) | Berhasil bila | Kalah bila |
 |---|---|---|---|---|
-| Matematika | **Asteroid Solver**: geser pesawat / ketuk asteroid, tembak token berurutan | `hits`: indeks token yang terkena, berurutan | semua slot terisi berurutan dengan salah ≤ `maxWrong` | salah ke-(maxWrong+1) atau waktu habis |
+| Matematika | **Asteroid Solver**: geser pesawat / ketuk asteroid, tembak token berurutan | `hits`: indeks token yang terkena dan `-1` untuk tabrakan, berurutan | semua slot terisi berurutan dengan salah ≤ `maxWrong` | penalti ke-(maxWrong+1) atau waktu habis |
 | Fisika | **Trajectory Lab**: atur sudut & kelajuan (atau vₓ & v_y), luncurkan | `shots`: indeks parameter per tembakan | salah satu tembakan (≤ `maxShots`) masuk radius sasaran | tembakan habis / waktu habis |
 | Biologi | **Micro Hunter**: pan, zoom, fokus, tunjuk struktur | `taps`: (x, y dunia, zoom×100, fokus‰) + flag bantuan sentuh | tap tajam & cukup diperbesar di dalam/ dekat poligon target | tap salah ke-(maxWrong+1) / waktu habis |
 | Kimia | **Reaction Lab**: seret reagen/alat, tetes, ulangi, kunci | `actions`: (indeks reagen/alat, jumlah×1000), `RESET` | semua `targets` terpenuhi pada state akhir (setelah reaksi pembatas) | target tidak tercapai / waktu habis |
@@ -109,7 +110,7 @@ bisa menebak area yang sedang diperiksa lawan. Ini sengaja (ghost tidak boleh di
 Pengaturan → "Mini-game & ghost": **Tampilkan ghost** (ON/OFF), **opasitas 15–30 %** (default 25 %), dan
 **Bantuan sentuh**. Disimpan di DataStore per HP; tidak memengaruhi HP lain maupun penilaian.
 
-## 4. Protokol room v3 & keamanan skor
+## 4. Protokol room v4 & keamanan skor
 
 `PROTOCOL_VERSION = 3`. Klien 0.3.x (v2) ditolak di tingkat codec (`DecodeResult.VersionMismatch` →
 `ERROR PROTOCOL_VERSION` → layar "versi aplikasi tidak cocok"). Bank berbeda tetap ditolak lewat `bankSha256`
@@ -185,3 +186,16 @@ pertandingan bisa dibatalkan seperti biasa.
 - Rollback: salinan asli semua file yang diubah ada di `.rollback/v0.05/` (lihat `rollback.md`). Mengembalikan bank
   lama = memulihkan `app/src/main/assets/questions.json` dan menghapus `app/src/main/assets/images/`, lalu build ulang;
   karena protokol berbeda, semua HP dalam satu room harus memakai versi yang sama.
+
+## Efek layar dan tabrakan (0.5.0)
+
+`GameEffectsHost` berada di atas navigasi: animasi tidak terpotong arena, bertahan ketika jawaban
+dikunci, dan tidak menghalangi kontrol. Hasil mini-game yang benar memicu confetti 2 detik sekali
+per ronde, bersama suara perayaan. Penalti memicu tepi merah berkedip dan −1 dengan fade out 0,5 detik:
+salah tembak/tabrakan asteroid, tap Biologi yang salah, tembakan Fisika yang meleset, dan pemakaian
+kesempatan Ulangi pada lab. Tap ditolak karena fokus/zoom tidak mengurangi kesempatan.
+
+Deteksi asteroid memakai sapuan posisi asteroid dan pesawat antarframe, sehingga frame yang terlewat
+tetap mendeteksi benturan. Asteroid yang bertabrakan dihapus sekali; tiap benturan menambahkan satu
+`AsteroidEngine.COLLISION` (`-1`) ke urutan submisi. Host dan Tamu memutar ulang penalti dalam urutan
+yang sama dengan tembakan. Protokol v4 menolak versi v3 agar aturan nyawa tidak berbeda antar-HP.

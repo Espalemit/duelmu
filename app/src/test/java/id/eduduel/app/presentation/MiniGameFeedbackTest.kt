@@ -1,6 +1,7 @@
 package id.eduduel.app.presentation
 
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.test.junit4.StateRestorationTester
 import androidx.compose.ui.test.junit4.createComposeRule
 import id.eduduel.app.TestBank
@@ -10,6 +11,8 @@ import id.eduduel.app.domain.game.GameType
 import id.eduduel.app.presentation.components.Feedback
 import id.eduduel.app.presentation.components.GameFeedbackEffects
 import id.eduduel.app.presentation.components.GameSound
+import id.eduduel.app.presentation.components.GameVisualEffects
+import id.eduduel.app.presentation.components.LocalGameVisualEffects
 import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
@@ -27,11 +30,14 @@ class MiniGameFeedbackTest {
     @Test fun allFourMiniGamesCelebrateOnceAndRestorationDoesNotReplay() {
         val sounds = mutableListOf<GameSound>()
         val feedback = Feedback({}, { sounds += it }, AppSettings(hapticsEnabled = false))
+        val visuals = GameVisualEffects()
         val result = mutableStateOf(Result())
         val restoration = StateRestorationTester(rule)
         restoration.setContent {
             val r = result.value
-            GameFeedbackEffects("session", false, r.index, r.correct, feedback, r.miniGame)
+            CompositionLocalProvider(LocalGameVisualEffects provides visuals) {
+                GameFeedbackEffects("session", false, r.index, r.correct, feedback, r.miniGame)
+            }
         }
         GameType.entries.forEachIndexed { index, type ->
             val question = TestBank.bank.questions.first { it.game?.gameType == type }
@@ -41,10 +47,10 @@ class MiniGameFeedbackTest {
             rule.runOnIdle { assertEquals(List(index + 1) { GameSound.CELEBRATION }, sounds) }
         }
         restoration.emulateSavedInstanceStateRestore()
-        rule.runOnIdle { assertEquals(4, sounds.size) }
+        rule.runOnIdle { assertEquals(4, sounds.size); assertEquals(4, visuals.celebration) }
         rule.runOnIdle { result.value = Result(4, false) }
         rule.runOnIdle { assertEquals(GameSound.WRONG, sounds.last()); assertEquals(5, sounds.size) }
         rule.runOnIdle { result.value = Result(5, true, miniGame = false) }
-        rule.runOnIdle { assertEquals(GameSound.CORRECT, sounds.last()); assertEquals(6, sounds.size) }
+        rule.runOnIdle { assertEquals(GameSound.CORRECT, sounds.last()); assertEquals(6, sounds.size); assertEquals(4, visuals.celebration) }
     }
 }

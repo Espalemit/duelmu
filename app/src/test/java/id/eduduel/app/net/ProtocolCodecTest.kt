@@ -97,14 +97,16 @@ class ProtocolCodecTest {
     @Test fun malformedJson_andUnknownType_andWrongVersion() {
         assertTrue(MessageCodec.decode("{bukan json".toByteArray()) is DecodeResult.Malformed)
         assertTrue(MessageCodec.decode(byteArrayOf(0xC3.toByte(), 0x28)) is DecodeResult.Malformed) // UTF-8 rusak
-        val unknown = """{"v":3,"seq":1,"msgId":"x","payload":{"type":"HACK"}}"""
+        val unknown = """{"v":4,"seq":1,"msgId":"x","payload":{"type":"HACK"}}"""
         assertTrue(MessageCodec.decode(unknown.toByteArray()) is DecodeResult.Malformed)
-        val missingField = """{"v":3,"seq":1,"msgId":"x","payload":{"type":"HELLO"}}"""
+        val missingField = """{"v":4,"seq":1,"msgId":"x","payload":{"type":"HELLO"}}"""
         assertTrue(MessageCodec.decode(missingField.toByteArray()) is DecodeResult.Malformed)
         // Duelmu 0.3.x (protokol v2, tanpa soal game) ditolak dengan alasan versi yang jelas.
         val v2 = """{"v":2,"seq":1,"msgId":"x","payload":{"type":"PING","sentAtMs":1}}"""
         assertEquals(DecodeResult.VersionMismatch(2), MessageCodec.decode(v2.toByteArray()))
-        assertEquals(3, PROTOCOL_VERSION)
+        assertEquals(4, PROTOCOL_VERSION)
+        val v3 = """{"v":3,"seq":1,"msgId":"x","payload":{"type":"PING","sentAtMs":1}}"""
+        assertEquals(DecodeResult.VersionMismatch(3), MessageCodec.decode(v3.toByteArray()))
         // Aplikasi versi lama (protokol v1, duel 1 lawan 1) ditolak dengan jelas.
         val v1 = """{"v":1,"seq":1,"msgId":"x","payload":{"type":"PING","sentAtMs":1}}"""
         assertEquals(DecodeResult.VersionMismatch(1), MessageCodec.decode(v1.toByteArray()))

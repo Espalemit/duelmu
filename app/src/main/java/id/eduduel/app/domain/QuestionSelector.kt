@@ -28,10 +28,10 @@ data class RoundQuestion(val question: Question, val optionOrder: List<OptionId>
  */
 object QuestionSelector {
 
-    /** Kuota mode Campuran Tipe untuk 10 soal: 4 klasik, 3 bergambar, 3 game (proporsional bila n lain). */
+    /** Setiap 10 soal: 6 klasik, 3 bergambar, 1 mini-game. */
     fun mixedQuota(count: Int): Map<QuestionType, Int> {
         val visual = (count * 3) / 10
-        val game = (count * 3) / 10
+        val game = count / 10
         return mapOf(QuestionType.CLASSIC_MCQ to count - visual - game, QuestionType.VISUAL_MCQ to visual, QuestionType.MINI_GAME to game)
     }
 
@@ -80,7 +80,7 @@ object QuestionSelector {
 
     /** Pemilihan sesuai aturan pertandingan (mode Campuran Tipe = berstrata per jenis soal). */
     fun forConfig(bank: QuestionBank, config: MatchConfig, seed: Long, avoidIds: Set<String> = emptySet()): List<RoundQuestion> {
-        val pool = bank.pool(config)
-        return select(pool, config.questionCount.coerceAtMost(pool.size), seed, avoidIds, stratifyTypes = config.mode == QuestionMode.MIXED)
+        val pool = bank.pool(config.copy(mode = QuestionMode.MIXED))
+        return select(pool, config.questionCount.coerceAtMost(pool.size), seed, avoidIds, stratifyTypes = true)
     }
 }

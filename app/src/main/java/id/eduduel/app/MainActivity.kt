@@ -48,7 +48,7 @@ class MainActivity : ComponentActivity() {
             ) {
                 EduDuelTheme {
                     Surface(Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
-                        AppNavHost()
+                        id.eduduel.app.presentation.components.GameEffectsHost { AppNavHost() }
                     }
                 }
             }

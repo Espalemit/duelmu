@@ -162,7 +162,7 @@ fun tutorialLines(type: GameType): List<String> = when (type) {
     GameType.ASTEROID -> listOf(
         "Geser pesawat ke kiri/kanan atau ketuk langsung asteroid untuk membidik & menembak.",
         "Tembak token SESUAI URUTAN kotak kosong (kotak yang menyala).",
-        "Tembakan ke token yang salah mengurangi nyawa. Semua kotak terisi = berhasil.",
+        "Hindari asteroid: tabrakan atau menembak token yang salah mengurangi 1 nyawa. Semua kotak terisi = berhasil.",
     )
     GameType.TRAJECTORY -> listOf(
         "Atur parameter peluncuran dengan slider atau tombol −/+ (yang terkunci tidak bisa diubah).",

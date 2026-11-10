@@ -8,8 +8,8 @@ Setiap pemain adalah Guest yang mengetik nama panggilan tepat sebelum bermain.
 
 - **Room maks. 4 pemain**: satu HP menjadi Host, maks. 3 Tamu. Mulai setelah semua Tamu SIAP.
 - **Koneksi lokal tanpa internet**: Wi-Fi yang sama / hotspot salah satu HP (TCP + NSD), atau Bluetooth Classic RFCOMM.
-- **Setiap pertandingan 10 soal acak** dari mapel yang dipilih Host (atau Campuran) dan **jenis soal**: Kuis Klasik
-  (default), Kuis Bergambar, Mini-Game, atau Campuran Tipe. Jenjang & kesulitan hanya label di soal.
+- **Setiap pertandingan 10 soal acak** dari mapel yang dipilih Host (atau Campuran): **6 klasik, 3 bergambar,
+  dan 1 mini-game**. Pilihan tipe kuis dihapus. Jenjang & kesulitan hanya label di soal.
 - **Ghost multiplayer simetris** di mini-game: setiap HP melihat semua pemain lain (termasuk Host) sebagai ghost
   semitransparan; Host me-relay state ke semua Tamu. Mode **LIVE** (default) atau **FAIR** (label/parameter disembunyikan).
 - Kotlin + Jetpack Compose + Material 3, single-activity, Navigation Compose (rute type-safe)
@@ -62,7 +62,7 @@ app/src/main/
     │   └── game/                  # 4 mesin mini-game deterministik + konfigurasi (Asteroid/Trajectory/Microscope/Lab)
     ├── data/                      # QuestionBankLoader (cek SHA-256), Room history (migrasi v1→v2), DataStore
     ├── net/
-    │   ├── protocol/              # pesan v3 (+GAME_SUBMIT/GAME_STATE_UPDATE/GAME_ACTION), envelope, codec
+    │   ├── protocol/              # pesan v4 (+GAME_SUBMIT/GAME_STATE_UPDATE/GAME_ACTION), envelope, codec
     │   ├── transport/             # LanController (TCP+NSD), BluetoothController (RFCOMM), StreamDuelConnection
     │   └── room/                  # RoomHostSession (otoritas + relay ghost), RoomGuestSession, Ghosts, RoomCoordinator
     └── presentation/              # tema, navigasi, Beranda/Solo/Room/Riwayat/Pengaturan, game/ (UI 4 mini-game)
@@ -79,7 +79,7 @@ docs/                              # dokumentasi (lihat bawah)
 | Dokumen | Isi |
 |---|---|
 | [docs/BUILD_APK_ID.md](docs/BUILD_APK_ID.md) | Cara build APK (debug & rilis), membuat keystore, memasang ke HP |
-| [docs/GAME_AND_GHOST_ARCHITECTURE.md](docs/GAME_AND_GHOST_ARCHITECTURE.md) | Mini-game, ghost simetris LIVE/FAIR, protokol v3, format soal game baru, uji 2–4 HP, migrasi/rollback bank |
+| [docs/GAME_AND_GHOST_ARCHITECTURE.md](docs/GAME_AND_GHOST_ARCHITECTURE.md) | Mini-game, ghost simetris LIVE/FAIR, protokol v4, format soal game baru, uji 2–4 HP, migrasi/rollback bank |
 | [docs/MINI_GAME_ARTWORK.md](docs/MINI_GAME_ARTWORK.md) | 12 aset kartun yang disetujui, prompt gambar, rendering dinamis, dan pengujian native |
 | [docs/CONTENT_560_QA.md](docs/CONTENT_560_QA.md) | Laporan otomatis 560 soal: distribusi, 80 soal game, validasi solusi & duplikasi |
 | [docs/QA_VISUAL_REPORT.md](docs/QA_VISUAL_REPORT.md) | Laporan otomatis 80 soal bergambar vs ZIP & PDF |
@@ -100,11 +100,12 @@ nama kelas internal tetap `EduDuel…`; ID paket sengaja tidak diubah agar updat
 
 AGP 9.5.1, Gradle 9.8.2, Kotlin 2.4.21, KSP 2.3.13, Compose BOM 2026.09.00, Room 2.8.5, Navigation 2.10.2,
 DataStore 1.3.0 (stabil terbaru per 7 November 2026). `minSdk 26` (Android 8.0), `targetSdk 36` (syarat
-Google Play sejak 31 Agustus 2026), `compileSdk 37`. Aplikasi versi **0.4.2** (protokol room v3, bank 560 soal; tidak bisa
-bermain dengan 0.3.x atau lebih lama: protokol berbeda ditolak dengan pesan versi).
+Google Play sejak 31 Agustus 2026), `compileSdk 37`. Aplikasi versi **0.5.0** (protokol room v4, bank 560 soal; tidak bisa
+bermain dengan 0.4.x atau lebih lama: protokol berbeda ditolak dengan pesan versi).
 
-Versi 0.4.2 memperbaiki tap dan gestur lensa Micro Hunter, menempatkan pesan di luar lensa,
-serta menambahkan suara perayaan saat mini-game berhasil di Solo maupun Main Bareng.
+Versi 0.5.0 menetapkan komposisi 6:3:1, menambahkan confetti dari kedua sisi layar selama 2 detik
+saat mini-game berhasil, serta efek tepi merah dan −1 selama 0,5 detik saat kehilangan nyawa/kesempatan.
+Tabrakan pesawat dengan asteroid mengurangi satu nyawa dan dicatat dalam penilaian semua pemain.
 
 ## Batasan yang perlu diketahui
 

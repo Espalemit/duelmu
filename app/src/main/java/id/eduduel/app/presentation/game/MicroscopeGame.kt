@@ -76,6 +76,7 @@ import id.eduduel.app.net.protocol.MicroGhost
 import id.eduduel.app.net.protocol.TapAction
 import id.eduduel.app.net.room.GhostInterpolator
 import id.eduduel.app.presentation.components.GameOutlinedButton
+import id.eduduel.app.presentation.components.LocalGameVisualEffects
 import kotlinx.coroutines.delay
 import kotlin.math.abs
 import kotlin.math.cos
@@ -196,6 +197,7 @@ fun MicroscopeGame(spec: MicroscopeSpec, env: GameEnv, cb: GameCallbacks) {
     val bg = remember(spec) { parseColor(spec.background, Color.White) }
     val now = rememberFrameTime(env.clock, running = true)
     val callbacks by rememberUpdatedState(cb)
+    val visuals = LocalGameVisualEffects.current
     val measurer = rememberTextMeasurer()
     val active = !env.locked && !play.submitted
     val rimArtwork = rememberGameArtwork(R.drawable.game_microscope_rim)
@@ -237,6 +239,7 @@ fun MicroscopeGame(spec: MicroscopeSpec, env: GameEnv, cb: GameCallbacks) {
             callbacks.onSubmit(MicroSubmission(play.taps.toList(), play.assist))
         } else {
             play.wrong++
+            visuals?.loseLife()
             play.message = (res.region?.let { "Itu ${it.name}, bukan ${spec.targetName}." } ?: "Bukan ${spec.targetName}.") to false
             if (play.wrong > spec.maxWrong || play.taps.size >= 32) {
                 play.submitted = true

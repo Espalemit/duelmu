@@ -63,6 +63,8 @@ class LanTransportTest {
             guest.setReady(true)
             withTimeout(10_000) { host.state.first { it.canStart } }
             host.startMatch()
+            withTimeout(10_000) { guest.state.first { it.phase == RoomPhase.QUESTION || it.phase == RoomPhase.PREPARING } }
+            if (guest.state.value.phase == RoomPhase.PREPARING) { host.confirmReady(); guest.confirmReady() }
             val g = withTimeout(10_000) { guest.state.first { it.phase == RoomPhase.QUESTION } }
             val h = host.state.first { it.phase == RoomPhase.QUESTION }
             assertEquals(h.activeRound!!.round.question.id, g.activeRound!!.round.question.id)

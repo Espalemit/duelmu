@@ -82,7 +82,7 @@ class RoomHostSession(
         me = RoomPlayer(Ids.random(), myNickname, isHost = true, ready = true),
         phase = RoomPhase.LOBBY,
         roomCode = roomCode,
-        config = initialConfig,
+        config = initialConfig.copy(mode = id.eduduel.app.domain.QuestionMode.MIXED),
     ),
     bank, clock, parentScope, appVersion, timing,
 ) {
@@ -129,7 +129,7 @@ class RoomHostSession(
 
     // ============================================================ API publik
 
-    fun updateConfig(config: MatchConfig) = user(Action.UpdateConfig(config))
+    fun updateConfig(config: MatchConfig) = user(Action.UpdateConfig(config.copy(mode = id.eduduel.app.domain.QuestionMode.MIXED)))
     fun changeNickname(name: String) = user(Action.ChangeName(name))
     fun kick(sessionId: String) = user(Action.Kick(sessionId))
     fun startMatch() = user(Action.Start)

@@ -62,6 +62,9 @@ class SoloViewModel(
             bank = b
             val restored = handle.get<String>(KEY_SNAPSHOT)?.let { raw ->
                 runCatching { SoloEngine.restore(json.decodeFromString(SoloEngine.Snapshot.serializer(), raw), b) }.getOrNull()
+            }?.takeIf { state ->
+                state.finished || (state.config.mode == id.eduduel.app.domain.QuestionMode.MIXED &&
+                    state.rounds.groupingBy { it.question.type }.eachCount() == QuestionSelector.mixedQuota(state.rounds.size))
             }
             savedSessionId = handle.get<String>(KEY_SAVED)
             set(restored ?: newSession(b))
@@ -77,7 +80,7 @@ class SoloViewModel(
         val rounds = QuestionSelector.forConfig(b, config, Ids.randomSeed(), avoidIds = usedIds)
         usedIds += rounds.map { it.question.id }
         handle[KEY_SESSION] = Ids.random()
-        return SoloEngine.start(config, rounds, clock.nowMs())
+        return SoloEngine.start(config.copy(mode = id.eduduel.app.domain.QuestionMode.MIXED), rounds, clock.nowMs())
     }
 
     fun answer(option: OptionId) = update { SoloEngine.answer(it, option, clock.nowMs()) }

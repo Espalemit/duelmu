@@ -56,12 +56,13 @@ import id.eduduel.app.net.protocol.FireAction
 import id.eduduel.app.net.room.GhostInterpolator
 import id.eduduel.app.presentation.components.GameButton
 import id.eduduel.app.presentation.components.GameOutlinedButton
+import id.eduduel.app.presentation.components.LocalGameVisualEffects
 import kotlinx.coroutines.delay
 import kotlin.math.abs
 
-private const val SHIP_Y = 0.9f
-private const val AST_R = 0.085f
-private const val ARENA_RATIO = 0.82f // lebar : tinggi
+private val SHIP_Y = AsteroidEngine.SHIP_Y.toFloat()
+private val AST_R = AsteroidEngine.ASTEROID_RADIUS.toFloat()
+private val ARENA_RATIO = AsteroidEngine.ARENA_RATIO.toFloat() // lebar : tinggi
 
 private class AsteroidPlay {
     var shipX by mutableFloatStateOf(0.5f)
@@ -76,6 +77,8 @@ private class AsteroidPlay {
     var feedback by mutableStateOf<Pair<String, Boolean>?>(null)
     var feedbackAt by mutableLongStateOf(0L)
     var submitted by mutableStateOf(false)
+    var checkedAt = 0.0
+    var checkedShipX = 0.5
 }
 
 @Composable
@@ -92,6 +95,7 @@ fun AsteroidGame(spec: AsteroidSpec, env: GameEnv, cb: GameCallbacks) {
     val active = !env.locked && !play.submitted
     val measurer = rememberTextMeasurer()
     val callbacks by rememberUpdatedState(cb)
+    val visuals = LocalGameVisualEffects.current
     val shipArtwork = rememberGameArtwork(R.drawable.game_spaceship)
     val rockArtwork = rememberGameArtwork(R.drawable.game_asteroid)
     val laserArtwork = rememberGameArtwork(R.drawable.game_laser)
@@ -104,7 +108,7 @@ fun AsteroidGame(spec: AsteroidSpec, env: GameEnv, cb: GameCallbacks) {
     }
 
     fun fire(x: Float) {
-        if (!active) return
+        if (!active || play.submitted) return
         val nowMs = env.clock.nowMs()
         if (msSince(nowMs, play.lastShotAt) < 300) return
         play.shipX = x.coerceIn(0.05f, 0.95f)
@@ -126,6 +130,7 @@ fun AsteroidGame(spec: AsteroidSpec, env: GameEnv, cb: GameCallbacks) {
         play.hits += s.token
         val after = AsteroidEngine.progress(spec, play.hits)
         val correct = after.filled > before.filled
+        if (!correct) visuals?.loseLife()
         val token = spec.tokens[s.token]
         play.feedback = (if (correct) "✓ $token" else "✗ $token bukan isi kotak berikutnya") to correct
         play.feedbackAt = nowMs
@@ -134,6 +139,29 @@ fun AsteroidGame(spec: AsteroidSpec, env: GameEnv, cb: GameCallbacks) {
             play.submitted = true
             callbacks.onSubmit(AsteroidSubmission(play.hits.toList()))
         }
+    }
+
+    LaunchedEffect(key, now, active) {
+        if (!active || play.submitted) return@LaunchedEffect
+        val until = t.coerceIn(0.0, env.durationMs / 1000.0)
+        for (s in spawns) {
+            if (s.index in play.destroyed) continue
+            if (!AsteroidEngine.collidesWithShip(spec, s, play.checkedAt, until,
+                    play.checkedShipX, play.shipX.toDouble(), env.assist)) continue
+            play.destroyed = play.destroyed + s.index
+            play.hits += AsteroidEngine.COLLISION
+            play.impactX = s.x.toFloat(); play.impactY = SHIP_Y; play.impactAt = now
+            play.feedback = "Tabrakan! Nyawa −1" to false; play.feedbackAt = now
+            visuals?.loseLife()
+            val p = AsteroidEngine.progress(spec, play.hits)
+            if (p.failed || play.hits.size >= id.eduduel.app.domain.game.GameLimits.MAX_ASTEROID_HITS) {
+                play.submitted = true
+                callbacks.onSubmit(AsteroidSubmission(play.hits.toList()))
+                break
+            }
+        }
+        play.checkedAt = until
+        play.checkedShipX = play.shipX.toDouble()
     }
 
     // Publikasi ghost lokal (di-coalesce oleh sesi sesuai interval transport).
@@ -168,7 +196,7 @@ fun AsteroidGame(spec: AsteroidSpec, env: GameEnv, cb: GameCallbacks) {
         contentDescription = "Kotak terisi ${progress.filled} dari ${spec.answerTokens.size}"
     })
     Text("Nyawa: ${"♥".repeat((spec.maxWrong - progress.wrong + 1).coerceAtLeast(0))}${"♡".repeat(progress.wrong.coerceAtMost(spec.maxWrong + 1))}" +
-        "  ·  salah ${progress.wrong}/${spec.maxWrong} diizinkan", style = MaterialTheme.typography.bodyMedium)
+        "  ·  penalti ${progress.wrong}/${spec.maxWrong} diizinkan", style = MaterialTheme.typography.bodyMedium)
     GhostLegend(env)
 
     Box(

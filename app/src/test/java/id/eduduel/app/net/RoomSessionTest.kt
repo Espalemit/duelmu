@@ -2,6 +2,7 @@ package id.eduduel.app.net
 
 import id.eduduel.app.DifferentVersionBank
 import id.eduduel.app.TestBank
+import id.eduduel.app.onlyTypes
 import id.eduduel.app.core.MonotonicClock
 import id.eduduel.app.domain.MatchConfig
 import id.eduduel.app.domain.MatchOutcome
@@ -43,7 +44,7 @@ import org.junit.Test
 @OptIn(ExperimentalCoroutinesApi::class)
 class RoomSessionTest {
 
-    private val bank = TestBank.bank
+    private val bank = TestBank.bank.onlyTypes(id.eduduel.app.domain.QuestionType.CLASSIC_MCQ)
     private val math = MatchConfig(Subject.MATEMATIKA)
 
     private class Room(

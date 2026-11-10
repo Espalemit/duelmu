@@ -52,7 +52,7 @@ class QuestionSelectorTest {
     private val bank = TestBank.bank
 
     @Test fun selectionIsDeterministicPerSeed_noDuplicates_validPermutations() {
-        val pool = bank.pool(MatchConfig(Subject.FISIKA))
+        val pool = bank.pool(MatchConfig(Subject.FISIKA, QuestionMode.CLASSIC))
         val a = QuestionSelector.select(pool, 15, seed = 7)
         val b = QuestionSelector.select(pool, 15, seed = 7)
         val c = QuestionSelector.select(pool, 15, seed = 8)
@@ -72,7 +72,7 @@ class QuestionSelectorTest {
     @Test fun everyMatch_isTenRandomQuestionsFromChosenSubjectOnly() {
         for (subject in Subject.entries) {
             val pool = bank.pool(MatchConfig(subject))
-            assertEquals(100, pool.size)
+            assertEquals(140, pool.size)
             // Jenjang & kesulitan bukan filter: semua tercampur dalam pool mapel.
             assertEquals(GradeBand.entries.toSet(), pool.map { it.gradeBand }.toSet())
             assertEquals(Difficulty.entries.toSet(), pool.map { it.difficulty }.toSet())
@@ -84,14 +84,14 @@ class QuestionSelectorTest {
             }
             assertTrue("seed berbeda harus menghasilkan set soal berbeda", sets.map { s -> s.map { it.question.id }.toSet() }.toSet().size > 1)
         }
-        assertEquals(400, bank.pool(MatchConfig(null)).size)
+        assertEquals(560, bank.pool(MatchConfig(null)).size)
         assertEquals(10, MatchConfig(Subject.FISIKA).questionCount)
     }
 }
 
 class SoloEngineTest {
     private val bank = TestBank.bank
-    private val rounds = QuestionSelector.select(bank.pool(MatchConfig(Subject.MATEMATIKA)), 5, 3)
+    private val rounds = QuestionSelector.select(bank.pool(MatchConfig(Subject.MATEMATIKA, QuestionMode.CLASSIC)), 5, 3)
 
     @Test fun answerIsLocked_scoring_andTimeout() {
         var s = SoloEngine.start(MatchConfig.INITIAL, rounds, now = 1_000)
@@ -154,11 +154,11 @@ class MathTextTest {
 class ModeSelectionTest {
     private val bank = TestBank.bank
 
-    @Test fun defaultModeIsClassic_existingBehaviourUnchanged() {
-        assertEquals(QuestionMode.CLASSIC, MatchConfig(Subject.FISIKA).mode)
+    @Test fun defaultModeIsMixed() {
+        assertEquals(QuestionMode.MIXED, MatchConfig(Subject.FISIKA).mode)
         assertEquals(GhostMode.LIVE, MatchConfig().ghostMode)
-        assertEquals(400, bank.pool(MatchConfig()).size)
-        assertTrue(bank.pool(MatchConfig()).all { it.type == QuestionType.CLASSIC_MCQ })
+        assertEquals(560, bank.pool(MatchConfig()).size)
+        assertEquals(QuestionType.entries.toSet(), bank.pool(MatchConfig()).map { it.type }.toSet())
     }
 
     @Test fun poolSizesPerMode() {
@@ -176,24 +176,25 @@ class ModeSelectionTest {
     }
 
     @Test fun gameRounds_haveSeed_andNoOptionOrder_mcqRoundsKeepPermutation() {
-        val rounds = QuestionSelector.forConfig(bank, MatchConfig(Subject.FISIKA, QuestionMode.GAME), seed = 9)
+        val rounds = QuestionSelector.select(bank.pool(MatchConfig(Subject.FISIKA, QuestionMode.GAME)), 10, seed = 9)
         assertEquals(10, rounds.size)
         assertTrue(rounds.all { it.question.isGame && it.optionOrder.isEmpty() })
         assertTrue(rounds.map { it.seed }.toSet().size > 1)
-        assertEquals(rounds, QuestionSelector.forConfig(bank, MatchConfig(Subject.FISIKA, QuestionMode.GAME), seed = 9))
-        val vis = QuestionSelector.forConfig(bank, MatchConfig(Subject.BIOLOGI, QuestionMode.VISUAL), seed = 9)
+        assertEquals(rounds, QuestionSelector.select(bank.pool(MatchConfig(Subject.FISIKA, QuestionMode.GAME)), 10, seed = 9))
+        val vis = QuestionSelector.select(bank.pool(MatchConfig(Subject.BIOLOGI, QuestionMode.VISUAL)), 10, seed = 9)
         assertTrue(vis.all { it.question.imageAsset != null && it.optionOrder.toSet() == OptionId.entries.toSet() })
     }
 
-    @Test fun mixedMode_isStratified_4classic_3visual_3game() {
-        assertEquals(mapOf(QuestionType.CLASSIC_MCQ to 4, QuestionType.VISUAL_MCQ to 3, QuestionType.MINI_GAME to 3), QuestionSelector.mixedQuota(10))
-        for (seed in 1L..20L) {
-            val rounds = QuestionSelector.forConfig(bank, MatchConfig(Subject.KIMIA, QuestionMode.MIXED), seed)
+    @Test fun mixedMode_isStratified_6classic_3visual_1game() {
+        assertEquals(mapOf(QuestionType.CLASSIC_MCQ to 6, QuestionType.VISUAL_MCQ to 3, QuestionType.MINI_GAME to 1), QuestionSelector.mixedQuota(10))
+        for (seed in 1L..20L) for (subject in Subject.entries + listOf(null)) for (mode in QuestionMode.entries) {
+            val rounds = QuestionSelector.forConfig(bank, MatchConfig(subject, mode), seed)
             val byType = rounds.groupingBy { it.question.type }.eachCount()
-            assertEquals(4, byType[QuestionType.CLASSIC_MCQ])
+            assertEquals(6, byType[QuestionType.CLASSIC_MCQ])
             assertEquals(3, byType[QuestionType.VISUAL_MCQ])
-            assertEquals(3, byType[QuestionType.MINI_GAME])
+            assertEquals(1, byType[QuestionType.MINI_GAME])
             assertEquals(10, rounds.map { it.question.id }.toSet().size)
+            assertTrue(subject == null || rounds.all { it.question.subject == subject })
         }
     }
 
@@ -205,7 +206,7 @@ class ModeSelectionTest {
 /** Solo dengan soal game: tutorial menahan timer, skor game = rumus kuis, snapshot bertahan. */
 class SoloGameTest {
     private val bank = TestBank.bank
-    private val rounds = QuestionSelector.forConfig(bank, MatchConfig(Subject.MATEMATIKA, QuestionMode.GAME), seed = 5)
+    private val rounds = QuestionSelector.select(bank.pool(MatchConfig(Subject.MATEMATIKA, QuestionMode.GAME)), 10, seed = 5)
 
     @Test fun tutorialHoldsTimer_thenScoringUsesSameFormula() {
         var s = SoloEngine.start(MatchConfig(Subject.MATEMATIKA, QuestionMode.GAME), rounds, now = 0)

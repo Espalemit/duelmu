@@ -7,8 +7,9 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 /**
- * Protokol room EduDuel v3 (JSON UTF-8 dalam frame 4-byte length-prefix big-endian).
+ * Protokol room EduDuel v4 (JSON UTF-8 dalam frame 4-byte length-prefix big-endian).
  *
+ * v4 (Duelmu 0.5): komposisi 6:3:1 dan penalti tabrakan asteroid (-1 dalam hits). Klien v3 ditolak.
  * v3 (Duelmu 0.4): soal bergambar + mini-game. Tambahan: seed ronde game (MATCH_SETUP/QUESTION_START),
  * durasi tutorial (QUESTION_PREPARE), GAME_SUBMIT (masukan game, divalidasi ulang Host),
  * GAME_STATE_UPDATE (ghost visual) dan GAME_ACTION (event aksi) yang di-relay Host ke SEMUA peserta lain,
@@ -24,7 +25,7 @@ import kotlinx.serialization.Serializable
  *
  * Catatan keamanan: kunci jawaban TIDAK pernah dikirim sebelum ronde ditutup (ROUND_RESULT).
  */
-const val PROTOCOL_VERSION = 3
+const val PROTOCOL_VERSION = 4
 
 /** Batas pemain per room (Host + 3 Tamu). */
 const val MAX_ROOM_PLAYERS = 4

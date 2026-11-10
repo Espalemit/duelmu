@@ -46,14 +46,8 @@ fun SubjectPicker(
             }
             ChoiceChip(stringResource(R.string.config_mixed), config.subject == null, enabled) { onChange(config.copy(subject = null)) }
         }
-        Text(stringResource(R.string.config_mode), style = MaterialTheme.typography.titleMedium)
-        FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
-            QuestionMode.entries.forEach { m ->
-                ChoiceChip(m.label, config.mode == m, enabled) { onChange(config.copy(mode = m)) }
-            }
-        }
-        Text(modeDescription(config.mode), style = MaterialTheme.typography.bodySmall)
-        if (showGhostMode && config.mode in setOf(QuestionMode.GAME, QuestionMode.MIXED)) {
+        Text(stringResource(R.string.config_mode_mixed_desc), style = MaterialTheme.typography.bodySmall)
+        if (showGhostMode) {
             Text(stringResource(R.string.config_ghost), style = MaterialTheme.typography.titleMedium)
             FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 ChoiceChip(stringResource(R.string.config_ghost_live), config.ghostMode == GhostMode.LIVE, enabled) { onChange(config.copy(ghostMode = GhostMode.LIVE)) }

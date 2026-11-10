@@ -320,7 +320,7 @@
     <string name="config_mode_classic_desc">400 soal pilihan ganda (perilaku lama).</string>
     <string name="config_mode_visual_desc">80 soal pilihan ganda bergambar (grafik, diagram, ilustrasi).</string>
     <string name="config_mode_game_desc">80 tantangan mini-game: Matematika = Asteroid Solver, Fisika = Trajectory Lab, Biologi = Micro Hunter, Kimia = Reaction Lab.</string>
-    <string name="config_mode_mixed_desc">Campuran semua tipe (10 soal: 4 klasik, 3 bergambar, 3 mini-game).</string>
+    <string name="config_mode_mixed_desc">Setiap kuis berisi 10 soal: 6 klasik, 3 bergambar, dan 1 mini-game.</string>
     <string name="config_ghost">Mode ghost (mini-game)</string>
     <string name="config_ghost_live">LIVE (default)</string>
     <string name="config_ghost_fair">FAIR</string>

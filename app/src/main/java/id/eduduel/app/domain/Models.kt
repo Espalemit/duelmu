@@ -123,7 +123,7 @@ data class Question(
     }
 }
 
-/** Mode pertandingan: jenis soal yang diambil. Default KLASIK = perilaku lama (400 soal). */
+/** Legacy mode values remain readable for saved history; new matches use MIXED. */
 @Serializable
 enum class QuestionMode(val label: String, val types: Set<QuestionType>) {
     CLASSIC("Kuis Klasik", setOf(QuestionType.CLASSIC_MCQ)),
@@ -148,7 +148,7 @@ enum class GhostMode { LIVE, FAIR }
 @Serializable
 data class MatchConfig(
     val subject: Subject? = null,
-    val mode: QuestionMode = QuestionMode.CLASSIC,
+    val mode: QuestionMode = QuestionMode.MIXED,
     val ghostMode: GhostMode = GhostMode.LIVE,
 ) {
     fun matches(q: Question): Boolean = (subject == null || q.subject == subject) && q.type in mode.types

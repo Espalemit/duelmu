@@ -56,6 +56,7 @@ import id.eduduel.app.net.protocol.TrajectoryGhost
 import id.eduduel.app.net.room.GhostInterpolator
 import id.eduduel.app.presentation.components.GameButton
 import id.eduduel.app.presentation.components.GameOutlinedButton
+import id.eduduel.app.presentation.components.LocalGameVisualEffects
 import kotlinx.coroutines.delay
 import kotlin.math.atan2
 import kotlin.math.hypot
@@ -81,6 +82,7 @@ fun TrajectoryGame(spec: TrajectorySpec, env: GameEnv, cb: GameCallbacks) {
     val play = remember(key) { TrajectoryPlay(spec) }
     val now = rememberFrameTime(env.clock, running = true)
     val callbacks by rememberUpdatedState(cb)
+    val visuals = LocalGameVisualEffects.current
     val measurer = rememberTextMeasurer()
     val lastResult = play.paths.lastOrNull()
     val flying = lastResult != null && msSince(now, play.flyingSince) < animDurationMs(lastResult)
@@ -92,6 +94,9 @@ fun TrajectoryGame(spec: TrajectorySpec, env: GameEnv, cb: GameCallbacks) {
     val obstacleArtwork = rememberGameArtwork(R.drawable.game_obstacle)
 
     // Kirim hasil SETELAH animasi selesai (berhasil atau tembakan habis).
+    LaunchedEffect(key, play.paths.size, flying) {
+        if (!flying && lastResult != null && !lastResult.hit) visuals?.loseLife()
+    }
     LaunchedEffect(play.paths.size, flying) {
         if (!flying && play.paths.isNotEmpty() && !play.submitted && (hit || play.shots.size >= spec.maxShots)) {
             play.submitted = true

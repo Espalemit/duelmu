@@ -122,6 +122,7 @@ fun GameFeedbackEffects(
     feedback: Feedback?,
     isMiniGame: Boolean = false,
 ) {
+    val visuals = LocalGameVisualEffects.current
     var soundSession by rememberSaveable { mutableStateOf<String?>(null) }
     var startPlayed by rememberSaveable { mutableStateOf(false) }
     var lastResult by rememberSaveable { mutableIntStateOf(-1) }
@@ -139,6 +140,7 @@ fun GameFeedbackEffects(
         if (resultIndex != null && correct != null && resultIndex > lastResult) {
             lastResult = resultIndex
             feedback?.result(correct, isMiniGame)
+            if (correct && isMiniGame) visuals?.celebrate()
         }
     }
 }

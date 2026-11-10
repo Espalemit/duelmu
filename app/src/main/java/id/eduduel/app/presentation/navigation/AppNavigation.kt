@@ -46,6 +46,7 @@ private val routeJson = Json { ignoreUnknownKeys = true }
 fun MatchConfig.toRouteJson(): String = routeJson.encodeToString(MatchConfig.serializer(), this)
 fun configFromRouteJson(s: String): MatchConfig =
     runCatching { routeJson.decodeFromString(MatchConfig.serializer(), s) }.getOrDefault(MatchConfig.INITIAL)
+        .copy(mode = id.eduduel.app.domain.QuestionMode.MIXED)
 
 /** Kembali ke Beranda dan bersihkan back stack duel. */
 fun NavHostController.goHome() {

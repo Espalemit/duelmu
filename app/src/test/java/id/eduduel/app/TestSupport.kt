@@ -23,6 +23,17 @@ object TestBank {
     }
 }
 
+/** Isolate engine/MCQ transport tests; production always uses the complete mixed bank. */
+fun QuestionBank.onlyTypes(vararg types: id.eduduel.app.domain.QuestionType): QuestionBank {
+    val base = this
+    return object : QuestionBank {
+        override val questions = base.questions.filter { it.type in types }
+        override val bankSha256 get() = base.bankSha256
+        override val versionName get() = base.versionName
+        override fun byId(id: String) = questions.firstOrNull { it.id == id }
+    }
+}
+
 /** Bank identik isi tetapi hash berbeda: mensimulasikan APK dengan versi bank lain. */
 class DifferentVersionBank(private val base: QuestionBank) : QuestionBank {
     override val questions: List<Question> get() = base.questions

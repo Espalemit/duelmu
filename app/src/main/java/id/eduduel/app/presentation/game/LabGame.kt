@@ -66,6 +66,7 @@ import id.eduduel.app.net.room.GhostInterpolator
 import id.eduduel.app.presentation.components.GameButton
 import id.eduduel.app.presentation.components.GameOutlinedButton
 import id.eduduel.app.presentation.components.InfoCard
+import id.eduduel.app.presentation.components.LocalGameVisualEffects
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -101,6 +102,7 @@ fun LabGame(spec: LabSpec, env: GameEnv, cb: GameCallbacks) {
     val play = remember(key) { LabPlay() }
     val now = rememberFrameTime(env.clock, running = true)
     val callbacks by rememberUpdatedState(cb)
+    val visuals = LocalGameVisualEffects.current
     val scope = rememberCoroutineScope()
     val measurer = rememberTextMeasurer()
     val active = !env.locked && !play.submitted
@@ -133,6 +135,7 @@ fun LabGame(spec: LabSpec, env: GameEnv, cb: GameCallbacks) {
         if (!active || play.resets >= spec.maxResets || play.actions.isEmpty()) return
         play.actions += LabAction(LabAction.RESET)
         play.resets++
+        visuals?.loseLife()
         say("Bejana dikosongkan (ulang ${play.resets}/${spec.maxResets})")
     }
 

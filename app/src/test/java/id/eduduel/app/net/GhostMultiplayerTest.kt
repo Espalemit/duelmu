@@ -1,6 +1,7 @@
 package id.eduduel.app.net
 
 import id.eduduel.app.TestBank
+import id.eduduel.app.onlyTypes
 import id.eduduel.app.core.Ids
 import id.eduduel.app.core.MonotonicClock
 import id.eduduel.app.domain.GhostMode
@@ -64,10 +65,11 @@ class GhostMultiplayerTest {
     }
 
     private fun TestScope.newRoom(config: MatchConfig, guests: Int = 3): Room {
-        val host = RoomHostSession("Ana (Host)", bank, clock(), backgroundScope, "test", TransportKind.LAN, null, config, seedProvider = { 77L })
+        val roomBank = if (config.mode == QuestionMode.GAME) bank.onlyTypes(id.eduduel.app.domain.QuestionType.MINI_GAME) else bank
+        val host = RoomHostSession("Ana (Host)", roomBank, clock(), backgroundScope, "test", TransportKind.LAN, null, config, seedProvider = { 77L })
         val gs = (1..guests).map { i ->
             val (h, g) = InMemoryConnection.pair("HP Host", "HP $i")
-            val guest = RoomGuestSession("Tamu $i", bank, clock(), backgroundScope, "test", TransportKind.LAN)
+            val guest = RoomGuestSession("Tamu $i", roomBank, clock(), backgroundScope, "test", TransportKind.LAN)
             host.attach(h); guest.attach(g); runCurrent()
             guest
         }
@@ -270,9 +272,9 @@ class GhostMultiplayerTest {
         assertEquals(RoomPhase.FINISHED, r.host.state.value.phase)
         val results = r.host.state.value.results
         assertEquals(10, results.size)
-        assertEquals(4, results.count { it.round.question.type == id.eduduel.app.domain.QuestionType.CLASSIC_MCQ })
+        assertEquals(6, results.count { it.round.question.type == id.eduduel.app.domain.QuestionType.CLASSIC_MCQ })
         assertEquals(3, results.count { it.round.question.type == id.eduduel.app.domain.QuestionType.VISUAL_MCQ })
-        assertEquals(3, results.count { it.round.question.isGame })
+        assertEquals(1, results.count { it.round.question.isGame })
         r.guests.forEach { g ->
             assertEquals(RoomPhase.FINISHED, g.state.value.phase)
             assertEquals(results.map { it.players }, g.state.value.results.map { it.players })
@@ -280,7 +282,7 @@ class GhostMultiplayerTest {
         // pemain genap (Host & Tamu 2) berhasil di semua soal; pemain ganjil gagal di soal game
         val host = r.host.state.value.standings.first { it.player.isHost }
         assertEquals(10, host.correct)
-        assertEquals(7, r.host.state.value.standings.first { it.player.nickname == "Tamu 1" }.correct)
+        assertEquals(9, r.host.state.value.standings.first { it.player.nickname == "Tamu 1" }.correct)
     }
 
     @Test
