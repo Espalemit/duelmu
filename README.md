@@ -80,6 +80,7 @@ docs/                              # dokumentasi (lihat bawah)
 |---|---|
 | [docs/BUILD_APK_ID.md](docs/BUILD_APK_ID.md) | Cara build APK (debug & rilis), membuat keystore, memasang ke HP |
 | [docs/GAME_AND_GHOST_ARCHITECTURE.md](docs/GAME_AND_GHOST_ARCHITECTURE.md) | Mini-game, ghost simetris LIVE/FAIR, protokol v3, format soal game baru, uji 2–4 HP, migrasi/rollback bank |
+| [docs/MINI_GAME_ARTWORK.md](docs/MINI_GAME_ARTWORK.md) | 12 aset kartun yang disetujui, prompt gambar, rendering dinamis, dan pengujian native |
 | [docs/CONTENT_560_QA.md](docs/CONTENT_560_QA.md) | Laporan otomatis 560 soal: distribusi, 80 soal game, validasi solusi & duplikasi |
 | [docs/QA_VISUAL_REPORT.md](docs/QA_VISUAL_REPORT.md) | Laporan otomatis 80 soal bergambar vs ZIP & PDF |
 | [docs/KONEKSI_ID.md](docs/KONEKSI_ID.md) | Wi-Fi/hotspot & Bluetooth: izin per versi Android, protokol, aturan room, reconnect, model ancaman, troubleshooting |

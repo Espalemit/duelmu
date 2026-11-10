@@ -45,7 +45,7 @@ $env:JAVA_HOME = "C:\Program Files\Android\Android Studio\jbr"   # sesuaikan lok
 ```bash
 ./gradlew :app:assembleDebug
 ```
-Hasil: `app/build/outputs/apk/debug/app-debug.apk` (±21 MB; ukuran besar karena tanpa R8).
+Hasil: `app/build/outputs/apk/debug/app-debug.apk` (±36,4 MiB termasuk aset kartun; tanpa R8).
 
 ## 3. APK release (bertanda tangan)
 
@@ -73,7 +73,7 @@ keyPassword=PASSWORD_KEY
 .\gradlew.bat :app:bundleRelease          # AAB  -> app\build\outputs\bundle\release\app-release.aab (untuk Google Play)
 ```
 Tanpa `keystore.properties`, hasilnya `app-release-unsigned.apk` yang **tidak bisa dipasang** sebelum
-ditandatangani. APK release ±2,7 MB (R8 aktif).
+ditandatangani. APK release ±15,6 MiB termasuk aset kartun (R8 aktif).
 
 Alternatif Android Studio: **Build > Generate Signed App Bundle or APK… > APK** → pilih keystore → varian
 `release`.

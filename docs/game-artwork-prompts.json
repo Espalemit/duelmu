@@ -1,0 +1,67 @@
+{
+  "tool": "image_gen.imagegen (built-in)",
+  "status": "Approved in chat; integrated into drawable-nodpi",
+  "style": "Use case: stylized-concept. Asset type: ONE isolated replacement sprite for Duelmu, an Android educational mini-game, shown individually to its owner for visual approval. Style: original premium hand-drawn 2D cartoon mobile-game art, bold clean dark-plum outlines, curved chunky silhouettes, polished two/three-tone cel shading, small painted highlights and restrained fine texture. Rich violet, turquoise/cyan, warm amber and cream. Attractive to teens. Crisp and readable at small phone sizes. Orthographic game-sprite view, no photographic rendering, no 3D render. Genuine transparent alpha background, no scenery, no ground plane, no surrounding glow, no cast shadow outside the object, no checkerboard baked into the image. Single large centered object, entire silhouette visible, generous 10% clear transparent margin. Absolutely no words, captions, headings, logos, watermark, collage or asset board.",
+  "assets": [
+    {
+      "id": "cannon",
+      "label": "1. Meriam — Trajectory Lab",
+      "prompt": "Subject: ONE complete friendly cartoon toy cannon in true SIDE PROFILE facing RIGHT. A chunky violet metal barrel with two turquoise reinforcing rings, ivory specular highlights, dark hollow circular muzzle seen slightly at the tip, an amber/brass pivot bracket, compact purple carriage and two small dark-violet wheels with amber hubs. The barrel is aimed 30 degrees upward to the right. Construction has a clearly visible round articulation joint to show where the barrel will rotate in-game. No projectile, no fire, no smoke, no accessories. Strong appealing silhouette and beautiful details. This image is the replacement candidate for the existing cannon."
+    },
+    {
+      "id": "spaceship",
+      "label": "2. Pesawat — Asteroid Solver",
+      "prompt": "Subject: ONE small futuristic cartoon arcade spaceship, viewed directly from ABOVE, nose pointing straight UP. A symmetrical chunky violet hull with swept broad wings, thin turquoise trim, elongated cyan glass cockpit, dark-plum panel seams and small cream highlights. Twin amber/orange thrusters at the bottom with compact neatly contained exhaust flame tips. NOT a real airplane: recognizable charming space fighter with two engine pods. No asteroids, stars, laser or scenery. Entire wings and exhaust visible. Useful as a vertically moving player sprite."
+    },
+    {
+      "id": "asteroid",
+      "label": "3. Asteroid — Asteroid Solver",
+      "prompt": "Subject: ONE large irregular rounded chunky asteroid seen straight-on. Warm taupe/slate-lavender rock body, irregular organic silhouette, about eight broad rocky lobes, several beautifully shaded small craters and chipped facets concentrated around the EDGE. The large central 60% of the rock surface is calm, softly shaded and uncluttered, so the app can place readable dynamic mathematical text there. No text is actually drawn. No face or limbs, no glow, no pebbles or other rocks, no outer ring. Entire asteroid visible."
+    },
+    {
+      "id": "projectile",
+      "label": "4. Bola proyektil — Trajectory Lab",
+      "prompt": "Subject: ONE single round polished dark-violet cannonball. Perfectly circular front-view silhouette, three-tone violet cel shading, a small cream/cyan reflected highlight at upper-left and a subtly darker curved shadow at lower-right. Cartoon painted steel with one tiny decorative inset rivet-like reflection, NO fuse, no explosion, no trail, no symbols, no face. This is a harmless science-game projectile, with a strong readable round outline. Centered object occupies about 70% of the square canvas."
+    },
+    {
+      "id": "target",
+      "label": "5. Sasaran — Trajectory Lab",
+      "prompt": "Subject: ONE circular archery-like bullseye target disk seen completely straight-on, PERFECT circle with concentric circular red-coral and warm-cream rings and red center. A thick dark-plum contour, subtle rounded painted wooden rim and a restrained highlight make it look like a polished original 2D cartoon game sprite. No stand, no pole, no pedestal, no arrow, no numbers, no words, no fasteners sticking out, no angle/perspective distortion. This disk must be usable both floating in midair and near the ground at any size. Whole disk centered with clear transparent margin."
+    },
+    {
+      "id": "obstacle",
+      "label": "6. Rintangan batu — Trajectory Lab",
+      "prompt": "Subject: ONE compact rectangular obstacle wall made of three rows of chunky rounded stone blocks. Straight-on side-scrolling game view with a level flat upper silhouette, slightly softened outer corners, dark-plum outline, warm gray/slate-violet shaded stones, small hand-drawn chips and two very small moss accents at lower block joints. Flat front face dominant, very subtle edge depth, no giant perspective. NO grass outside its rectangle, no scenery, no floating debris, no projectile. The rectangular silhouette is important so the sprite fits the existing rectangular collision area. Entire wall isolated and centered."
+    },
+    {
+      "id": "reagent_bottle",
+      "label": "7. Botol reagen — Reaction Lab",
+      "prompt": "Subject: ONE upright squat transparent glass reagent bottle, front view with small visible oval glass lip. Thick curved glass shoulders, rounded rectangular body, violet ribbed screw cap, turquoise-blue liquid filling lower half, small cream BLANK label panel centered on front, clear dark-plum outline and ivory/cyan painted glass reflections. Material must read as transparent glass. No letters, formulas, numbers, measurement labels or symbols on the blank label. Liquid color is an example and will be adapted dynamically by the app. No stopper on the ground, no duplicate bottles, no pipette or droplets. Entire silhouette and cap visible."
+    },
+    {
+      "id": "beaker",
+      "label": "8. Gelas beker — Reaction Lab",
+      "prompt": "Subject: ONE EMPTY laboratory glass beaker, upright front view, a broad short cylindrical body with a small pouring spout at the upper LEFT, slightly oval open rim, rounded base, dark-plum/cyan contour, a few crisp cream/white glass shine streaks. A short column of graduation TICK MARKS only on the right hand side, absolutely NO numbers. The inner area is genuinely transparent alpha, because the app will draw the changing liquid color and fill level behind this glass sprite. No baked-in liquid, no bubbles, no opaque white filling, no shadows across the inner cavity. A few subtle semi-transparent turquoise edge tints may indicate glass thickness without filling the entire interior. This is a usable empty glass vessel overlay, not a picture of a full beaker. Entire base and spout clearly inside frame."
+    },
+    {
+      "id": "pipette",
+      "label": "9. Pipet tetes — Reaction Lab",
+      "prompt": "Subject: ONE large isolated chemistry dropper pipette pointing straight DOWN, a chunky violet rubber bulb at top, a small turquoise collar, a long transparent glass tube with cyan liquid visible inside, tapered fine glass nozzle at bottom. Neat hand-painted cream highlights, dark-plum outline, clearly recognizable as a rubber-bulb glass eyedropper. At the very bottom ONE small cyan droplet hanging from the tip, still touching the nozzle rather than floating separately. Front elevation, perfectly vertical, no tilt, no hand, bottle, flask, background, text or decoration. Full bulb and entire tip visible with generous transparent margin."
+    },
+    {
+      "id": "microscope_rim",
+      "label": "10. Bingkai lensa — Micro Hunter",
+      "prompt": "Subject: ONE scientific microscope eyepiece frame seen directly straight-on. A PERFECTLY CIRCULAR moderately thin torus/ring with an outer violet metal casing and inner turquoise bevel, small cream specular shine, four tiny gold screw heads at cardinal positions, and a restrained few engraved tick marks around the inner rim. The central circular hole takes up at least 75% of the image diameter and is GENUINELY TRANSPARENT, EMPTY ALPHA: no glass disk, no colored lens fill, no cells, no specimen illustration, no gradient inside, no crosshair, no grid, no text. All space outside the ring also fully transparent. This is a crisp game overlay frame placed above an interactive specimen rendered separately by the app. Entire ring centered and fully visible with clear transparent margins. No microscope body, base, knobs sticking out or extra components. Keep the ring circular rather than elliptical."
+    },
+    {
+      "id": "laser",
+      "label": "11. Tembakan laser — Asteroid Solver",
+      "prompt": "Subject: ONE compact vertical cyan cartoon energy-bolt projectile, pointing straight UP. A narrow elongated rounded-tipped tapered cyan outer silhouette enclosing an ivory-white hot central core, dark turquoise outline and a small sharp teal tail. Sprite is approximately 4 times taller than its width. Neat stylized cel-shaded linework, clean silhouette, no photorealistic blur or excessive glow, no stars, no spaceship, no decorative sparks outside the object. Opaque crisp sprite with genuine transparent space outside its precise silhouette. Useful as a small laser projectile in an educational arcade game."
+    },
+    {
+      "id": "impact",
+      "label": "12. Efek asteroid terkena — Asteroid Solver",
+      "prompt": "Subject: ONE self-contained bright cartoon impact sparkle burst for an arcade asteroid hit. A strong eight-point irregular starburst silhouette, golden-yellow and amber outer pointed spikes, warm ivory bright central star, orange recessed cel-shaded accents, dark warm-violet fine outline. Pleasant energetic clean 2D game effect, not a realistic destructive explosion. No smoke, no fireball, no asteroids, no floating rocks, no words or lettering, no background, no circular aura. All light is contained inside the crisp starburst silhouette, genuine alpha outside. One centered isolated sprite."
+    }
+  ]
+}

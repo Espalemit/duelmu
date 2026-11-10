@@ -27,13 +27,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.stateDescription
@@ -42,6 +42,7 @@ import androidx.compose.ui.text.drawText
 import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import id.eduduel.app.R
 import id.eduduel.app.domain.GhostMode
 import id.eduduel.app.domain.game.ParamRange
 import id.eduduel.app.domain.game.Pt
@@ -66,7 +67,7 @@ private class TrajectoryPlay(spec: TrajectorySpec) {
     var b by mutableIntStateOf(spec.b.initialIndex.coerceIn(0, spec.b.count - 1))
     val shots = mutableStateListOf<ShotInput>()
     val paths = mutableStateListOf<TrajectoryEngine.ShotResult>()
-    var flyingSince by mutableLongStateOf(Long.MIN_VALUE)
+    var flyingSince by mutableLongStateOf(NEVER_MS)
     var submitted by mutableStateOf(false)
 }
 
@@ -82,9 +83,13 @@ fun TrajectoryGame(spec: TrajectorySpec, env: GameEnv, cb: GameCallbacks) {
     val callbacks by rememberUpdatedState(cb)
     val measurer = rememberTextMeasurer()
     val lastResult = play.paths.lastOrNull()
-    val flying = lastResult != null && now - play.flyingSince < animDurationMs(lastResult)
+    val flying = lastResult != null && msSince(now, play.flyingSince) < animDurationMs(lastResult)
     val hit = play.paths.any { it.hit }
     val active = !env.locked && !play.submitted && !flying
+    val cannonArtwork = rememberGameArtwork(R.drawable.game_cannon)
+    val projectileArtwork = rememberGameArtwork(R.drawable.game_projectile)
+    val targetArtwork = rememberGameArtwork(R.drawable.game_target)
+    val obstacleArtwork = rememberGameArtwork(R.drawable.game_obstacle)
 
     // Kirim hasil SETELAH animasi selesai (berhasil atau tembakan habis).
     LaunchedEffect(play.paths.size, flying) {
@@ -111,24 +116,29 @@ fun TrajectoryGame(spec: TrajectorySpec, env: GameEnv, cb: GameCallbacks) {
     Box(Modifier.fillMaxWidth().aspectRatio(ratio).clip(RoundedCornerShape(18.dp)).background(Color(0xFFE3F2FD))
         .semantics { contentDescription = "Lapangan lintasan. Sasaran di x ${fmtNum(spec.target.x)} m, y ${fmtNum(spec.target.y)} m." }) {
         Canvas(Modifier.fillMaxWidth().aspectRatio(ratio)) {
-            val sx = size.width / (w.x2 - w.x1).toFloat()
-            val sy = size.height / (w.y2 - w.y1).toFloat()
+            // Make room for the cannon carriage, including worlds whose launcher is at x = y = 0.
+            val left = 38.dp.toPx()
+            val bottom = 28.dp.toPx()
+            val sx = (size.width - left - 12.dp.toPx()) / (w.x2 - w.x1).toFloat()
+            val sy = (size.height - bottom - 16.dp.toPx()) / (w.y2 - w.y1).toFloat()
             val sc = min(sx, sy)
-            fun P(x: Double, y: Double) = Offset(((x - w.x1) * sc).toFloat(), size.height - ((y - w.y1) * sc).toFloat())
+            fun P(x: Double, y: Double) = Offset(left + ((x - w.x1) * sc).toFloat(), size.height - bottom - ((y - w.y1) * sc).toFloat())
             // grid 5 m
             var gx = 0.0
             while (gx <= w.x2) {
                 drawLine(Color(0x22000000), P(gx, 0.0), P(gx, w.y2), 1f); gx += 5.0
             }
-            drawRect(Color(0xFF8D6E63), topLeft = P(w.x1, 0.0), size = Size(size.width, 6.dp.toPx()))
+            val ground = P(w.x1, 0.0).y
+            drawRect(Color(0xFFE8D6BB), topLeft = Offset(0f, ground), size = Size(size.width, (size.height - ground).coerceAtLeast(0f)))
+            drawLine(Color(0xFF6E9270), Offset(0f, ground), Offset(size.width, ground), 3.dp.toPx())
             spec.obstacles.forEach { o ->
                 val tl = P(min(o.x1, o.x2), max(o.y1, o.y2))
                 val br = P(max(o.x1, o.x2), min(o.y1, o.y2))
-                drawRect(Color(0xFF78909C), topLeft = tl, size = Size(br.x - tl.x, br.y - tl.y))
+                drawObstacleArtwork(obstacleArtwork, Rect(tl, br))
             }
             val tc = P(spec.target.x, spec.target.y)
-            drawCircle(Color(0xFFE53935), radius = (spec.target.r * sc).toFloat().coerceAtLeast(5.dp.toPx()), center = tc)
-            drawCircle(Color.White, radius = (spec.target.r * sc * 0.5).toFloat().coerceAtLeast(2.dp.toPx()), center = tc)
+            val targetDiameter = (spec.target.r * sc * 2).toFloat().coerceAtLeast(10.dp.toPx())
+            drawArtwork(targetArtwork, artworkBounds(tc, targetDiameter), fillBounds = true)
             val launch = P(spec.launchX, spec.launchY)
             if (spec.launchY > 0) drawRect(Color(0xFFA1887F), topLeft = Offset(0f, launch.y), size = Size(launch.x + 14.dp.toPx(), size.height - launch.y))
 
@@ -139,7 +149,7 @@ fun TrajectoryGame(spec: TrajectorySpec, env: GameEnv, cb: GameCallbacks) {
                     val gs = GhostInterpolator.at(track, now) as? TrajectoryGhost
                     val alpha = env.ghostStyle.opacity * if (gs?.done == true || g.locked) 0.6f else 1f
                     val aimDeg = (gs?.aim ?: 0.5f) * 90f
-                    drawCannon(launch, aimDeg, g.color.copy(alpha = alpha), sc, pulse = gs?.aim == null)
+                    drawCannonArtwork(cannonArtwork, launch, aimDeg, alpha, g.color)
                     track.events.forEach { e ->
                         val l = e.action as? LaunchAction ?: return@forEach
                         val age = now - e.receivedAtMs
@@ -148,7 +158,7 @@ fun TrajectoryGame(spec: TrajectorySpec, env: GameEnv, cb: GameCallbacks) {
                             val res = TrajectoryEngine.simulate(spec, shot, keepPath = true)
                             drawPathPts(res.path, ::P, g.color.copy(alpha = alpha), dashed = true, upTo = 1f)
                             val f = (age.toFloat() / animDurationMs(res)).coerceIn(0f, 1f)
-                            pointAt(res.path, f)?.let { drawCircle(g.color.copy(alpha = alpha + 0.1f), 6.dp.toPx(), P(it.x, it.y)) }
+                            pointAt(res.path, f)?.let { drawArtwork(projectileArtwork, artworkBounds(P(it.x, it.y), 12.dp.toPx()), alpha, g.color) }
                         } else if (age < 600) {
                             drawCircle(g.color.copy(alpha = alpha * (1 - age / 600f)), 18.dp.toPx() * (age / 600f + 0.3f), launch)
                         }
@@ -161,12 +171,12 @@ fun TrajectoryGame(spec: TrajectorySpec, env: GameEnv, cb: GameCallbacks) {
             // lintasan sendiri
             play.paths.forEachIndexed { i, res ->
                 val isLast = i == play.paths.lastIndex
-                val f = if (isLast) ((now - play.flyingSince).toFloat() / animDurationMs(res)).coerceIn(0f, 1f) else 1f
+                val f = if (isLast) (msSince(now, play.flyingSince).toFloat() / animDurationMs(res)).coerceIn(0f, 1f) else 1f
                 drawPathPts(res.path, ::P, if (isLast) env.myColor else env.myColor.copy(alpha = 0.35f), dashed = !isLast, upTo = f)
-                if (isLast) pointAt(res.path, f)?.let { drawCircle(Color(0xFF263238), 6.dp.toPx(), P(it.x, it.y)) }
+                if (isLast) pointAt(res.path, f)?.let { drawArtwork(projectileArtwork, artworkBounds(P(it.x, it.y), 12.dp.toPx())) }
             }
             val (aimN, _) = aimPower(spec, ShotInput(play.a, play.b))
-            drawCannon(launch, aimN * 90f, env.myColor, sc, pulse = false)
+            drawCannonArtwork(cannonArtwork, launch, aimN * 90f)
         }
         if (!flying && lastResult != null) {
             Text(
@@ -251,14 +261,6 @@ private fun DrawScope.drawPathPts(path: List<Pt>, toPx: (Double, Double) -> Offs
         if (i == 0) p.moveTo(o.x, o.y) else p.lineTo(o.x, o.y)
     }
     drawPath(p, color, style = Stroke(width = 3.dp.toPx(), pathEffect = if (dashed) PathEffect.dashPathEffect(floatArrayOf(12f, 8f)) else null))
-}
-
-private fun DrawScope.drawCannon(at: Offset, deg: Float, color: Color, scale: Float, pulse: Boolean) {
-    val len = 26.dp.toPx()
-    rotate(-deg, pivot = at) {
-        drawRect(color, topLeft = Offset(at.x, at.y - 5.dp.toPx()), size = Size(len, 10.dp.toPx()))
-    }
-    drawCircle(color, radius = (if (pulse) 11 else 9).dp.toPx(), center = at)
 }
 
 private fun endText(e: TrajectoryEngine.End) = when (e) {

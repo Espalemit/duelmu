@@ -29,10 +29,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.DrawScope
-import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
@@ -46,6 +46,7 @@ import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import id.eduduel.app.R
 import id.eduduel.app.domain.GhostMode
 import id.eduduel.app.domain.game.AsteroidEngine
 import id.eduduel.app.domain.game.AsteroidSpec
@@ -57,8 +58,6 @@ import id.eduduel.app.presentation.components.GameButton
 import id.eduduel.app.presentation.components.GameOutlinedButton
 import kotlinx.coroutines.delay
 import kotlin.math.abs
-import kotlin.math.cos
-import kotlin.math.sin
 
 private const val SHIP_Y = 0.9f
 private const val AST_R = 0.085f
@@ -68,9 +67,12 @@ private class AsteroidPlay {
     var shipX by mutableFloatStateOf(0.5f)
     val hits = mutableStateListOf<Int>()
     var destroyed by mutableStateOf(setOf<Int>())
-    var lastShotAt by mutableLongStateOf(Long.MIN_VALUE)
+    var lastShotAt by mutableLongStateOf(NEVER_MS)
     var lastShotX by mutableFloatStateOf(0.5f)
     var lastShotY by mutableFloatStateOf(0f)
+    var impactX by mutableFloatStateOf(0.5f)
+    var impactY by mutableFloatStateOf(0f)
+    var impactAt by mutableLongStateOf(NEVER_MS)
     var feedback by mutableStateOf<Pair<String, Boolean>?>(null)
     var feedbackAt by mutableLongStateOf(0L)
     var submitted by mutableStateOf(false)
@@ -90,6 +92,10 @@ fun AsteroidGame(spec: AsteroidSpec, env: GameEnv, cb: GameCallbacks) {
     val active = !env.locked && !play.submitted
     val measurer = rememberTextMeasurer()
     val callbacks by rememberUpdatedState(cb)
+    val shipArtwork = rememberGameArtwork(R.drawable.game_spaceship)
+    val rockArtwork = rememberGameArtwork(R.drawable.game_asteroid)
+    val laserArtwork = rememberGameArtwork(R.drawable.game_laser)
+    val impactArtwork = rememberGameArtwork(R.drawable.game_impact)
 
     fun alive(time: Double) = spawns.mapNotNull { s ->
         if (s.index in play.destroyed || time < s.spawnAt) return@mapNotNull null
@@ -100,7 +106,7 @@ fun AsteroidGame(spec: AsteroidSpec, env: GameEnv, cb: GameCallbacks) {
     fun fire(x: Float) {
         if (!active) return
         val nowMs = env.clock.nowMs()
-        if (nowMs - play.lastShotAt < 300) return
+        if (msSince(nowMs, play.lastShotAt) < 300) return
         play.shipX = x.coerceIn(0.05f, 0.95f)
         val time = (nowMs - env.startedAtMs) / 1000.0
         val target = alive(time).filter { (_, ax, ay) -> abs(ax - play.shipX) <= AST_R * 1.05f && ay < SHIP_Y - 0.03f }.maxByOrNull { it.third }
@@ -112,6 +118,9 @@ fun AsteroidGame(spec: AsteroidSpec, env: GameEnv, cb: GameCallbacks) {
             return
         }
         val (s, _, _) = target
+        play.impactX = target.second
+        play.impactY = target.third
+        play.impactAt = nowMs
         play.destroyed = play.destroyed + s.index
         val before = AsteroidEngine.progress(spec, play.hits)
         play.hits += s.token
@@ -132,7 +141,7 @@ fun AsteroidGame(spec: AsteroidSpec, env: GameEnv, cb: GameCallbacks) {
         while (true) {
             val p = AsteroidEngine.progress(spec, play.hits)
             callbacks.onGhost(
-                AsteroidGhost(play.shipX, firing = env.clock.nowMs() - play.lastShotAt < 250, filled = p.filled, wrong = p.wrong,
+                AsteroidGhost(play.shipX, firing = msSince(env.clock.nowMs(), play.lastShotAt) < 250, filled = p.filled, wrong = p.wrong,
                     done = play.submitted || env.locked),
             )
             delay(60)
@@ -182,7 +191,9 @@ fun AsteroidGame(spec: AsteroidSpec, env: GameEnv, cb: GameCallbacks) {
             val r = AST_R * w * if (env.assist) 1.1f else 1f
             alive(t).forEach { (s, ax, ay) ->
                 val c = Offset(ax * w, ay * h)
-                drawRock(c, r, s.index)
+                rotate((s.index % 5 - 2) * 12f, pivot = c) {
+                    drawArtwork(rockArtwork, artworkBounds(c, r * 2.1f))
+                }
                 drawLabel(measurer, spec.tokens[s.token], c, r)
             }
             // ghost pemain lain: pesawat semitransparan + laser, TIDAK menghancurkan asteroid lokal
@@ -191,13 +202,13 @@ fun AsteroidGame(spec: AsteroidSpec, env: GameEnv, cb: GameCallbacks) {
                     val track = g.track ?: return@forEach
                     val gs = GhostInterpolator.at(track, now) as? AsteroidGhost ?: return@forEach
                     val a = env.ghostStyle.opacity * if (gs.done || g.locked) 0.6f else 1f
-                    drawShip(Offset(gs.x * w, SHIP_Y * h), w, g.color.copy(alpha = a))
+                    drawArtwork(shipArtwork, artworkBounds(Offset(gs.x * w, SHIP_Y * h), w * 0.13f, w * 0.15f), a, g.color)
                     drawText(measurer, g.name.take(10), Offset(gs.x * w - 24.dp.toPx(), SHIP_Y * h + 14.dp.toPx()),
                         style = TextStyle(color = g.color.copy(alpha = (a + 0.35f).coerceAtMost(1f)), fontSize = 10.sp))
                     track.events.lastOrNull()?.let { e ->
                         val fire = e.action as? FireAction ?: return@let
                         if (now - e.receivedAtMs < 300) {
-                            drawLine(g.color.copy(alpha = a), Offset(fire.x * w, SHIP_Y * h), Offset(fire.x * w, 0f), strokeWidth = 3.dp.toPx())
+                            drawArtwork(laserArtwork, Rect(fire.x * w - 5.dp.toPx(), 0f, fire.x * w + 5.dp.toPx(), SHIP_Y * h), a, g.color, fillBounds = true)
                             if (env.ghostMode == GhostMode.LIVE && fire.token != null) {
                                 drawText(measurer, fire.token, Offset(fire.x * w + 6, h * 0.15f),
                                     style = TextStyle(color = g.color.copy(alpha = (a + 0.3f).coerceAtMost(1f)), fontSize = 12.sp))
@@ -207,11 +218,18 @@ fun AsteroidGame(spec: AsteroidSpec, env: GameEnv, cb: GameCallbacks) {
                 }
             }
             // laser & pesawat sendiri (solid)
-            if (now - play.lastShotAt < 220) {
-                drawLine(Color(0xFFFFEB3B), Offset(play.lastShotX * w, SHIP_Y * h), Offset(play.lastShotX * w, play.lastShotY.coerceAtLeast(0f) * h),
-                    strokeWidth = 4.dp.toPx())
+            if (msSince(now, play.lastShotAt) < 220) {
+                drawArtwork(laserArtwork, Rect(play.lastShotX * w - 5.dp.toPx(), play.lastShotY.coerceAtLeast(0f) * h,
+                    play.lastShotX * w + 5.dp.toPx(), SHIP_Y * h - w * 0.045f), fillBounds = true)
             }
-            drawShip(Offset(play.shipX * w, SHIP_Y * h), w, env.myColor)
+            val impactAge = msSince(now, play.impactAt)
+            if (impactAge < 320) {
+                val f = impactAge / 320f
+                drawArtwork(impactArtwork, artworkBounds(Offset(play.impactX * w, play.impactY * h), r * (1.2f + f)), alpha = 1f - f)
+            }
+            drawArtwork(shipArtwork, artworkBounds(Offset(play.shipX * w, SHIP_Y * h), w * 0.13f, w * 0.15f))
+            // Player identity stays visible alongside the original multicolored artwork.
+            drawCircle(env.myColor, 3.dp.toPx(), Offset(play.shipX * w, SHIP_Y * h + w * 0.085f))
         }
         play.feedback?.let { (msg, ok) ->
             if (now - play.feedbackAt < 1_400) {
@@ -245,37 +263,12 @@ private fun DrawScope.drawStars(seed: Long) {
     }
 }
 
-private fun DrawScope.drawRock(c: Offset, r: Float, index: Int) {
-    val path = Path()
-    for (i in 0 until 10) {
-        val ang = i / 10.0 * 2 * Math.PI
-        val rr = r * (0.88f + 0.12f * sin(index * 7.3 + i * 2.1).toFloat())
-        val p = Offset(c.x + rr * cos(ang).toFloat(), c.y + rr * sin(ang).toFloat())
-        if (i == 0) path.moveTo(p.x, p.y) else path.lineTo(p.x, p.y)
-    }
-    path.close()
-    drawPath(path, Color(0xFF6D4C41))
-    drawPath(path, Color(0xFFA1887F), style = Stroke(width = 2f))
-}
-
 private fun DrawScope.drawLabel(m: TextMeasurer, token: String, c: Offset, r: Float) {
     val size = when {
         token.length <= 3 -> 16.sp
         token.length <= 5 -> 13.sp
         else -> 11.sp
     }
-    val layout = m.measure(token, TextStyle(color = Color.White, fontSize = size, fontWeight = FontWeight.Bold))
+    val layout = m.measure(token, TextStyle(color = Color(0xFF2C173E), fontSize = size, fontWeight = FontWeight.ExtraBold))
     drawText(layout, topLeft = Offset(c.x - layout.size.width / 2f, c.y - layout.size.height / 2f))
-}
-
-private fun DrawScope.drawShip(c: Offset, w: Float, color: Color) {
-    val s = w * 0.045f
-    val path = Path().apply {
-        moveTo(c.x, c.y - s * 1.4f)
-        lineTo(c.x + s, c.y + s)
-        lineTo(c.x, c.y + s * 0.5f)
-        lineTo(c.x - s, c.y + s)
-        close()
-    }
-    drawPath(path, color)
 }

@@ -35,11 +35,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
+import androidx.compose.ui.geometry.CornerRadius
+import androidx.compose.ui.geometry.RoundRect
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
-import androidx.compose.ui.graphics.drawscope.DrawScope
-import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.drawscope.clipPath
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.semantics.contentDescription
@@ -50,6 +51,7 @@ import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import id.eduduel.app.R
 import id.eduduel.app.domain.GhostMode
 import id.eduduel.app.domain.game.InvalidSubmissionException
 import id.eduduel.app.domain.game.LabAction
@@ -226,6 +228,10 @@ private fun LabBench(
     measurer: androidx.compose.ui.text.TextMeasurer, active: Boolean, onPour: (Int) -> Unit,
 ) {
     var boxSize by remember { mutableStateOf(IntSize(1, 1)) }
+    val bottleArtwork = rememberGameArtwork(R.drawable.game_reagent_bottle)
+    val beakerArtwork = rememberGameArtwork(R.drawable.game_beaker)
+    val pipetteArtwork = rememberGameArtwork(R.drawable.game_pipette)
+    val liquidFilters = remember(spec) { spec.reagents.map { reagentArtworkFilter(parseColor(it.color, Color(0xFF90CAF9))) } }
     val n = spec.reagents.size
     fun bottleCenter(i: Int) = Offset((i + 1f) / (n + 1f), 0.18f)
     val vessel = Rect(0.36f, 0.45f, 0.64f, 0.95f)
@@ -270,16 +276,36 @@ private fun LabBench(
             }
             val vx = vessel.left * w; val vy = vessel.top * h; val vw = vessel.width * w; val vh = vessel.height * h
             val showFill = if (state.volumeMl > 0) fill.coerceAtLeast(0.04f) else if (state.massG > 0 || state.species.isNotEmpty()) 0.05f else 0f
-            drawRect(liquid.copy(alpha = 0.85f), topLeft = Offset(vx, vy + vh * (1 - showFill)), size = Size(vw, vh * showFill))
-            drawRect(Color(0xFF607D8B), topLeft = Offset(vx, vy), size = Size(vw, vh), style = Stroke(width = 3.dp.toPx()))
-            for (k in 1..4) drawLine(Color(0x66607D8B), Offset(vx, vy + vh * k / 5f), Offset(vx + 10.dp.toPx(), vy + vh * k / 5f), 2f)
-            drawText(measurer, spec.vessel, Offset(vx, vy + vh + 2), style = TextStyle(fontSize = 10.sp, color = Color(0xFF455A64)))
+            val glassInterior = Rect(vx + vw * 0.18f, vy + vh * 0.20f, vx + vw * 0.82f, vy + vh * 0.90f)
+            if (showFill > 0f) {
+                val surfaceY = glassInterior.bottom - glassInterior.height * showFill
+                val interiorPath = Path().apply { addRoundRect(RoundRect(glassInterior, CornerRadius(vw * 0.08f))) }
+                clipPath(interiorPath) {
+                    drawRect(liquid.copy(alpha = 0.85f), topLeft = Offset(glassInterior.left, surfaceY),
+                        size = Size(glassInterior.width, glassInterior.bottom - surfaceY))
+                    drawOval(liquid, topLeft = Offset(glassInterior.left, surfaceY - 2.dp.toPx()), size = Size(glassInterior.width, 4.dp.toPx()))
+                }
+            }
+            drawArtwork(beakerArtwork, Rect(vx, vy, vx + vw, vy + vh), fillBounds = true)
+            drawText(measurer, spec.vessel, Offset(vx, vy - 14.dp.toPx()), style = TextStyle(fontSize = 10.sp, color = Color(0xFF455A64)))
             // botol reagen di rak
             spec.reagents.forEachIndexed { i, r ->
                 val c = bottleCenter(i)
                 val held = play.holding == i
                 val pos = if (held) Offset(play.toolX * w, play.toolY * h) else Offset(c.x * w, c.y * h)
-                drawBottle(pos, parseColor(r.color, Color(0xFF90CAF9)), held && play.pouring)
+                val bw = 44.dp.toPx()
+                val bh = 50.dp.toPx()
+                if (held && r.tool in listOf("pipette", "dropper", "burette")) {
+                    drawArtwork(pipetteArtwork, artworkBounds(pos, 28.dp.toPx(), 58.dp.toPx()))
+                } else {
+                    drawBottleArtwork(bottleArtwork, artworkBounds(pos, bw, bh), liquidFilters[i])
+                }
+                if (held && play.pouring) {
+                    val phase = (now % 540L) / 540f
+                    val tip = Offset(pos.x, pos.y + bh / 2 + 7.dp.toPx() + phase * 18.dp.toPx())
+                    drawOval(parseColor(r.color, liquid).copy(alpha = 1f - phase),
+                        topLeft = tip - Offset(2.dp.toPx(), 0f), size = Size(4.dp.toPx(), 6.dp.toPx()))
+                }
                 drawText(measurer, r.name.take(18), Offset(c.x * w - 40.dp.toPx(), c.y * h + 26.dp.toPx()), style = TextStyle(fontSize = 9.sp, color = Color(0xFF37474F)))
             }
             // ghost alat lawan (pipet/gelas) — tidak mengubah isi bejana lokal
@@ -289,7 +315,8 @@ private fun LabBench(
                     val gs = GhostInterpolator.at(track, now) as? LabGhost ?: return@forEach
                     val a = env.ghostStyle.opacity * if (gs.done || g.locked) 0.6f else 1f
                     val col = gs.holding?.let { spec.reagents.getOrNull(it)?.color }?.let { parseColor(it, g.color) } ?: g.color
-                    drawPipette(Offset(gs.tx * w, gs.ty * h), col.copy(alpha = a), g.color.copy(alpha = a), gs.pouring)
+                    val pos = Offset(gs.tx * w, gs.ty * h)
+                    drawArtwork(pipetteArtwork, artworkBounds(pos, 28.dp.toPx(), 58.dp.toPx()), a, col)
                     drawText(measurer, g.name.take(10) + if (env.ghostMode == GhostMode.LIVE && gs.fill != null) " · ${(gs.fill * 100).toInt()}%" else "",
                         Offset(gs.tx * w + 10.dp.toPx(), gs.ty * h - 18.dp.toPx()), style = TextStyle(fontSize = 10.sp, color = g.color.copy(alpha = (a + 0.4f).coerceAtMost(1f))))
                 }
@@ -302,12 +329,13 @@ private fun LabBench(
 private fun LabGhostStrip(env: GameEnv, now: Long) {
     if (!env.ghostStyle.enabled || env.ghosts.isEmpty()) return
     val measurer = rememberTextMeasurer()
+    val pipetteArtwork = rememberGameArtwork(R.drawable.game_pipette)
     Canvas(Modifier.fillMaxWidth().aspectRatio(5f).clip(RoundedCornerShape(12.dp)).background(Color(0xFFF5F5F0))) {
         env.ghosts.forEach { g ->
             val track = g.track ?: return@forEach
             val gs = GhostInterpolator.at(track, now) as? LabGhost ?: return@forEach
             val a = env.ghostStyle.opacity * if (gs.done || g.locked) 0.6f else 1f
-            drawPipette(Offset(gs.tx * size.width, size.height * 0.5f), g.color.copy(alpha = a), g.color.copy(alpha = a), gs.pouring)
+            drawArtwork(pipetteArtwork, artworkBounds(Offset(gs.tx * size.width, size.height * 0.5f), 24.dp.toPx(), size.height * 0.85f), a, g.color)
             drawText(measurer, g.name.take(10), Offset(gs.tx * size.width + 8, 4f), style = TextStyle(fontSize = 10.sp, color = g.color.copy(alpha = (a + 0.4f).coerceAtMost(1f))))
         }
     }
@@ -324,22 +352,4 @@ private fun Readouts(spec: LabSpec, st: LabEngine.LabState) {
     if (LabReadout.UNIVERSAL_INDICATOR in spec.readouts) parts += "Indikator universal: lihat warna"
     if (LabReadout.PHENOLPHTHALEIN in spec.readouts) parts += "Fenolftalein: " + if (ph != null && ph >= 8.2) "merah muda" else "tidak berwarna"
     if (parts.isNotEmpty()) Text(parts.joinToString("  ·  "), style = MaterialTheme.typography.bodyMedium)
-}
-
-private fun DrawScope.drawBottle(c: Offset, color: Color, tilted: Boolean) {
-    val bw = 22.dp.toPx(); val bh = 34.dp.toPx()
-    drawRoundRect(color, topLeft = Offset(c.x - bw / 2, c.y - bh / 2), size = Size(bw, bh), cornerRadius = androidx.compose.ui.geometry.CornerRadius(6f))
-    drawRoundRect(Color(0xFF546E7A), topLeft = Offset(c.x - bw / 2, c.y - bh / 2), size = Size(bw, bh), cornerRadius = androidx.compose.ui.geometry.CornerRadius(6f), style = Stroke(2f))
-    drawRect(Color(0xFF546E7A), topLeft = Offset(c.x - 4.dp.toPx(), c.y - bh / 2 - 8.dp.toPx()), size = Size(8.dp.toPx(), 8.dp.toPx()))
-    if (tilted) for (k in 1..3) drawCircle(color, 3.dp.toPx(), Offset(c.x, c.y + bh / 2 + k * 9.dp.toPx()))
-}
-
-private fun DrawScope.drawPipette(c: Offset, liquid: Color, outline: Color, pouring: Boolean) {
-    val path = Path().apply {
-        moveTo(c.x - 5.dp.toPx(), c.y - 28.dp.toPx()); lineTo(c.x + 5.dp.toPx(), c.y - 28.dp.toPx())
-        lineTo(c.x + 5.dp.toPx(), c.y + 6.dp.toPx()); lineTo(c.x, c.y + 16.dp.toPx()); lineTo(c.x - 5.dp.toPx(), c.y + 6.dp.toPx()); close()
-    }
-    drawPath(path, liquid)
-    drawPath(path, outline, style = Stroke(2f))
-    if (pouring) drawCircle(liquid, 3.dp.toPx(), Offset(c.x, c.y + 24.dp.toPx()))
 }

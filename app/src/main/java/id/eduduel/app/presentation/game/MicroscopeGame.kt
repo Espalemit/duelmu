@@ -38,6 +38,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
@@ -54,6 +55,7 @@ import androidx.compose.ui.text.drawText
 import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import id.eduduel.app.R
 import id.eduduel.app.domain.GhostMode
 import id.eduduel.app.domain.game.MicroSubmission
 import id.eduduel.app.domain.game.MicroTap
@@ -148,6 +150,7 @@ fun MicroscopeGame(spec: MicroscopeSpec, env: GameEnv, cb: GameCallbacks) {
     val callbacks by rememberUpdatedState(cb)
     val measurer = rememberTextMeasurer()
     val active = !env.locked && !play.submitted
+    val rimArtwork = rememberGameArtwork(R.drawable.game_microscope_rim)
     var viewSize by remember { mutableStateOf(Size(1f, 1f)) }
     val W = spec.worldW.toFloat()
     val H = spec.worldH.toFloat()
@@ -165,6 +168,8 @@ fun MicroscopeGame(spec: MicroscopeSpec, env: GameEnv, cb: GameCallbacks) {
 
     fun tap(o: Offset) {
         if (!active) return
+        // The illustrated rim is decorative, outside the actual circular specimen viewport.
+        if ((o - Offset(viewSize.width / 2, viewSize.height / 2)).getDistance() > viewSize.minDimension * 0.48f) return
         val wpt = toWorld(o)
         val t = MicroTap(wpt.x.toInt(), wpt.y.toInt(), (play.zoom * 100).toInt(), (play.focus * 1000).toInt())
         play.cursorX = wpt.x / W; play.cursorY = wpt.y / H
@@ -212,68 +217,73 @@ fun MicroscopeGame(spec: MicroscopeSpec, env: GameEnv, cb: GameCallbacks) {
 
     val defocus = abs(play.focus - spec.focusTarget.toFloat())
     val sharp = defocus <= spec.focusTolerance
-    Box(
-        Modifier.fillMaxWidth().aspectRatio(1f).padding(4.dp).clip(CircleShape).background(Color(0xFF1B1B1B))
-            .onSizeChanged { viewSize = Size(it.width.toFloat(), it.height.toFloat()) }
-            .pointerInput(key, active) {
-                detectTransformGestures { centroid, pan, zoomChange, _ ->
-                    val s = scale()
-                    play.cx -= pan.x / s; play.cy -= pan.y / s
-                    play.zoom = (play.zoom * zoomChange).coerceIn(spec.minZoom.toFloat(), spec.maxZoom.toFloat())
-                    clampCenter()
-                    val w = toWorld(centroid); play.cursorX = w.x / W; play.cursorY = w.y / H
+    Box(Modifier.fillMaxWidth().aspectRatio(1f)) {
+        Box(
+            Modifier.fillMaxWidth(0.72f).aspectRatio(1f).align(Alignment.Center).clip(CircleShape).background(Color(0xFF1B1B1B))
+                .onSizeChanged { viewSize = Size(it.width.toFloat(), it.height.toFloat()) }
+                .pointerInput(key, active) {
+                    detectTransformGestures { centroid, pan, zoomChange, _ ->
+                        val s = scale()
+                        play.cx -= pan.x / s; play.cy -= pan.y / s
+                        play.zoom = (play.zoom * zoomChange).coerceIn(spec.minZoom.toFloat(), spec.maxZoom.toFloat())
+                        clampCenter()
+                        val w = toWorld(centroid); play.cursorX = w.x / W; play.cursorY = w.y / H
+                    }
                 }
-            }
-            .pointerInput(key, active) { detectTapGestures { tap(it) } }
-            .semantics { contentDescription = "Lensa mikroskop. Cari ${spec.targetName}. ${if (sharp) "Fokus tajam" else "Gambar kabur"}." },
-    ) {
-        Canvas(Modifier.fillMaxWidth().aspectRatio(1f)) {
-            val s = size.width / (W / play.zoom)
-            drawCircle(bg, radius = size.minDimension / 2)
-            fun worldBlock(dx: Float, dy: Float, alpha: Float) = withTransform({
-                translate(size.width / 2 - play.cx * s + dx, size.height / 2 - play.cy * s + dy)
-                scale(s, s, pivot = Offset.Zero)
-            }) { drawScene(scene, alpha) }
-            if (defocus <= 0.004f) {
-                worldBlock(0f, 0f, 1f)
-            } else {
-                // Kabur: beberapa salinan bergeser (ringan, tanpa RenderEffect yang butuh API 31).
-                val o = (defocus * 45.dp.toPx()).coerceAtMost(16.dp.toPx())
-                worldBlock(0f, 0f, 0.35f)
-                worldBlock(o, 0f, 0.22f); worldBlock(-o, 0f, 0.22f); worldBlock(0f, o, 0.22f); worldBlock(0f, -o, 0.22f)
-            }
-            fun toView(wx: Float, wy: Float) = Offset(size.width / 2 + (wx - play.cx) * s, size.height / 2 + (wy - play.cy) * s)
-            // ghost: bingkai area pengamatan + kursor (koordinat dunia -> viewport HP ini)
-            if (env.ghostStyle.enabled) {
-                env.ghosts.forEach { g ->
-                    val track = g.track ?: return@forEach
-                    val gs = GhostInterpolator.at(track, now) as? MicroGhost ?: return@forEach
-                    val a = env.ghostStyle.opacity * if (gs.done || g.locked) 0.6f else 1f
-                    val tl = toView(gs.vx * W, gs.vy * H)
-                    val br = toView((gs.vx + gs.vw) * W, (gs.vy + gs.vh) * H)
-                    drawRect(g.color.copy(alpha = a), topLeft = tl, size = Size(br.x - tl.x, br.y - tl.y), style = Stroke(width = 3.dp.toPx()))
-                    val label = g.name.take(10) + if (env.ghostMode == GhostMode.LIVE && gs.focus != null) " · f ${"%.2f".format(gs.focus)}" else ""
-                    drawText(measurer, label, tl + Offset(4.dp.toPx(), 2.dp.toPx()),
-                        style = TextStyle(color = g.color.copy(alpha = (a + 0.4f).coerceAtMost(1f)), fontSize = 10.sp))
-                    if (gs.cx != null && gs.cy != null) drawCircle(g.color.copy(alpha = a + 0.1f), 6.dp.toPx(), toView(gs.cx * W, gs.cy * H))
-                    track.events.forEach { e ->
-                        val ta = e.action as? TapAction ?: return@forEach
-                        if (ta.x != null && ta.y != null && now - e.receivedAtMs < 1_500) {
-                            drawCircle(g.color.copy(alpha = a), 12.dp.toPx(), toView(ta.x * W, ta.y * H), style = Stroke(width = 2.dp.toPx()))
+                .pointerInput(key, active) { detectTapGestures { tap(it) } }
+                .semantics { contentDescription = "Lensa mikroskop. Cari ${spec.targetName}. ${if (sharp) "Fokus tajam" else "Gambar kabur"}." },
+        ) {
+            Canvas(Modifier.fillMaxWidth().aspectRatio(1f)) {
+                val s = size.width / (W / play.zoom)
+                drawCircle(bg, radius = size.minDimension / 2)
+                fun worldBlock(dx: Float, dy: Float, alpha: Float) = withTransform({
+                    translate(size.width / 2 - play.cx * s + dx, size.height / 2 - play.cy * s + dy)
+                    scale(s, s, pivot = Offset.Zero)
+                }) { drawScene(scene, alpha) }
+                if (defocus <= 0.004f) {
+                    worldBlock(0f, 0f, 1f)
+                } else {
+                    // Kabur: beberapa salinan bergeser (ringan, tanpa RenderEffect yang butuh API 31).
+                    val o = (defocus * 45.dp.toPx()).coerceAtMost(16.dp.toPx())
+                    worldBlock(0f, 0f, 0.35f)
+                    worldBlock(o, 0f, 0.22f); worldBlock(-o, 0f, 0.22f); worldBlock(0f, o, 0.22f); worldBlock(0f, -o, 0.22f)
+                }
+                fun toView(wx: Float, wy: Float) = Offset(size.width / 2 + (wx - play.cx) * s, size.height / 2 + (wy - play.cy) * s)
+                // ghost: bingkai area pengamatan + kursor (koordinat dunia -> viewport HP ini)
+                if (env.ghostStyle.enabled) {
+                    env.ghosts.forEach { g ->
+                        val track = g.track ?: return@forEach
+                        val gs = GhostInterpolator.at(track, now) as? MicroGhost ?: return@forEach
+                        val a = env.ghostStyle.opacity * if (gs.done || g.locked) 0.6f else 1f
+                        val tl = toView(gs.vx * W, gs.vy * H)
+                        val br = toView((gs.vx + gs.vw) * W, (gs.vy + gs.vh) * H)
+                        drawRect(g.color.copy(alpha = a), topLeft = tl, size = Size(br.x - tl.x, br.y - tl.y), style = Stroke(width = 3.dp.toPx()))
+                        val label = g.name.take(10) + if (env.ghostMode == GhostMode.LIVE && gs.focus != null) " · f ${"%.2f".format(gs.focus)}" else ""
+                        drawText(measurer, label, tl + Offset(4.dp.toPx(), 2.dp.toPx()),
+                            style = TextStyle(color = g.color.copy(alpha = (a + 0.4f).coerceAtMost(1f)), fontSize = 10.sp))
+                        if (gs.cx != null && gs.cy != null) drawCircle(g.color.copy(alpha = a + 0.1f), 6.dp.toPx(), toView(gs.cx * W, gs.cy * H))
+                        track.events.forEach { e ->
+                            val ta = e.action as? TapAction ?: return@forEach
+                            if (ta.x != null && ta.y != null && now - e.receivedAtMs < 1_500) {
+                                drawCircle(g.color.copy(alpha = a), 12.dp.toPx(), toView(ta.x * W, ta.y * H), style = Stroke(width = 2.dp.toPx()))
+                            }
                         }
                     }
                 }
+                // kursor sendiri
+                drawCircle(env.myColor, 5.dp.toPx(), toView(play.cursorX * W, play.cursorY * H), style = Stroke(width = 2.dp.toPx()))
+                drawLine(Color(0x55FFFFFF), Offset(size.width / 2 - 10.dp.toPx(), size.height / 2), Offset(size.width / 2 + 10.dp.toPx(), size.height / 2), 1.5f)
+                drawLine(Color(0x55FFFFFF), Offset(size.width / 2, size.height / 2 - 10.dp.toPx()), Offset(size.width / 2, size.height / 2 + 10.dp.toPx()), 1.5f)
             }
-            // kursor sendiri
-            drawCircle(env.myColor, 5.dp.toPx(), toView(play.cursorX * W, play.cursorY * H), style = Stroke(width = 2.dp.toPx()))
-            drawLine(Color(0x55FFFFFF), Offset(size.width / 2 - 10.dp.toPx(), size.height / 2), Offset(size.width / 2 + 10.dp.toPx(), size.height / 2), 1.5f)
-            drawLine(Color(0x55FFFFFF), Offset(size.width / 2, size.height / 2 - 10.dp.toPx()), Offset(size.width / 2, size.height / 2 + 10.dp.toPx()), 1.5f)
+            play.message?.let { (msg, ok) ->
+                if (now - play.messageAt < 2_200) {
+                    Text(msg, color = if (ok) Color(0xFF69F0AE) else Color(0xFFFFD180), style = MaterialTheme.typography.titleSmall,
+                        modifier = Modifier.align(Alignment.BottomCenter).padding(bottom = 28.dp).background(Color(0xAA000000)).padding(6.dp))
+                }
+            }
         }
-        play.message?.let { (msg, ok) ->
-            if (now - play.messageAt < 2_200) {
-                Text(msg, color = if (ok) Color(0xFF69F0AE) else Color(0xFFFFD180), style = MaterialTheme.typography.titleSmall,
-                    modifier = Modifier.align(Alignment.BottomCenter).padding(bottom = 28.dp).background(Color(0xAA000000)).padding(6.dp))
-            }
+        Canvas(Modifier.matchParentSize()) {
+            drawArtwork(rimArtwork, Rect(Offset.Zero, size), fillBounds = true)
         }
     }
     Text(if (sharp) "Fokus: TAJAM" else "Fokus: kabur — geser fokus", style = MaterialTheme.typography.titleSmall,

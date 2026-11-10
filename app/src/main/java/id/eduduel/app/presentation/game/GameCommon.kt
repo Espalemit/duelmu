@@ -49,6 +49,15 @@ import id.eduduel.app.presentation.components.GameButton
 import id.eduduel.app.presentation.components.InfoCard
 import kotlinx.coroutines.isActive
 
+/** Penanda "belum pernah terjadi" untuk stempel waktu event lokal (tembak, luncur). */
+const val NEVER_MS = Long.MIN_VALUE
+
+/**
+ * Milidetik sejak [thenMs]. AMAN untuk [NEVER_MS]: `now - Long.MIN_VALUE` overflow menjadi negatif
+ * (bug 0.4.0: tembakan asteroid selalu ditolak dan laser tergambar terus di tengah arena).
+ */
+fun msSince(nowMs: Long, thenMs: Long): Long = if (thenMs == NEVER_MS) Long.MAX_VALUE else nowMs - thenMs
+
 /** Gaya ghost lokal (Pengaturan): ON/OFF dan opasitas 15-30%. */
 data class GhostStyle(val enabled: Boolean = true, val opacity: Float = DEFAULT_OPACITY) {
     companion object {
